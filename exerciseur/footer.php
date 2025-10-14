@@ -1,11 +1,4 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <title>Page Profil</title>
-</head>
-
-<body>
+<?php include_once __DIR__ . '/../include/config.php' ?>  
     <footer>
         <div>
             <h3>
@@ -33,6 +26,3 @@
             </p>
         </div>
     </footer>
-
-</body>
-</html>
