@@ -1,0 +1,12 @@
+header {
+    background: #CADCAE;
+    padding: 5px;
+}
+
+nav > ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    list-style: none;
+}
