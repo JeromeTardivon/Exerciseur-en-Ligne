@@ -1,2 +1,2 @@
 # Exerciseur-en-Ligne
-Repository du projet de SAE de 2eme année, Exerciseur en ligne
+Repository of the 2nd year of Comuter Science Bachelor Project.
