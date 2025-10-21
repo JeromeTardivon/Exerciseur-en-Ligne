@@ -1,6 +1,25 @@
 header {
-    background: #CADCAE;
+    width: 100%;
     padding: 5px;
+
+}
+
+header > div.barHeader {
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #272D2D;
+    color: #ffffff;
+}
+
+header > div.barHeader > img{
+    height: 50px;
+    width: 50px;
+}
+
+header > div.barHeader > div.buttonsHeader{
+    margin: 15px;
 }
 
 nav > ul {
