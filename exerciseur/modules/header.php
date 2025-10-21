@@ -6,8 +6,8 @@
         <img src="exercisor3000.png" alt="">
         <p>Exerciseur en ligne</p>
         <div class="buttonsHeader">
-            <a href="">Espace Professeurs</a>
-            <a href="">Profil</a>
+            <a class="btn" href="">Espace Professeurs</a>
+            <a  class="btn" href="">Profil</a>
         </div>
     </div>
     <nav id="menu">

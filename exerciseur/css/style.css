@@ -1,6 +1,8 @@
 body {
     --main-color: #bc8034;
     --secondary-color: #e2c391;
+    --dark-blue-color: #272D2D;
+    --font-white-color: #ffffff;
     margin: 0%;
 }
 
@@ -23,8 +25,6 @@ ul {
 header {
     background: var(--secondary-color);
     width: 100%;
-    padding: 5px;
-
 }
 
 header > div.barHeader {
@@ -32,8 +32,8 @@ header > div.barHeader {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color: #272D2D;
-    color: #ffffff;
+    background-color: var(--dark-blue-color);
+    color: var(--font-white-color);
 }
 
 header > div.barHeader > img{
@@ -43,6 +43,9 @@ header > div.barHeader > img{
 
 header > div.barHeader > div.buttonsHeader{
     margin: 15px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: nowrap;
 }
 
 nav > ul {
