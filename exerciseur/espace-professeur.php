@@ -5,21 +5,21 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- décommenter et mettre le css quand il existera -->
-        <!-- <link rel="stylesheet" href="/css/style.css"> -->
+        <link rel="stylesheet" href="/css/style.css">
         <title>Espace Professeur</title>
     </head>
 
     <body>
 
-        <!-- nav -->
+        <?php include 'modules/header.php' ?>
 
-        <main>
-            <div class="gerer-classe btn">
+        <main class="espace-professeur">
+            <div class="gerer-classe">
                 <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div "gerer-classe" -->
                 <div>
                     <h2>Gérer mes classes</h2>
 
-                    <input type="search" placeholder="Rechercher classe">
+                    <input class="btn" type="search" placeholder="Rechercher classe">
 
                     <!-- le contenu de la liste sera à changer avec du php pour avoir la liste des classes auquels il a accès -->
                     <!-- le nb de li sera en fonction de la hauteur de l'écran -->
@@ -32,16 +32,24 @@
                 <h2 class="btn"><a href="">Créer classes</a></h2>
             </div>
 
-            <div class="gerer-chapitre btn">
+            <div class="gerer-chapitre">
                 <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div "gerer-classe" -->
                 <div>
                     <h2>Gérer mes chapitres</h2>
 
-                    <input type="search" placeholder="Rechercher chapitre">
+                    <input class="btn" type="search" placeholder="Rechercher chapitre">
 
                     <!-- le contenu de la liste sera à changer avec du php pour avoir la liste des classes auquels il a accès -->
                     <!-- le nb de li sera en fonction de la hauteur de l'écran -->
                     <ul>
+                        <li class="btn"><a href="">Chapitre 1</a></li>
+                        <li class="btn"><a href="">Chapitre 2</a></li>
+                        <li class="btn"><a href="">Chapitre 1</a></li>
+                        <li class="btn"><a href="">Chapitre 2</a></li>
+                        <li class="btn"><a href="">Chapitre 1</a></li>
+                        <li class="btn"><a href="">Chapitre 2</a></li>
+                        <li class="btn"><a href="">Chapitre 1</a></li>
+                        <li class="btn"><a href="">Chapitre 2</a></li>
                         <li class="btn"><a href="">Chapitre 1</a></li>
                         <li class="btn"><a href="">Chapitre 2</a></li>
                     </ul>
@@ -50,12 +58,12 @@
                 <h2 class="btn"><a href="">Créer chapitres</a></h2>
             </div>
 
-            <div class="gerer-sujet btn">
+            <div class="gerer-sujet">
                 <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div "gerer-classe" -->
                 <div>
                     <h2>Gérer mes sujets</h2>
 
-                    <input type="search" placeholder="Rechercher sujet">
+                    <input class="btn" type="search" placeholder="Rechercher sujet">
 
                     <!-- le contenu de la liste sera à changer avec du php pour avoir la liste des classes auquels il a accès -->
                     <!-- le nb de li sera en fonction de la hauteur de l'écran -->
@@ -69,7 +77,7 @@
             </div>
         </main>
 
-        <!-- footer -->
+        <?php include 'modules/footer.php' ?>
 
     </body>
 
