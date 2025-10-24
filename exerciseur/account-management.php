@@ -1,5 +1,5 @@
 <html lang="fr">
-    <?php include 'modules/include.php' ?>
+    <?php $_TITLE="Modification du profil"; include 'modules/include.php' ?>
     <body>
         <!-- nav -->
         <?php include 'modules/header.php' ?>

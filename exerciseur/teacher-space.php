@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 
 <html lang="fr">
-    <?php include 'modules/include.php' ?>
+    <?php $_TITLE="Espace Professeur"; include 'modules/include.php' ?>
 
     <body>
 
         <?php include 'modules/header.php' ?>
 
         <main class="teacher-space">
-            <form action="formulchapitre.php" method="post">
+            <form action="formgteacherspace.php" method="post">
                 <div>
                     <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div -->
                     <div>

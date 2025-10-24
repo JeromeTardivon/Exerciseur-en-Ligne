@@ -58,10 +58,15 @@ header > div.barHeader {
     background-color: var(--dark-blue-color);
     color: var(--font-white-color);
 }
-
-.barHeader > img{
+.barHeader >a{
     max-height: 6em;
-    max-width: 6em;
+    max-width: 6em; 
+    
+}
+
+.barHeader >a >img{
+    height: 100%;
+    width: 100%;
 }
 
 .barHeader > div.buttonsHeader{
