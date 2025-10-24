@@ -17,6 +17,15 @@ a {
     color: black;
 }
 
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 2em;
+    width: fit-content;
+}
+
 .btn {
     background-color: var(--main-color);
     padding: 5%;
@@ -69,6 +78,10 @@ nav > ul {
 #main-profile {
     display: flex;
     flex-direction: row;
+}
+
+#main-profile > div {
+    margin-left: 5%;
 }
 
 aside {
