@@ -60,7 +60,7 @@
 
                     <div>
                         <h3>Envoyer une demande de modification </h2>
-                        <label for="modificationrequest" id="labelmessage">Modifier la descrption</label>
+                        <label for="modificationrequest" id="labelmessage">Message</label>
                         <textarea id="modificationrequest" name="modificationrequest" rows="10" cols="50"  ></textarea>
 
                         <!-- mettre en resize :none en css -->
