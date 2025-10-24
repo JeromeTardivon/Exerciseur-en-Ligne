@@ -2,8 +2,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- décommenter et mettre le css quand il existera -->
-        <!-- <link rel="stylesheet" href="/css/style.css"> -->
+        <link rel="stylesheet" href="/css/style.css">
         <title>Résultats</title>
     </head>
 
@@ -36,28 +35,56 @@
         </aside>
 
 
-        <main>
-            <div>
-                <h2>Paramètres :</h2>
-                <input type="" >
-                <input type="" >
-                <input type="" >
-            </div>
+        <main>           
+            <form action="formulchapitre.php" method="post">
 
-            <div>
-                <h2>Question 1 :</h2>
-                <input type="text">
-            </div>
+                <fieldset>
+                    <legend>Paramètres</legend>
+                    <input id="param1" type="radio" name="param1" value="0"><p>0</p>
+                    <input id="param1" type="radio" name="param1" value="1"><p>1</p>
 
-            <div>
-                <h2>Question 2 :</h2>
-                <input type="text">
-            </div>
+                    <input id="param2" type="radio" name="param2" value="2"><p>2</p>
+                    <input id="param2" type="radio" name="param2" value="2"><p>3</p>
 
-            <div>
-                <h2>Question 3 :</h2>
-                <input type="text">
-            </div>                           
+                    <input id="param3" type="radio" name="param3" value="3"><p>4</p>
+                    <input id="param3" type="radio" name="param3" value="4"><p>5</p>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Question 1</legend>
+                    <input type="textarea">
+                    <label for="illutration">Photo</label>
+                    <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
+                </fieldset>
+
+                <fieldset>
+                    <legend>Question 2</legend>
+                    <input type="textarea">
+                    <label for="illutration">Photo</label>
+                    <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
+                </fieldset>
+
+                <fieldset>
+                    <legend>Question 3</legend>
+                    <input type="textarea">
+                    <label for="illutration">Photo</label>
+                    <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
+                </fieldset>
+
+                <fieldset>
+                    <legend>Question 4</legend>
+                    <input type="textarea">
+                    <label for="illutration">Photo</label>
+                    <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
+                </fieldset>
+
+
+                <div>
+                    <button type=”submit”>Valider</button>
+                    <button type=”reset”>Effacer</button>
+                </div>
+
+            </form>
         </main>
 
 
@@ -76,3 +103,12 @@
 
     </body>
 </html>
+
+
+
+
+
+
+
+
+
