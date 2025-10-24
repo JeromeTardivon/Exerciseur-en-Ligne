@@ -50,21 +50,21 @@
                 <fieldset>
                     <legend>Question 1</legend>
                     <input type="textarea">
-                    <label for="illutration">Photo</label>
+                    <label for="illutration">illustration</label>
                     <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
                 </fieldset>
 
                 <fieldset>
                     <legend>Question 2</legend>
                     <input type="textarea">
-                    <label for="illutration">Photo</label>
+                    <label for="illutration">illustration</label>
                     <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
                 </fieldset>
 
                 <fieldset>
                     <legend>Question 3</legend>
                     <input type="textarea">
-                    <label for="illutration">Photo</label>
+                    <label for="illutration">illustration</label>
                     <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
                 </fieldset>
 
