@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <?php $_TITLE="Créer un compte";include 'modules/include.php' ?>
 
@@ -11,9 +12,9 @@
                 <fieldset>
                     <legend>Inscription</legend>
                     <fieldset>
-                        <legend>Status</legend>
-                        <input type="radio" name="status" value="teacher"><p>Enseignant(e)</p>
-                        <input type="radio" name="status" value="student"><p>Etudiant(e)</p>
+                        <legend>Statut</legend>
+                        <input type="radio" name="statut" value="teacher"><p>Enseignant(e)</p>
+                        <input type="radio" name="statut" value="student"><p>Etudiant(e)</p>
                     </fieldset>
                     <fieldset>
                         <legend>Identité</legend>
