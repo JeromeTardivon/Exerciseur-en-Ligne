@@ -264,6 +264,61 @@ input[type="search"] {
     padding: 1%;
 }
 
+#chapter-creation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#chapter-creation > * {
+    background-color: var(--secondary-color);
+    border-radius: var(--radius);
+    padding: 1%;
+    margin: 2%;
+}
+
+#chapter-creation > aside {
+    width: 20%;
+}
+
+#chapter-creation > form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2%;
+    width: 40%
+}
+
+#chapter-creation > form > fieldset {
+    background-color: var(--main-color);
+    border-radius: var(--radius);
+    width: 100%;
+}
+
+#chapter-creation > form > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 66.6%;
+    padding: 2%;
+}
+
+#chapter-creation > form > div > *{
+    width: 40%;
+    padding: 4%;
+}
+
+#chapter-creation form ul {
+    display: flex;
+    flex-direction: column;
+}
+
+#chapter-creation li {
+    display: flex;
+    flex-direction: row;
+}
+
 footer {
     display: flex;
     flex-direction: row;
