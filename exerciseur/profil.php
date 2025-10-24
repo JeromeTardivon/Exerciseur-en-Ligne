@@ -2,8 +2,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- décommenter et mettre le css quand il existera -->
-        <!-- <link rel="stylesheet" href="/css/style.css"> -->
+        <link rel="stylesheet" href="/css/style.css">
         <title>Profil</title>
     </head>
 
@@ -78,9 +77,6 @@
         </aside>
 
         <!-- footer -->
-        <?php include 'modules/footer.php' ?>
-
-
-        
+        <?php include 'modules/footer.php' ?>        
     </body>
 </html>

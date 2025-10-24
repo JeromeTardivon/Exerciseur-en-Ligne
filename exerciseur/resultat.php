@@ -2,8 +2,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- décommenter et mettre le css quand il existera -->
-        <!-- <link rel="stylesheet" href="/css/style.css"> -->
+        <link rel="stylesheet" href="/css/style.css">
         <title>Résultats</title>
     </head>
 
@@ -13,6 +12,7 @@
 
         <main>
             <h2>Résultats pour "xxxxxxxxxx"</h2>
+            
             <ul>
                 <li>
                     <a href=""> xxxxxxxxxxxxxxxxxxxxxxxxx</a>
@@ -51,16 +51,16 @@
 
 
         <aside>
-            <from>
-                <div>
-                    <h2>Rechercher un exercice par mot clé</h2>
+            <form action="formulchapitre.php" method="post">
+                <fieldset>
+                    <legend>Rechercher un exercice par mot clé</legend>
                     <input type="search" name="search_keyword" placeholder="Recherche mot-clé">
-                </div>
+                </fieldset>
 
-                <div>
-                    <h2>Rechercher un exercice par code</h2>
+                <fieldset>
+                    <legend>Rechercher un exercice par code</legend>
                     <input type="search" name="search_code" placeholder="Recherche code">
-                </div>
+                </fieldset>
             </from>
         </aside>
 
