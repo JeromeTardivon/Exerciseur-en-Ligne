@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html lang="fr">
  <?php include 'modules/include.php' ?>
 
@@ -31,7 +33,7 @@
 
 
         <main>           
-            <form action="formulchapitre.php" method="post">
+            <form action="formchapter.php" method="post">
 
                 <fieldset>
                     <legend>Paramètres</legend>
@@ -48,21 +50,21 @@
                 <fieldset>
                     <legend>Question 1</legend>
                     <input type="textarea">
-                    <label for="illutration">Photo</label>
+                    <label for="illutration">illustration</label>
                     <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
                 </fieldset>
 
                 <fieldset>
                     <legend>Question 2</legend>
                     <input type="textarea">
-                    <label for="illutration">Photo</label>
+                    <label for="illutration">illustration</label>
                     <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
                 </fieldset>
 
                 <fieldset>
                     <legend>Question 3</legend>
                     <input type="textarea">
-                    <label for="illutration">Photo</label>
+                    <label for="illutration">illustration</label>
                     <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
                 </fieldset>
 

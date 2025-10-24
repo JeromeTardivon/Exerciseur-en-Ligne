@@ -1,4 +1,6 @@
     <footer>
+        <p>Copyright © - Tous droit réservés</p>
+        
         <div>
             <h3>
                 Réalisé par :
@@ -10,9 +12,6 @@
                 <li>Jérôme TARDIVON</li>
             </ul>
         </div>
-
-        <p>Copyright © - Tous droit réservés</p>
-
 
         <div>
             <h3>Coordonnées :</h3>
