@@ -41,6 +41,10 @@ th, td {
     height: max-content;
 }
 
+.btn:active {
+    background-color: rgba(141, 63, 18, 0.801);
+}
+
 header {
     background: var(--secondary-color);
     width: 100%;
@@ -182,14 +186,6 @@ aside img {
     padding: 1%;
 }
 
-footer {
-    display: flex;
-    flex-direction: row;
-    background-color: var(--main-color);
-    align-items: center;
-    justify-content: space-evenly;
-    margin-top: auto;
-}
 
 input[type="search"] {
     width: 90%;
@@ -231,6 +227,50 @@ input[type="search"] {
 
 .teacher-space li {
     margin-bottom: 5%;
+}
+
+#settings-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#settings {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--secondary-color);
+    border-radius: var(--radius);
+    margin: 2% 3%;
+    padding: 3%;
+}
+
+#settings > *:nth-child(2) {
+    border-left: 5px solid var(--dark-blue-color);
+    padding-left: 2%;
+}
+
+#settings > * {
+    width: 50%;
+    padding: 1%;
+}
+
+#settings > div > div {
+    display: flex;
+    flex-direction: column;
+}
+
+#settings-form > input {
+    width: 33%;
+    padding: 1%;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--main-color);
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: auto;
 }
 
 footer * {
