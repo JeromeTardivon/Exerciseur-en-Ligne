@@ -19,6 +19,7 @@
             <li>Mes Chapitres</li>
             <li>A propos</li>
             <li>Contact</li>
+            <li><a href="../settings-page.php">Paramètres</a></li>
         </ul>
     </nav>
 </header>
