@@ -3,7 +3,9 @@
 ?>
 <header>
     <div class="barHeader">
-        <img src="../exercisor3000.png" alt="">
+        <a href="../index.php">
+            <img src="../exercisor3000.png" alt="">
+        </a>
         <p>Exerciseur en ligne</p>
         <div class="buttonsHeader">
             <a class="btn" href="../teacher-space.php">Espace Professeurs</a>
