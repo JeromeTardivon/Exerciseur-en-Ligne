@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html lang="fr">
-    <?php include 'modules/include.php' ?>
+    <?php $_TITLE="Espace Professeur"; include 'modules/include.php' ?>
 
     <body>
 

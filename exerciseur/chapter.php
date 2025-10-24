@@ -1,5 +1,5 @@
 <html lang="fr">
-<?php include 'modules/include.php' ?>
+<?php $_TITLE="Chapitre";include 'modules/include.php' ?>
 
     <body>
         <!-- nav -->

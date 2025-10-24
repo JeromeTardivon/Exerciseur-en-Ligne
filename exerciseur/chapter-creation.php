@@ -1,5 +1,5 @@
 <html lang="fr">
- <?php include 'modules/include.php' ?>
+ <?php $_TITLE="Création de chapitre"; include 'modules/include.php' ?>
 
     <body>
 
