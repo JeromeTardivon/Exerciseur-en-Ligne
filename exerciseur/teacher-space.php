@@ -12,9 +12,9 @@
 
         <?php include 'modules/header.php' ?>
 
-        <main class="espace-professeur">
+        <main class="teacher-space">
             <form action="formulchapitre.php" method="post">
-                <div class="gerer-classe">
+                <div>
                     <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div "gerer-classe" -->
                     <div>
                         <h2>Gérer mes classes</h2>
@@ -32,7 +32,7 @@
                     <h2 class="btn"><a href="">Créer classes</a></h2>
                 </div>
 
-                <div class="gerer-chapitre">
+                <div>
                     <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div "gerer-classe" -->
                     <div>
                         <h2>Gérer mes chapitres</h2>
@@ -58,7 +58,7 @@
                     <h2 class="btn"><a href="">Créer chapitres</a></h2>
                 </div>
 
-                <div class="gerer-sujet">
+                <div>
                     <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div "gerer-classe" -->
                     <div>
                         <h2>Gérer mes sujets</h2>
