@@ -1,3 +1,6 @@
+
+<!DOCTYPE html>
+
 <html lang="fr">
     <?php include 'modules/include.php' ?>
     <body>
@@ -11,12 +14,22 @@
                     <img src="exercisor3000.png" alt="photo de profil">
                     <div>
                         <h2>NOM Prénom</h2>
+                        <ul>
+                            <li>
+                                <p><strong> statut : </strong></p>
+                                <img src="" alt="symbole statut">
+                            </li>
+                            <li>
+                                <p>
+                                    <strong>Identifiant : </strong>
+                                    xxxxxxxxxxxxxxxxxxxxxxxxx
+                                </p>
+                            </li>
+                            <li><p>élève / professeur</p></li>
+                        </ul>
                         
-                        <p>
-                            <strong>Identifiant : </strong>
-                            xxxxxxxxxxxxxxxxxxxxxxxxx
-                        </p>
-                        <p>élève / professeur</p>
+                        
+                        
                     </div>
                 </div>
 

@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html lang="fr">
 <?php include 'modules/include.php' ?>
 
@@ -6,18 +8,28 @@
          <?php include 'modules/header.php' ?>
 
         <main>
-            <h2>Exercice 1 :</h2>
-            <p>
-                xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-            </p>
-            <form action="">
-                <input name="supprimer" type="button">
-                <input name="valider" type="button">
-                <input name="abandon" type="button">
+            <form action="formchapter.php" method="post">
+                <div>
+                    <h2>Exercice 1 :</h2>
+                    <p>
+                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                    </p>
+
+                    <input name="answer" type="textarea">
+                </div>
+                
+            
+                <div>
+                    <button type=”submit”>Valider</button>
+                    <button type=”reset”>Effacer</button>
+                    
+                    <!-- changer le type du bouton Abandon -->
+                    <button type=”reset”>Abandon</button>
+                </div>
             </form>
         </main>
 

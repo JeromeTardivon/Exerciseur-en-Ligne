@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html lang="fr">
  <?php include 'modules/include.php' ?>
 
@@ -31,7 +33,7 @@
 
 
         <main>           
-            <form action="formulchapitre.php" method="post">
+            <form action="formchapter.php" method="post">
 
                 <fieldset>
                     <legend>Paramètres</legend>

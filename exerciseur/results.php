@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html lang="fr">
     <?php include 'modules/include.php' ?>
 
@@ -46,7 +48,7 @@
 
 
         <aside>
-            <form action="formulchapitre.php" method="post">
+            <form action="formchapter.php" method="post">
                 <fieldset>
                     <legend>Rechercher un exercice par mot clé</legend>
                     <input type="search" name="search_keyword" placeholder="Recherche mot-clé">
