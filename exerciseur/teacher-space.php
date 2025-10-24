@@ -10,7 +10,7 @@
         <main class="teacher-space">
             <form action="formulchapitre.php" method="post">
                 <div>
-                    <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div "gerer-classe" -->
+                    <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div -->
                     <div>
                         <h2>Gérer mes classes</h2>
 
@@ -28,7 +28,7 @@
                 </div>
 
                 <div>
-                    <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div "gerer-classe" -->
+                    <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div -->
                     <div>
                         <h2>Gérer mes chapitres</h2>
 
@@ -54,7 +54,7 @@
                 </div>
 
                 <div>
-                    <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div "gerer-classe" -->
+                    <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div -->
                     <div>
                         <h2>Gérer mes sujets</h2>
 
