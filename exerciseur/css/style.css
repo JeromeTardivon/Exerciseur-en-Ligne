@@ -66,6 +66,58 @@ nav > ul {
     list-style: none;
 }
 
+#main-profile {
+    display: flex;
+    flex-direction: row;
+}
+
+aside {
+    width: 40%;
+}
+
+aside img {
+    width: 200px;
+    height: 200px;
+    margin: 1%;
+    border: 2px solid black;
+    border-radius: 100%;
+}
+
+#profile {
+    display: flex;
+    flex-direction: row;
+}
+
+#profile > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+#profile > div > * {
+    margin: 1%;
+}
+
+#profile-details > div {
+    background-color: var(--secondary-color);
+    border: 3px solid black;
+    border-radius: var(--radius);
+    padding: 1%;
+    margin: 3%;
+}
+
+#profile-details > div > h2 {
+    margin: 0%;
+}
+
+#profile-details > div > ul{
+    background-color: var(--main-color);
+    border: 1px solid black;
+    border-radius: var(--radius);
+    padding: 1%;
+}
+
 footer {
     display: flex;
     flex-direction: row;
@@ -104,7 +156,6 @@ input[type="search"] {
 .teacher-space h2 {
     margin-top: 0%;
 }
-
 
 .teacher-space ul {
     padding: 0%;
