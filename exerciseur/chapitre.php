@@ -1,9 +1,10 @@
+<!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/css/style.css">
-        <title>Profil</title>
+        <title>Exercice</title>
     </head>
 
     <body>
@@ -19,10 +20,9 @@
                 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
             </p>
-            <form action="">
-                <input name="supprimer" type="button">
-                <input name="valider" type="button">
-                <input name="abandon" type="button">
+            <form action="formexercice.php" method="post">
+                <button type=”submit”>Valider</button>
+                <button type=”reset”>Effacer</button>
             </form>
         </main>
 

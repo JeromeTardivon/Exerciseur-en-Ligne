@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="utf-8">
@@ -51,7 +52,7 @@
 
 
         <aside>
-            <form action="formulchapitre.php" method="post">
+            <form action="formchapter.php" method="post">
                 <fieldset>
                     <legend>Rechercher un exercice par mot clé</legend>
                     <input type="search" name="search_keyword" placeholder="Recherche mot-clé">
@@ -61,7 +62,7 @@
                     <legend>Rechercher un exercice par code</legend>
                     <input type="search" name="search_code" placeholder="Recherche code">
                 </fieldset>
-            </from>
+            </form>
         </aside>
 
         <!-- footer -->

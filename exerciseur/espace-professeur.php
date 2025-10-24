@@ -13,7 +13,7 @@
         <?php include 'modules/header.php' ?>
 
         <main class="espace-professeur">
-            <form action="formulchapitre.php" method="post">
+            <form action="formulprof.php" method="post">
                 <div class="gerer-classe">
                     <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div "gerer-classe" -->
                     <div>

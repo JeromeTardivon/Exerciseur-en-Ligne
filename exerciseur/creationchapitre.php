@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="utf-8">
@@ -36,7 +37,7 @@
 
 
         <main>           
-            <form action="formulchapitre.php" method="post">
+            <form action="formchapter.php" method="post">
 
                 <fieldset>
                     <legend>Paramètres</legend>
