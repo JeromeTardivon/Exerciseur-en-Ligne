@@ -1,21 +1,15 @@
 <!DOCTYPE html>
-
 <html lang="fr">
-<?php $_TITLE="Connexion";include 'modules/include.php' ?>
+<?php $_TITLE="Créer un classe";include 'modules/include.php' ?>
 
     <body>
         <!-- nav -->
          <?php include 'modules/header.php' ?>
 
         <main>
-            <form action="formlogin.php" method="post">
+            <form action="formsignup.php" method="post">
                 <fieldset>
-                    <legend>Connexion</legend>
-                    <label  for="email">Email</label>
-                    <input id="email" type="email" name="email">
-
-                    <label for="password">Mot de passe</label>
-                    <input id="password" type="password" name="password">
+                    <legend>Création de classe</legend>
                 </fieldset>
 
                 <button type=”submit”>Valider</button>

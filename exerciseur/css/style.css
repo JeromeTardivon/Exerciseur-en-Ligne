@@ -4,7 +4,11 @@ body {
     --dark-blue-color: #272D2D;
     --font-white-color: #ffffff;
     --radius: 15px;
+
+    display: flex;
+    flex-direction: column;
     margin: 0%;
+    min-height: 100vh;
 }
 
 ul {
@@ -37,6 +41,10 @@ th, td {
     height: max-content;
 }
 
+.btn:active {
+    background-color: rgba(141, 63, 18, 0.801);
+}
+
 header {
     background: var(--secondary-color);
     width: 100%;
@@ -50,10 +58,15 @@ header > div.barHeader {
     background-color: var(--dark-blue-color);
     color: var(--font-white-color);
 }
-
-.barHeader > img{
+.barHeader >a{
     max-height: 6em;
-    max-width: 6em;
+    max-width: 6em; 
+    
+}
+
+.barHeader >a >img{
+    height: 100%;
+    width: 100%;
 }
 
 .barHeader > div.buttonsHeader{
@@ -82,6 +95,53 @@ nav > ul {
 
 #main-profile > div {
     margin-left: 5%;
+}
+
+#home-page {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    min-height: 60vh;
+}
+
+#home-page > * {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--secondary-color);
+    border-radius: var(--radius);
+    align-items: center;
+    padding: 1%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+.recent-exercises, .popular-exercises {
+    width: 15%;
+}
+
+.searching-section {
+    width: 40%;
+}
+
+.searching-section input[type="search"] {
+    width: 22em;
+    margin-right: 3%;
+}
+
+.searching-section > * {
+    width: 100%;
+    padding: 2%;
+}
+
+.searching-section > form > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.searching-section > form > div > div {
+    display: flex;
+    flex-direction: row;
 }
 
 aside {
@@ -131,13 +191,6 @@ aside img {
     padding: 1%;
 }
 
-footer {
-    display: flex;
-    flex-direction: row;
-    background-color: var(--main-color);
-    align-items: center;
-    justify-content: space-evenly;
-}
 
 input[type="search"] {
     width: 90%;
@@ -179,6 +232,105 @@ input[type="search"] {
 
 .teacher-space li {
     margin-bottom: 5%;
+}
+
+#settings-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#settings {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--secondary-color);
+    border-radius: var(--radius);
+    margin: 2% 3%;
+    padding: 3%;
+}
+
+#settings > *:nth-child(2) {
+    border-left: 5px solid var(--dark-blue-color);
+    padding-left: 2%;
+}
+
+#settings > * {
+    width: 50%;
+    padding: 1%;
+}
+
+#settings > div > div {
+    display: flex;
+    flex-direction: column;
+}
+
+#settings-form > input {
+    width: 33%;
+    padding: 1%;
+}
+
+#chapter-creation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#chapter-creation > * {
+    background-color: var(--secondary-color);
+    border-radius: var(--radius);
+    padding: 1%;
+    margin: 2%;
+}
+
+#chapter-creation > aside {
+    width: 20%;
+}
+
+#chapter-creation > form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2%;
+    width: 40%
+}
+
+#chapter-creation > form > fieldset {
+    background-color: var(--main-color);
+    border-radius: var(--radius);
+    width: 100%;
+}
+
+#chapter-creation > form > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 66.6%;
+    padding: 2%;
+}
+
+#chapter-creation > form > div > *{
+    width: 40%;
+    padding: 4%;
+}
+
+#chapter-creation form ul {
+    display: flex;
+    flex-direction: column;
+}
+
+#chapter-creation li {
+    display: flex;
+    flex-direction: row;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--main-color);
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: auto;
 }
 
 footer * {

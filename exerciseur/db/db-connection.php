@@ -1,5 +1,5 @@
 <?php
-// Replace these with your project's values
+//add the file .env to the project to load the environment variables
 include_once __DIR__ .'/../config/DotEnv.php';
 new config\DotEnv()->load(__DIR__ . '../../..');
 $host = getenv('HOST_DB');
@@ -20,6 +20,5 @@ try {
     // Connection successful
     //echo "Connected to Supabase Postgres via PDO\n";
 } catch (PDOException $e) {
-    // Handle error (do not expose $e->getMessage() in production)
     echo "Connection failed: " . $e->getMessage() . "\n";
 }

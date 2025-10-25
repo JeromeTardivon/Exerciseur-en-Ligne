@@ -1,11 +1,7 @@
 <!DOCTYPE html>
+
 <html lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/css/style.css">
-        <title>Connexion</title>
-    </head>
+<?php $_TITLE="Créer un compte";include 'modules/include.php' ?>
 
     <body>
         <!-- nav -->
@@ -16,9 +12,9 @@
                 <fieldset>
                     <legend>Inscription</legend>
                     <fieldset>
-                        <legend>Status</legend>
-                        <input type="radio" name="status" value="teacher"><p>Enseignant(e)</p>
-                        <input type="radio" name="status" value="student"><p>Etudiant(e)</p>
+                        <legend>Statut</legend>
+                        <input type="radio" name="statut" value="teacher"><p>Enseignant(e)</p>
+                        <input type="radio" name="statut" value="student"><p>Etudiant(e)</p>
                     </fieldset>
                     <fieldset>
                         <legend>Identité</legend>
