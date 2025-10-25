@@ -58,7 +58,7 @@
                     <legend>Rechercher un exercice par code</legend>
                     <input type="search" name="search_code" placeholder="Recherche code">
                 </fieldset>
-            </from>
+            </form>
         </aside>
 
         <!-- footer -->

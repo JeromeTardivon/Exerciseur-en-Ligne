@@ -18,7 +18,7 @@
 
                     <div id="profile-details">
                         <div>
-                            <h3>Statut</h2>
+                            <h3>Statut</h3>
                             <label for="status">Modifier le statut</label>
                             <input id="status" type="text"  name="status" maxlength="99">
                             <!-- mettre lle statut actuelle en défault avec php/db -->
@@ -26,7 +26,7 @@
 
 
                         <div>
-                            <h3>Description</h2>
+                            <h3>Description</h3>
                             <label for="message" id="labelmessage">Modifier la descrption</label>
                             <textarea id="message" name="message" rows="10" cols="50"  ></textarea>
                             <!-- mettre la description actuelle en défault avec php/db -->
@@ -41,25 +41,25 @@
                     <h2>Informations non changeables :</h2>
 
                     <div>
-                        <h3>NOM Prénom :</h2>
+                        <h3>NOM Prénom :</h3>
                         <div>XXXXXXXX XXXXXXXXXX</div>
                         
                     </div>
 
                     <div>
-                        <h3>Mail :</h2>
+                        <h3>Mail :</h3>
                         <div>XXXXXXXX@XXXXXXXXXX</div>
                         
                     </div>
 
                     <div>
-                        <h3>Type de compte : </h2>
+                        <h3>Type de compte : </h3>
                         <div>Etudiant/prof</div>
                         
                     </div>
 
                     <div>
-                        <h3>Envoyer une demande de modification </h2>
+                        <h3>Envoyer une demande de modification </h3>
                         <label for="modificationrequest" id="labelmessage">Message</label>
                         <textarea id="modificationrequest" name="modificationrequest" rows="10" cols="50"  ></textarea>
 

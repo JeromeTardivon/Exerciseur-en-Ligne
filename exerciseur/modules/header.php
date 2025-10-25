@@ -1,5 +1,5 @@
 <?php
-
+include_once __DIR__ .'/../db/db-connection.php';
 ?>
 <header>
     <div class="barHeader">
