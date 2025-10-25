@@ -20,5 +20,5 @@ try {
     // Connection successful
     //echo "Connected to Supabase Postgres via PDO\n";
 } catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage() . "\n";
+    //echo "Connection failed: " . $e->getMessage() . "\n";
 }
