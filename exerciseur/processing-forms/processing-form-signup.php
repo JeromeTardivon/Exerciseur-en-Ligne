@@ -10,3 +10,5 @@ if (!empty($_POST['lastname']) && !empty($_POST['surname']) && !empty($_POST['em
         $user = $statement->fetch();
     }
 }
+header('Location: /index.php');
+exit();
