@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 
 <html lang="fr">
-<?php $_TITLE="Connexion";include 'modules/include.php' ?>
+<?php $_TITLE = "Connexion";
+include 'modules/include.php' ?>
 
-    <body>
-        <!-- nav -->
-         <?php include 'modules/header.php' ?>
+<body>
+<!-- nav -->
+<?php include 'modules/header.php' ?>
 
-        <main>
-            <form action="formlogin.php" method="post">
-                <fieldset>
-                    <legend>Connexion</legend>
-                    <label  for="email">Email</label>
-                    <input id="email" type="email" name="email">
+<main>
+    <form action="/processing-forms/processing-form-login.php" method="post">
+        <fieldset>
+            <legend>Connexion</legend>
+            <label for="email">Email</label>
+            <input id="email" type="email" name="email">
 
-                    <label for="password">Mot de passe</label>
-                    <input id="password" type="password" name="password">
-                </fieldset>
+            <label for="password">Mot de passe</label>
+            <input id="password" type="password" name="password">
+        </fieldset>
+        <input type="submit">
+    </form>
+</main>
 
-                <button type=”submit”>Valider</button>
-                <button type=”reset”>Effacer</button>
-            </form>
-        </main>
-
-        <!-- footer -->
-        <?php include 'modules/footer.php' ?>
-    </body>
+<!-- footer -->
+<?php include 'modules/footer.php' ?>
+</body>
 </html>
