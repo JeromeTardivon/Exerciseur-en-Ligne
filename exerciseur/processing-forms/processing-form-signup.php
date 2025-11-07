@@ -7,7 +7,6 @@ if (!empty($_POST['lastname']) && !empty($_POST['surname']) && !empty($_POST['em
     if (!$user) {
         $statement = $db->prepare("INSERT INTO users (name, surname, mail, password, type) VALUES (:lastname, :surName, :email, :password, :type)");
         $statement->execute(['email' => $_POST['email'], 'lastname' => $_POST['lastname'], 'surName' => $_POST['surname'], 'password' => password_hash($_POST['password'], PASSWORD_DEFAULT), 'type' => $_POST['status']]);
-        $user = $statement->fetch();
     }
 }
 header('Location: /index.php');
