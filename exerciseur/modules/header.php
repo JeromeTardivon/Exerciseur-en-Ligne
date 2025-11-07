@@ -3,7 +3,9 @@ include_once __DIR__ .'/../db/db-connection.php';
 ?>
 <header>
     <div class="barHeader">
-        <img src="../exercisor3000.png" alt="">
+        <a href="/index.php">
+            <img src="../exercisor3000.png" alt="">
+        </a>
         <h1><?php if(isset($_TITLE)){echo $_TITLE;}else{echo "Xercizor 3000";} ?></h1>
         <div class="buttonsHeader">
             <a class="btn" href="../teacher-space.php">Espace Professeurs</a>
