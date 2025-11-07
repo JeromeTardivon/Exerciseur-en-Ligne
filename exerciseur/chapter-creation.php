@@ -45,33 +45,7 @@
                     </ul>
                 </fieldset>
 
-                <fieldset>
-                    <legend>Question 1</legend>
-                    <input type="textarea">
-                    <label for="illutration">Photo</label>
-                    <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
-                </fieldset>
-
-                <fieldset>
-                    <legend>Question 2</legend>
-                    <input type="textarea">
-                    <label for="illutration">Photo</label>
-                    <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
-                </fieldset>
-
-                <fieldset>
-                    <legend>Question 3</legend>
-                    <input type="textarea">
-                    <label for="illutration">Photo</label>
-                    <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
-                </fieldset>
-
-                <fieldset>
-                    <legend>Question 4</legend>
-                    <input type="textarea">
-                    <label for="illutration">Photo</label>
-                    <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
-                </fieldset>
+                
 
                 <div>
                     <button type=”submit” class="btn">Valider</button>
