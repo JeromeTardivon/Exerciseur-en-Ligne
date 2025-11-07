@@ -1,5 +1,6 @@
 <?php
 include_once __DIR__ .'/../db/db-connection.php';
+include_once __DIR__ .'/../config/config.php';
 ?>
 <header>
     <div class="barHeader">
@@ -9,7 +10,13 @@ include_once __DIR__ .'/../db/db-connection.php';
         <h1><?php if(isset($_TITLE)){echo $_TITLE;}else{echo "Xercizor 3000";} ?></h1>
         <div class="buttonsHeader">
             <a class="btn" href="../teacher-space.php">Espace Professeurs</a>
-            <a  class="btn" href="../profile.php">Profil</a>
+            <?php
+                if (empty($_SESSION['user'])){
+                    echo '<a  class="btn" href="../login.php">Se connecter/Creer compte</a>';
+                }else{
+                    echo '<a  class="btn" href="../profile.php">Profil</a>';
+                }
+            ?>
         </div>
     </div>
     <nav id="menu">

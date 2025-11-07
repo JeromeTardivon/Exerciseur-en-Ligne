@@ -20,6 +20,9 @@ include 'modules/include.php' ?>
         </fieldset>
         <input type="submit">
     </form>
+    <div>
+        <a  class="btn" href="../signup.php">Se connecter/Creer compte</a>
+    </div>
 </main>
 
 <!-- footer -->
