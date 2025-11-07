@@ -4,12 +4,9 @@
         <!-- nav -->
         <?php include 'modules/header.php' ?>
 
-
-         <form action="">
+        <form action="">
             <main id="main-profile">
                 <aside>
-                
-                    
                     <!-- image placeholder mettre la pdp actuelle en défaut avec php/db-->
                     <img src="exercisor3000.png" alt="photo de profil">
 
@@ -28,13 +25,11 @@
                         <div>
                             <h3>Description</h3>
                             <label for="message" id="labelmessage">Modifier la descrption</label>
-                            <textarea id="message" name="message" rows="10" cols="50"  ></textarea>
+                            <textarea id="message" name="message" rows="10" cols="50"></textarea>
                             <!-- mettre la description actuelle en défault avec php/db -->
                             <!-- mettre en resize :none en css -->
                         </div>
                     </div>
-                        
-
                 </aside>
 
                 <div>
@@ -66,21 +61,14 @@
                         <!-- mettre en resize :none en css -->
                         
                     </div>
-
-
-                </div>
-
-
-                
-
-                
-                
+                </div>    
             </main>
-            <button class="submit" type="submit">Envoyer</button>
-            <button type="reset">Effacer</button>
-        </form>
 
-        
+            <div id="account-buttons">
+                <button class="submit btn" type="submit">Envoyer</button>
+                <button class="btn" type="reset">Effacer</button>
+            </div>
+        </form>
 
         <!-- footer -->
         <?php include 'modules/footer.php' ?>        
