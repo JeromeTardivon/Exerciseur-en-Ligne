@@ -7,18 +7,14 @@ $port = getenv('PORT_DB');
 $dbName = getenv('NAME_DB');
 $user = getenv('USER_DB');
 $pass = getenv('PASSWORD_DB');
-$sslmode = 'require';
 
 // DSN
-$dsn = "pgsql:host=$host;port=$port;dbname=$dbName;sslmode=$sslmode";
+$dsn = "mysql:host=$host;port=$port;dbname=$dbName";
 
 try {
-    $db = new PDO($dsn, $user, $pass, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_EMULATE_PREPARES => false,
-    ]);
+    $db = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION]);
     // Connection successful
-    //echo "Connected to Supabase Postgres via PDO\n";
+    //echo "Connected to bd mariadb via PDO\n";
 } catch (PDOException $e) {
     //echo "Connection failed: " . $e->getMessage() . "\n";
 }
