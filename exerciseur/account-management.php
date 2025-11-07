@@ -5,7 +5,7 @@
         <?php include 'modules/header.php' ?>
 
 
-         <form action="">
+        <form action="">
             <main id="main-profile">
                 <aside>
                 
