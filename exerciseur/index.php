@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -17,6 +16,7 @@
     <div class="searching-section">
         <form action="" method="post">
             <div>
+                <-- @Bastien changement de h2 dans le label parce que c'est interdit ça bonne journée-->
                 <label for="exerciseSearchBar"><h2>Rechercher un exercice par mot clé</h2></label>
 
                 <div>

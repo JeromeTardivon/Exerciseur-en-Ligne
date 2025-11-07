@@ -1,9 +1,6 @@
 <?php
-
-use config\DotEnv;
 //add the file .env to the project to load the environment variables
-
-
+use config\DotEnv;
 include_once __DIR__ . '/../config/DotEnv.php';
 $env = new DotEnv();
 $env->load(__DIR__ . '../../..');

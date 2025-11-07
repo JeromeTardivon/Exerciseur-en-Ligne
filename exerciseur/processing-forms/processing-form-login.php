@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . '/../config/config.php';
 include_once __DIR__ . '/../db/db-connection.php';
 if (!empty($_POST['email']) && !empty($_POST['password'])) {
     $statement = $db->prepare("SELECT * FROM users WHERE mail = :emailUser");
