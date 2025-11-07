@@ -5,9 +5,9 @@
 
     <body>
         <!-- nav -->
-         <?php include 'modules/header.php' ?>
+        <?php include 'modules/header.php' ?>
 
-        <main>
+        <main id="chapter">
             <form action="formchapter.php" method="post">
                 <div>
                     <h2>Exercice 1 :</h2>
@@ -24,11 +24,11 @@
                 
             
                 <div>
-                    <button type=”submit”>Valider</button>
-                    <button type=”reset”>Effacer</button>
+                    <button class="btn" type=”submit”>Valider</button>
+                    <button class="btn" type=”reset”>Effacer</button>
                     
                     <!-- changer le type du bouton Abandon -->
-                    <button type=”reset”>Abandon</button>
+                    <button class="btn" type=”reset”>Abandon</button>
                 </div>
             </form>
         </main>

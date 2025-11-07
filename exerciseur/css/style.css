@@ -320,7 +320,7 @@ input[type="search"] {
     margin-bottom: 2%;
 }
 
-#chapter-creation > form {
+#chapter-creation > form, #chapter > form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -341,7 +341,7 @@ input[type="search"] {
 #chapter-creation > form > fieldset > input[type="textarea"] {
     background-color: var(--secondary-color);
     padding: 0.5%;
-    border-radius: 15px;
+    border-radius: var(--radius);
 }
 
 #chapter-creation > form > div {
@@ -366,6 +366,30 @@ input[type="search"] {
 #chapter-creation li {
     display: flex;
     flex-direction: row;
+}
+
+#chapter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#chapter > form {
+    background-color: var(--secondary-color);
+    margin: 3%;
+    padding: 0.5%;
+    border-radius: var(--radius);
+}
+
+#chapter > form > *:nth-child(2) {
+    display: flex;
+    flex-direction: row;
+}
+
+#chapter button {
+    margin-left: 2%;
+    margin-right: 2%;
+    width: 10em;
 }
 
 footer {
