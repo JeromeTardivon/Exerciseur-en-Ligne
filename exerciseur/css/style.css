@@ -30,10 +30,16 @@ th, td {
     width: fit-content;
 }
 
+textarea {
+    max-width: 100%;
+    min-width: 100%;
+}
+
 .btn {
     background-color: var(--main-color);
     padding: 5%;
     border-radius: var(--radius);
+    overflow-wrap: break-word;
 }
 
 .btn a {
@@ -58,6 +64,7 @@ header > div.barHeader {
     background-color: var(--dark-blue-color);
     color: var(--font-white-color);
 }
+
 .barHeader >a{
     max-height: 6em;
     max-width: 6em; 
@@ -97,6 +104,18 @@ nav > ul {
     margin-left: 5%;
 }
 
+#account-buttons {
+    display: flex;
+    flex-direction: row;
+    margin-left: 5%;
+}
+
+#account-buttons > * {
+    padding: 1%;
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
 #home-page {
     display: flex;
     flex-direction: row;
@@ -119,6 +138,10 @@ nav > ul {
     width: 15%;
 }
 
+.recent-exercises > *, .popular-exercises > * {
+    width: 100%;
+}
+
 .searching-section {
     width: 40%;
 }
@@ -129,7 +152,7 @@ nav > ul {
 }
 
 .searching-section > * {
-    width: 100%;
+    max-width: 100%;
     padding: 2%;
 }
 
@@ -142,6 +165,7 @@ nav > ul {
 .searching-section > form > div > div {
     display: flex;
     flex-direction: row;
+    max-width: 100%;
 }
 
 aside {
@@ -172,7 +196,13 @@ aside img {
     margin: 1%;
 }
 
+#profile-details * {
+    overflow-wrap: break-word;
+}
+
 #profile-details > div {
+    display: flex;
+    flex-direction: column;
     background-color: var(--secondary-color);
     border: 3px solid black;
     border-radius: var(--radius);
@@ -286,18 +316,32 @@ input[type="search"] {
     width: 20%;
 }
 
-#chapter-creation > form {
+#chapter-creation > aside > ul > * {
+    margin-bottom: 2%;
+}
+
+#chapter-creation > form, #chapter > form {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 2%;
-    width: 40%
+    width: 40%;
+}
+
+#chapter-creation > form * {
+    max-width: 100%;
 }
 
 #chapter-creation > form > fieldset {
     background-color: var(--main-color);
     border-radius: var(--radius);
     width: 100%;
+}
+
+#chapter-creation > form > fieldset > input[type="textarea"] {
+    background-color: var(--secondary-color);
+    padding: 0.5%;
+    border-radius: var(--radius);
 }
 
 #chapter-creation > form > div {
@@ -322,6 +366,42 @@ input[type="search"] {
 #chapter-creation li {
     display: flex;
     flex-direction: row;
+}
+
+#chapter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#chapter > form {
+    background-color: var(--secondary-color);
+    margin: 3%;
+    padding: 0.5%;
+    border-radius: var(--radius);
+}
+
+#chapter > form > *:nth-child(2) {
+    display: flex;
+    flex-direction: row;
+}
+
+#chapter button {
+    margin-left: 2%;
+    margin-right: 2%;
+    width: 10em;
+}
+
+#login {
+    margin: 1%;
+}
+
+#login > div {
+    padding-top: 2%;
+}
+
+#login .btn {
+    padding: 1%;
 }
 
 footer {
