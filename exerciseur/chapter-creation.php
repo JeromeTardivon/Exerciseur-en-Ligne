@@ -34,44 +34,18 @@
                     <legend>Paramètres</legend>
                     
                     <ul>
-                        <li> <input id="param1" type="radio" name="param1" value="0"><p>0</p> </li>
-                        <li> <input id="param1" type="radio" name="param1" value="1"><p>1</p> </li>
+                        <li> <input id="param1" type="checkbox" name="param1" value="0"><p>xxxxxxx</p> </li>
+                        <li> <input id="param2" type="checkbox" name="param2" value="1"><p>xxxxxxx</p> </li>
                         
-                        <li> <input id="param2" type="radio" name="param2" value="2"><p>2</p> </li>
-                        <li> <input id="param2" type="radio" name="param2" value="2"><p>3</p> </li>
+                        <li> <input id="param2" type="radio" name="param2" value="2"><p>xxxxxxx</p> </li>
+                        <li> <input id="param2" type="radio" name="param2" value="2"><p>xxxxxxx</p> </li>
                         
-                        <li> <input id="param3" type="radio" name="param3" value="3"><p>4</p> </li>
-                        <li> <input id="param3" type="radio" name="param3" value="4"><p>5</p> </li>
+                        <li> <input id="param4" type="checkbox" name="param4" value="4"><p>xxxxxxx</p> </li>
+                        <li> <input id="param5" type="checkbox" name="param5" value="5"><p>xxxxxxx</p> </li>
                     </ul>
                 </fieldset>
 
-                <fieldset>
-                    <legend>Question 1</legend>
-                    <input type="textarea">
-                    <label for="illutration">Photo</label>
-                    <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
-                </fieldset>
-
-                <fieldset>
-                    <legend>Question 2</legend>
-                    <input type="textarea">
-                    <label for="illutration">Photo</label>
-                    <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
-                </fieldset>
-
-                <fieldset>
-                    <legend>Question 3</legend>
-                    <input type="textarea">
-                    <label for="illutration">Photo</label>
-                    <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
-                </fieldset>
-
-                <fieldset>
-                    <legend>Question 4</legend>
-                    <input type="textarea">
-                    <label for="illutration">Photo</label>
-                    <input id="illustration" type="file" name="illustration" accept=".jpg, .png">
-                </fieldset>
+                
 
                 <div>
                     <button type=”submit” class="btn">Valider</button>
