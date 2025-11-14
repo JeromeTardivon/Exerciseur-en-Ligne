@@ -8,7 +8,7 @@ include 'modules/include.php' ?>
 <!-- nav -->
 <?php include 'modules/header.php' ?>
 
-<main>
+<main id="login">
     <form action="/processing-forms/processing-form-login.php" method="post">
         <fieldset>
             <legend>Connexion</legend>
@@ -18,7 +18,8 @@ include 'modules/include.php' ?>
             <label for="password">Mot de passe</label>
             <input id="password" type="password" name="password">
         </fieldset>
-        <input type="submit">
+
+        <input class="btn" type="submit">
     </form>
     <div>
         <a  class="btn" href="signup.php">Creer compte</a>

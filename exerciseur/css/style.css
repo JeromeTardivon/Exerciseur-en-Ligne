@@ -392,6 +392,18 @@ input[type="search"] {
     width: 10em;
 }
 
+#login {
+    margin: 1%;
+}
+
+#login > div {
+    padding-top: 2%;
+}
+
+#login .btn {
+    padding: 1%;
+}
+
 footer {
     display: flex;
     flex-direction: row;
