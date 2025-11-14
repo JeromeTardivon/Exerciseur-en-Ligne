@@ -15,6 +15,7 @@ include_once __DIR__ .'/../config/config.php';
                     echo '<a  class="btn" href="../login.php">Se connecter/Creer compte</a>';
                 }else{
                     echo '<a  class="btn" href="../profile.php">Profil</a>';
+                    echo '<a  class="btn" href="../processing-forms/processing-logout.php">Déconnexion </a>';
                 }
             ?>
         </div>

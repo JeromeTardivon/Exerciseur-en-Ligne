@@ -21,7 +21,7 @@ include 'modules/include.php' ?>
         <input type="submit">
     </form>
     <div>
-        <a  class="btn" href="../signup.php">Se connecter/Creer compte</a>
+        <a  class="btn" href="signup.php">Creer compte</a>
     </div>
 </main>
 
