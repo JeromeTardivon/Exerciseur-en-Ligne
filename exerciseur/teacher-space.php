@@ -26,7 +26,7 @@ include_once './config/config.php';
                             <?php
                                 $list = getTeachersClasses($db);
                                 foreach ($list as $class) {?>
-                                    <li class="btn"><a href=""><?=$class['name']?></a></li>
+                                    <li class="btn"><a href="editor-class.php?id-class=<?= $class['id']?>"><?=$class['name']?></a></li>
                                     <?php }
                             ?>
                         </ul>

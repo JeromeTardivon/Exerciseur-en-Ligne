@@ -7,9 +7,20 @@ function getTeachersClasses($db): array
     $statement -> execute(['id_teacher' => $_SESSION['user']['id']]);
     $classes = $statement -> fetchAll();
     foreach ($classes as $class) {
-        $statement = $db -> prepare("SELECT * FROM class WHERE id = :id");
-        $statement -> execute(['id' => $class['id_class']]);
-        $listClasses[] = $statement-> fetch();
+        $listClasses[] = getClass($db, $class['id_class']);
     }
     return $listClasses;
+}
+
+function getClass($db, $idClass){
+    $statement = $db -> prepare("SELECT * FROM class WHERE id = :id");
+    $statement -> execute(['id' => $idClass]);
+    return $statement-> fetch();
+}
+
+function getStudents($db)
+{
+    $statement = $db -> prepare("SELECT * FROM users");
+    $statement -> execute();
+    return $statement-> fetchAll();
 }
