@@ -79,8 +79,11 @@ header > div.barHeader {
 .barHeader > div.buttonsHeader{
     margin: 15px;
     display: flex;
+    justify-content: space-evenly;
     gap: 5px;
     flex-wrap: nowrap;
+    width: 33%;
+    justify-content: right;
 }
 
 #menu {
