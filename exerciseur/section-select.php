@@ -28,15 +28,15 @@
                 </div> 
             </aside>
 
-            <form action="section-select.php" method="post">
+            <form action="formulchapitre.php" method="post">
 
                 <fieldset>
                     <legend>Paramètres</legend>
                     
                     <ul>
                         <li><h3>Visibilité</h3></li>
-                        <li> <input id="visibilityPublic" type="radio" name="visibility" value="0"><label for = 'visibilityPublic'>Publique</label> </li>
-                        <li> <input id="visibilityPrivate" type="radio" name="visibility" value="1" checked = 'true'><label for = 'visibilityPrivate'>Privée</label> </li>
+                        <li> <input id="visibilite" type="radio" name="visibilite" value="0"><label for = 'visibilite'>Publique</label> </li>
+                        <li> <input id="visibilite" type="radio" name="visibilite" value="1" checked = 'true'><label for = 'visibilite'>Privée</label> </li>
                     
                         <li><h3>Niveau</h3></li>
                         <li>
