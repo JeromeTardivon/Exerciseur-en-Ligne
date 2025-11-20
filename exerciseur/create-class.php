@@ -1,4 +1,9 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
+
 <html lang="fr">
 <?php $_TITLE="Créer un classe";include 'modules/include.php' ?>
 

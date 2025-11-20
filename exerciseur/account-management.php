@@ -1,3 +1,9 @@
+<?php
+session_start();
+?>
+
+<!DOCTYPE html>
+
 <html lang="fr">
     <?php $_TITLE="Modification du profil"; include 'modules/include.php' ?>
     <body>
