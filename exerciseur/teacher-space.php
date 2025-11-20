@@ -24,7 +24,7 @@
                         </ul>
                     </div>
 
-                    <h2 class="btn"><a href="">Créer classes</a></h2>
+                    <h2 class="btn"><a href="create-class.php">Créer classes</a></h2>
                 </div>
 
                 <div>
