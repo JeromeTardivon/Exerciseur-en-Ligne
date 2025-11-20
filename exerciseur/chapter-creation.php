@@ -5,7 +5,6 @@ if (!isset($_SESSION["user"])) {
     header('Location: /index.php');
     exit();
 } else if ($_SESSION["user"]["type"] != "teacher") {
-    // echo $_SESSION["type"];
     header('Location: /index.php');
     exit();
 }
