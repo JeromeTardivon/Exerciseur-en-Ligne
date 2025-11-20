@@ -1,3 +1,7 @@
+<?php
+include_once './config/config.php';
+?>
+
 <!DOCTYPE html>
 
 <html lang="fr">
@@ -19,12 +23,16 @@
                         <!-- le contenu de la liste sera à changer avec du php pour avoir la liste des classes auquels il a accès -->
                         <!-- le nb de li sera en fonction de la hauteur de l'écran -->
                         <ul>
-                            <li class="btn"><a href="">Classe 1</a></li>
-                            <li class="btn"><a href="">Classe 2</a></li>
+                            <?php
+                                $list = getTeachersClasses($db);
+                                foreach ($list as $class) {?>
+                                    <li class="btn"><a href=""><?=$class['name']?></a></li>
+                                    <?php }
+                            ?>
                         </ul>
                     </div>
 
-                    <h2 class="btn"><a href="">Créer classes</a></h2>
+                    <h2 class="btn"><a href="create-class.php">Créer classes</a></h2>
                 </div>
 
                 <div>
