@@ -1,6 +1,5 @@
 <?php
 include_once __DIR__ .'/../db/db-connection.php';
-include_once __DIR__ .'/../config/config.php';
 ?>
 <header>
     <div class="barHeader">

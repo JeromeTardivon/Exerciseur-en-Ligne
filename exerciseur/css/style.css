@@ -65,13 +65,11 @@ header > div.barHeader {
     color: var(--font-white-color);
 }
 
-.barHeader >a{
-    max-height: 6em;
-    max-width: 6em; 
-    
+.barHeader > a {
+    max-width: 6em;
 }
 
-.barHeader >a >img{
+.barHeader > a >img{
     height: 100%;
     width: 100%;
 }
@@ -79,8 +77,10 @@ header > div.barHeader {
 .barHeader > div.buttonsHeader{
     margin: 15px;
     display: flex;
+    justify-content: space-evenly;
     gap: 5px;
     flex-wrap: nowrap;
+    justify-content: right;
 }
 
 #menu {
