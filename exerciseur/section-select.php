@@ -31,95 +31,46 @@
             <form action="formulchapitre.php" method="post">
 
                 <fieldset>
-                    <legend>Paramètres</legend>
-                    
-                    <ul>
-                        <li><h3>Visibilité</h3></li>
-                        <li> <input id="visibilite" type="radio" name="visibilite" value="0"><label for = 'visibilite'>Publique</label> </li>
-                        <li> <input id="visibilite" type="radio" name="visibilite" value="1" checked = 'true'><label for = 'visibilite'>Privée</label> </li>
-                    
-                        <li><h3>Niveau</h3></li>
-                        <li>
-                            <label for="level-select">Choisissez le niveau du chapitre</label>
-                            <select name="level-select" id="level-select">
-                            <option value="unspecified">Non spécifié</option>
-                            <option value="Primaire">Primaire</option>
-                            <option value="CE1">CE1</option>
-                            <option value="CE2">CE2</option>
-                            <option value="CM1">CM1</option>
-                            <option value="CM2">CM2</option>
-                            <option value="College">Collège</option>
-                            <option value="Sixième">Sixième</option>
-                            <option value="Cinquième">Cinquième</option>
-                            <option value="Quatrième">Quatrième</option>
-                            <option value="Troisième">Troisième</option>
-                            <option value="Lycee">Lycée</option>
-                            <option value="Seconde">Seconde</option>
-                            <option value="Première">Première</option>
-                            <option value="Terminale">Terminale</option>
-                            <option value="EtudesSuperieures">Etudes Superieures</option>
-                            
-                            </select>
-                        </li>
+                    <legend>Séléctionnez le type de section que vous souhaitez ajouter</legend>
 
-                        <li><h3>Limite de temps</h3></li>
-                        
-                        <li> <input id="timelimit" type="checkbox" name="timelimit" value="2"><label for = 'timelimit'>Ajouter une limite de temps</label> </li>
-                        <span> <!-- hide everything in this span if checkbox not checked -->
-                            <label for="timelimit-seconds" >Secondes</label>
-                            <input id="timelimit-seconds" name="timelimit_seconds" type="number" min="0" max="59" step="1" value="0">
-                            <label for="timelimit-minutes" >Minutes</label>
-                            <input id="timelimit-minutes" name="timelimit_minutes" type="number" min="0" max="59" step="1" value="30">
-                            <label for="timelimit-hours" class="visually-hidden">Heures</label>
-                            <input id="timelimit-hours" name="timelimit_hours" type="number" min="0" max="2048" step="1" value="0">
-                        </span>
 
-                        <li><h3>Classe</h3></li>
-                        <li> 
-                            <label for="class-select">Choisissez la classe dans laquelle ce chapitre sera inscrite</label>
-                            <select name="class-select" id="class-select">
-                            <option value="unspecified">Hors d'une classe</option>
-                            <!-- dynamically generates options with php, getting all classes the professor is responsible of in the database-->
-                            <?php ?>
-                            </select>
+                    <div>
+                        <input type="radio" id="courseSection" name="sectionType" value="text" checked />
+                        <label for="courseSection">Section de cours</label> <img src="info.png" alt="plus d'info" width="15" height="15"> <!-- ajouter une pop up quand "plus d'info" est hover -->
+                    </div>
 
-                            <span><!-- only show this span if a class is selected -->
-                                <input id="graded" type="checkbox" name="graded" value="3"></li><label for="graded">Noter ce chapitre?</label>
-                                <span> <!-- only show this span if 'graded' checkbox checked -->
-                                    <label for="grade-weight">Coefficient:</label>
-                                    <input id="grade-weight" name="grade_weight" type="number" min="0" max="100" step="1" value="1">
-                                </span>
-                            
-                            </span>
-                        </li>
+                    <div>
+                        <input type="radio" id="openExerciseSection" name="sectionType" value="text" checked />
+                        <label for="openExerciseSection">Section d'exercice à question ouverte</label> <img src="info.png" alt="plus d'info" width="15" height="15"> <!-- ajouter une pop up quand "plus d'info" est hover -->
+                    </div>
 
-                        <li><h3>Essais</h3></li>
-                        
-                        <li> <input id="limittry" type="checkbox" name="limittry" value="4"><label for="limittry">Limiter le nombre d'essais ? (pour le chapitre complet) </label>
+                    <div>
+                        <input type="radio" id="multipleChoiceExerciseSection" name="sectionType" value="text" checked />
+                        <label for="multipleChoiceExerciseSection">Section d'exercice à choix multiples</label> <img src="info.png" alt="plus d'info" width="15" height="15"> <!-- ajouter une pop up quand "plus d'info" est hover -->
+                    </div>
+                    <div>
+                        <input type="radio" id="trueFalseExerciseSection" name="sectionType" value="text" checked />
+                        <label for="trueFalseExerciseSection">Section d'exercice Vrai ou Faux</label> <img src="info.png" alt="plus d'info" width="15" height="15"> <!-- ajouter une pop up quand "plus d'info" est hover -->
+                    </div>
+                    <div>
+                        <input type="radio" id="dropdownExerciseSection" name="sectionType" value="text" checked />
+                        <label for="dropdownExerciseSection">Section d'exercice à menu déroulant</label> <img src="info.png" alt="plus d'info" width="15" height="15"> <!-- ajouter une pop up quand "plus d'info" est hover -->
+                    </div>
+                    <div>
+                        <input type="radio" id="matchingPointsExerciseSection" name="sectionType" value="text" checked />
+                        <label for="matchingPointsExerciseSection">Section d'exercice de points à relier</label> <img src="info.png" alt="plus d'info" width="15" height="15"> <!-- ajouter une pop up quand "plus d'info" est hover -->
+                    </div>
+                    <div>
+                        <input type="radio" id="numericAnswerExerciseSection" name="sectionType" value="text" checked />
+                        <label for="numericAnswerExerciseSection">Section d'exercice à réponse numérique</label> <img src="info.png" alt="plus d'info" width="15" height="15"> <!-- ajouter une pop up quand "plus d'info" est hover -->
+                    </div>
+                    <div>
+                        <input type="radio" id="dragNDropExerciseSection" name="sectionType" value="text" checked />
+                        <label for="dragNDropExerciseSection">Section d'exercice de placement d'objet</label> <img src="info.png" alt="plus d'info" width="15" height="15"> <!-- ajouter une pop up quand "plus d'info" est hover -->
+                    </div>
 
-                            <span> <!-- only show this span if 'limittry' checkbox checked -->
-                                <label for="try-number">Nombre d'essais autorisés:</label>
-                                <input id="try-number" name="try_number" type="number" min="1" max="100" step="1" value="1">
-                            </span>
-                        </li>
 
-                        <li><h3>Correction</h3></li>
-                        <li> <input id="correctionend" type="checkbox" name="correctionend" value="5"><label for="correctionend">Afficher la correction à la fin du chapitre?</label> </li>
-
-                        <li><h3>Tags</h3></li>
-                        <li>
-                            <label for="tags-input">Ajouter des tags (séparés par des virgules)</label>
-                            <input id="tags-input" name="tags_input" type="text" placeholder="ex: mathématiques, géométrie, fonctions">
-                        </li>
-                    </ul>
                 </fieldset>
-
-                
-
-                <div>
-                    <button type=”submit” class="btn">Valider</button>
-                    <button type=”reset” class="btn">Effacer</button>
-                </div>
 
             </form>
 
