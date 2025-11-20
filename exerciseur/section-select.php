@@ -28,7 +28,7 @@
                 </div> 
             </aside>
 
-            <form action="formulchapitre.php" method="post">
+            <form action="section.php" method="post">
 
                 <fieldset>
                     <legend>Séléctionnez le type de section que vous souhaitez ajouter</legend>
@@ -71,6 +71,13 @@
 
 
                 </fieldset>
+
+
+                <div>
+                    <button type="submit" class="btn">Valider</button>
+                    <button type="submit" class="btn" formaction="">Terminer le Chapitre</button>-
+                    <!-- second submit button to end chapter creation, action needs to be set to another page to end chapter creation -->
+                </div>
 
             </form>
 

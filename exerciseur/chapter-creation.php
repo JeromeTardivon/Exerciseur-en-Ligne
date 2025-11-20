@@ -118,7 +118,7 @@
 
                 <div>
                     <button type=”submit” class="btn">Valider</button>
-                    <button type=”reset” class="btn">Effacer</button>
+                    
                 </div>
 
             </form>
