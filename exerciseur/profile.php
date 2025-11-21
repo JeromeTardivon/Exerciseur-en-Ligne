@@ -1,10 +1,7 @@
 <?php
-session_start();
 
-if (!isset($_SESSION["user"])) {
-    header('Location: /');
-    exit();
-}
+require_once __DIR__ . '/db/db-connection.php';
+require_once __DIR__ . '/config/config.php';
 
 ?>
 
@@ -45,7 +42,7 @@ if (!isset($_SESSION["user"])) {
                                 } else {
                                     echo "Enseignant";
                                 }
-                                
+
                                 ?>
                             </p></li>
                         </ul>
@@ -69,9 +66,13 @@ if (!isset($_SESSION["user"])) {
                     <div>
                         <h2>Classes</h2>
                         <ul>
-                            <li>Science_1ere</li>
-                            <li>Maths_term</li>
-                            <li>Philo_term</li>
+                            <?php
+
+                            foreach (getTeachersClasses($db) as $class) {
+                                echo "<li>" . $class['name'] . "</li>";
+                            }
+
+                            ?>
                         </ul>
                     </div>
                 </div>
