@@ -40,3 +40,18 @@ function studentInList($listIdStudents, $studentId): bool
     }
     return false;
 }
+
+function addStudentsDB($db, $listIdStudents, $classId){
+    foreach ($listIdStudents as $student) {
+        $statement = $db->prepare("SELECT COUNT(id_user) as nb FROM inclass WHERE id_user = '$student' AND id_class = '$classId'");
+        $statement -> execute();
+        $existStudent = $statement -> fetchAll();
+            var_dump("-----exist----");
+        var_dump($existStudent);
+        var_dump("---------");
+        if ($existStudent == 0){
+            $statement = $db->prepare("INSERT INTO inclass (id_user, id_class) VALUES ('$student', '$classId')");
+            $statement -> execute();
+        }
+    }
+}
