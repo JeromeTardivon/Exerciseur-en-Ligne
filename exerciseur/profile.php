@@ -8,6 +8,12 @@ if (!isset($_SESSION["user"])) {
     exit();
 }
 
+// changer les infos à afficher (surtout l'id)
+$command = $db->prepare("SELECT e.id, c.title, r.grade, r.created_at FROM result r JOIN exercise e ON r.id_exercise = e.id JOIN chapter c ON r.id_subject = c.id WHERE r.id_user = :user");
+$command->execute(["user" => $_SESSION["user"]["id"]]);
+
+$grades = $command->fetchAll();
+
 ?>
 
 <!DOCTYPE html>
@@ -87,30 +93,19 @@ if (!isset($_SESSION["user"])) {
             <div>
                 <h2>Tableau de notes</h2>
                 <table>
-                    <tr>
-                        <th >exercice1</th>
-                        <td>xx</td>
-                        <td>mathématiques</td>
-                        <td>10/06/2025</td>
-                    </tr>
-                    <tr>
-                        <th >exercice2</th>
-                        <td>xx</td>
-                        <td>physique</td>
-                        <td>10/06/2025</td>
-                    </tr>
-                    <tr>
-                        <th >exercice3</th>
-                        <td>xx</td>
-                        <td>droit</td>
-                        <td>10/06/2025</td>
-                    </tr>
-                    <tr>
-                        <th >exercice4</th>
-                        <td>xx</td>
-                        <td>SVT</td>
-                        <td>10/06/2025</td>
-                    </tr>       
+                    <?php 
+
+                    foreach ($grades as $g) {
+                        echo "<tr> \n";
+                        echo "<th>" . $g["id"] . "</th>";
+                        echo "<td>" . $g["title"] . "</td>";
+                        echo "<td>" . $g["grade"] . "</td>";
+                        echo "<td>" . $g["created_at"] . "</td>";
+
+                        echo "</tr>";
+                    }
+                    
+                    ?>
                 </table>
             </div>
         </main>
