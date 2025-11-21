@@ -1,5 +1,7 @@
 <?php
-session_start();
+
+require_once __DIR__ . '/db/db-connection.php';
+require_once __DIR__ . '/config/config.php';
 
 if (!isset($_SESSION["user"])) {
     header('Location: /');
@@ -22,7 +24,9 @@ if (!isset($_SESSION["user"])) {
                     <!-- image placeholder A CHANGER -->
                     <img src="exercisor3000.png" alt="photo de profil">
                     <div>
-                        <h2>NOM Prénom</h2>
+                        <h2>
+                            <?= $_SESSION['user']['name'] . " " . $_SESSION['user']['surname'] ?>
+                        </h2>
                         <ul>
                             <li>
                                 <p><strong> statut : </strong></p>
@@ -31,10 +35,21 @@ if (!isset($_SESSION["user"])) {
                             <li>
                                 <p>
                                     <strong>Identifiant : </strong>
-                                    xxxxxxxxxxxxxxxxxxxxxxxxx
+                                    
+                                    <?= $_SESSION['user']['mail'] ?>
                                 </p>
                             </li>
-                            <li><p>élève / professeur</p></li>
+                            <li><p>
+                                <?php
+                                
+                                if($_SESSION['user']['type'] == "student") {
+                                    echo "Étudiant";
+                                } else {
+                                    echo "Enseignant";
+                                }
+
+                                ?>
+                            </p></li>
                         </ul>
                         
                         
@@ -56,9 +71,13 @@ if (!isset($_SESSION["user"])) {
                     <div>
                         <h2>Classes</h2>
                         <ul>
-                            <li>Science_1ere</li>
-                            <li>Maths_term</li>
-                            <li>Philo_term</li>
+                            <?php
+
+                            foreach (getTeachersClasses($db) as $class) {
+                                echo "<li>" . $class['name'] . "</li>";
+                            }
+
+                            ?>
                         </ul>
                     </div>
                 </div>

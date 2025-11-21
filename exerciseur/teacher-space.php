@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . '/db/db-connection.php';
+require_once __DIR__ . '/config/config.php';    
 
 if (!isset($_SESSION["user"])) {
     header('Location: /login.php');
