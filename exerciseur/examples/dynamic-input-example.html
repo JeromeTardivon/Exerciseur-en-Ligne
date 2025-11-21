@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Exemple : Ajout dynamique d'un input</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 1rem; }
+    .module { margin: 0.5rem 0; }
+    .remove { margin-left: 0.5rem; }
+    label { margin-right: 0.5rem; }
+    pre { background:#f6f6f6; padding:0.5rem; }
+  </style>
+</head>
+<body>
+  <h1>Exemple : Ajout dynamique d'un input</h1>
+
+    <p>Cliquez sur <strong>Ajouter un champ</strong> pour insérer un label + input dans le formulaire. Chaque champ contient désormais
+    une <strong>valeur</strong> et un <strong>type</strong>. Les inputs sont nommés comme
+  <code>modules[0][value]</code> et <code>modules[0][type]</code>, <code>modules[1][value]</code>, ... — pratique pour traiter côté serveur via <code>$_POST['modules']</code>.</p>
+
+  <form id="demo-form">
+    <div id="inputs"></div>
+
+    <button type="button" id="add-text">Ajouter (texte)</button>
+    <button type="button" id="add-number">Ajouter (nombre)</button>
+    <button type="button" id="add-date">Ajouter (date)</button>
+    <button type="submit">Envoyer</button>
+  </form>
+
+  <h2>Données envoyées</h2>
+  <pre id="output">(aucune soumission)</pre>
+
+  <script>
+  // Comportement expliqué en bref:
+  // - `#add` ajoute un nouveau bloc (label + input + bouton supprimer)
+  // - Chaque input reçoit un name "modules[i][value]" pour obtenir un tableau côté serveur
+  // - Lors de la suppression, on renumérote (reindexe) les inputs pour garder les indices contigus
+  // - Le handler submit montre comment récupérer les valeurs via FormData
+
+  document.addEventListener('DOMContentLoaded', function(){
+    const container = document.getElementById('inputs');
+    const addTextBtn = document.getElementById('add-text');
+    const addNumberBtn = document.getElementById('add-number');
+    const addDateBtn = document.getElementById('add-date');
+    const form = document.getElementById('demo-form');
+    const output = document.getElementById('output');
+
+    // index courant (sera recalculé après suppression)
+    let index = 0;
+
+    // Ajoute un nouveau champ (label + input + remove)
+    // addField now accepts a `type` parameter set by which button the user clicked
+    function addField(type) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'module';
+
+      const label = document.createElement('label');
+      label.textContent = 'Champ ' + (index + 1) + ':';
+
+
+      // hidden input for the type (set from the button clicked)
+      const typeInputHidden = document.createElement('input');
+      typeInputHidden.type = 'hidden';
+      typeInputHidden.name = `modules[${index}][type]`;
+      typeInputHidden.value = type || 'text';
+
+      // small visible badge showing the chosen type
+      const typeBadge = document.createElement('span');
+      typeBadge.textContent = '[' + (type || 'text') + ']';
+      typeBadge.style.marginRight = '0.5rem';
+      const input = document.createElement('input');
+      // choose an appropriate input type for UX, but server receives value as string
+      input.type = (type === 'number') ? 'number' : (type === 'date' ? 'date' : 'text');
+      input.placeholder = 'Entrez une valeur';
+
+      // name utilisable côté serveur (modules[0][value], modules[1][value], ...)
+      input.name = `modules[${index}][value]`;
+
+      // id lié au label (optionnel, utile pour l'accessibilité)
+      const id = `modules_${index}_value`;
+      input.id = id;
+      label.htmlFor = id;
+
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'remove';
+      remove.textContent = 'Supprimer';
+      remove.addEventListener('click', function(){
+        wrapper.remove();
+        renumber();
+      });
+
+      wrapper.appendChild(typeBadge);
+      wrapper.appendChild(typeInputHidden);
+      wrapper.appendChild(label);
+      wrapper.appendChild(input);
+      wrapper.appendChild(remove);
+      container.appendChild(wrapper);
+
+      index++;
+    }
+
+    // Reindexe tous les inputs après suppression pour garder modules[0], modules[1], ...
+    function renumber() {
+      const modules = container.querySelectorAll('.module');
+      modules.forEach((wrapper, i) => {
+        // visible label for the value
+        const label = wrapper.querySelector('label');
+        // the visible value input (not the hidden type input)
+        const valueInput = wrapper.querySelector('input:not([type=hidden])');
+        // the hidden input that stores the type
+        const typeHidden = wrapper.querySelector('input[type=hidden]');
+        // the little visible badge that shows the type
+        const typeBadge = wrapper.querySelector('span');
+
+        const id = `modules_${i}_value`;
+        if (label) label.textContent = 'Champ ' + (i + 1) + ':';
+        if (label) label.htmlFor = id;
+
+        if (valueInput) {
+          valueInput.name = `modules[${i}][value]`;
+          valueInput.id = id;
+        }
+
+        if (typeHidden) {
+          typeHidden.name = `modules[${i}][type]`;
+          // keep an id for clarity (not strictly necessary)
+          typeHidden.id = `modules_${i}_type`;
+          if (typeBadge) typeBadge.textContent = '[' + typeHidden.value + ']';
+        }
+      });
+      index = modules.length;
+    }
+
+    addTextBtn.addEventListener('click', ()=> addField('text'));
+    addNumberBtn.addEventListener('click', ()=> addField('number'));
+    addDateBtn.addEventListener('click', ()=> addField('date'));
+
+    // Exemple de traitement léger côté client pour voir les données envoyées
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      const fd = new FormData(form);
+      // Convertit FormData en objet lisible
+      const obj = {};
+      for (const [k, v] of fd.entries()) {
+        obj[k] = v;
+      }
+      output.textContent = JSON.stringify(obj, null, 2);
+    });
+  });
+  </script>
+</body>
+</html>
