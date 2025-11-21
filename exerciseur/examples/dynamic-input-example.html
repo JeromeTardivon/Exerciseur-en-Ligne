@@ -50,7 +50,7 @@
 
     // Ajoute un nouveau champ (label + input + remove)
     // addField now accepts a `type` parameter set by which button the user clicked
-    function addField(type, initialValue = '') {
+    function addField(type) {
       const wrapper = document.createElement('div');
       wrapper.className = 'module';
 
@@ -68,31 +68,17 @@
       const typeBadge = document.createElement('span');
       typeBadge.textContent = '[' + (type || 'text') + ']';
       typeBadge.style.marginRight = '0.5rem';
-
-      // create the value element: textarea for text type, input otherwise
-      let valueElem;
-      if (type === 'text') {
-        const ta = document.createElement('textarea');
-        ta.placeholder = 'Entrez une valeur';
-        // set requested dimensions (width 200px, height 50px)
-        ta.style.width = '200px';
-        ta.style.height = '50px';
-        ta.value = initialValue || '';
-        valueElem = ta;
-      } else {
-        const inp = document.createElement('input');
-        inp.type = (type === 'number') ? 'number' : (type === 'date' ? 'date' : 'text');
-        inp.placeholder = 'Entrez une valeur';
-        inp.value = initialValue || '';
-        valueElem = inp;
-      }
+      const input = document.createElement('input');
+      // choose an appropriate input type for UX, but server receives value as string
+      input.type = (type === 'number') ? 'number' : (type === 'date' ? 'date' : 'text');
+      input.placeholder = 'Entrez une valeur';
 
       // name utilisable côté serveur (modules[0][value], modules[1][value], ...)
-      valueElem.name = `modules[${index}][value]`;
+      input.name = `modules[${index}][value]`;
 
       // id lié au label (optionnel, utile pour l'accessibilité)
       const id = `modules_${index}_value`;
-      valueElem.id = id;
+      input.id = id;
       label.htmlFor = id;
 
       const remove = document.createElement('button');
@@ -108,7 +94,7 @@
   wrapper.appendChild(typeBadge);
   wrapper.appendChild(typeInputHidden);
   wrapper.appendChild(label);
-  wrapper.appendChild(valueElem);
+  wrapper.appendChild(input);
       wrapper.appendChild(remove);
       container.appendChild(wrapper);
 
@@ -123,8 +109,8 @@
       modules.forEach((wrapper, i) => {
         // visible label for the value
         const label = wrapper.querySelector('label');
-        // the visible value element (input or textarea, not the hidden type input)
-        const valueInput = wrapper.querySelector('input:not([type=hidden]), textarea');
+  // the visible value input (not the hidden type input)
+  const valueInput = wrapper.querySelector('input:not([type=hidden])');
         // the hidden input that stores the type
         const typeHidden = wrapper.querySelector('input[type=hidden]');
         // the little visible badge that shows the type
@@ -154,7 +140,7 @@
       const modules = container.querySelectorAll('.module');
       const data = [];
       modules.forEach(wrapper => {
-        const valueInput = wrapper.querySelector('input:not([type=hidden]), textarea');
+  const valueInput = wrapper.querySelector('input:not([type=hidden])');
         const typeHidden = wrapper.querySelector('input[type=hidden]');
         data.push({ type: typeHidden ? typeHidden.value : 'text', value: valueInput ? valueInput.value : '' });
       });
