@@ -24,3 +24,19 @@ function getStudents($db)
     $statement -> execute();
     return $statement-> fetchAll();
 }
+
+function getStudentbyId($db, $studentId){
+    $statement = $db -> prepare("SELECT * FROM users WHERE id = :id");
+    $statement -> execute(['id' => $studentId]);
+    return $statement-> fetch();
+}
+
+function studentInList($listIdStudents, $studentId): bool
+{
+    foreach ($listIdStudents as $student) {
+        if ($student == $studentId) {
+            return true;
+        }
+    }
+    return false;
+}
