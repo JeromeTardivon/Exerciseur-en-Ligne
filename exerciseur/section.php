@@ -149,18 +149,18 @@
 
 
                 // hidden input for the type (set from the button clicked)
-                const typeInputHidden = document.createElement('input');
-                typeInputHidden.type = 'hidden';
-                typeInputHidden.name = `modules[${index}][type]`;
-                typeInputHidden.value = type || 'text';
+                // const typeInputHidden = document.createElement('input');
+                // typeInputHidden.type = 'hidden';
+                // typeInputHidden.name = `modules[${index}][type]`;
+                // typeInputHidden.value = type || 'text';
 
                 // small visible badge showing the chosen type
                 const typeBadge = document.createElement('span');
-                typeBadge.textContent = '[' + (type || 'text') + ']';
-                typeBadge.style.marginRight = '0.5rem';
+                typeBadge.textContent = (type || 'placeholder');
+                
                 const input = document.createElement('input');
                 // choose an appropriate input type for UX, but server receives value as string
-                input.type = (type === 'number') ? 'number' : (type === 'date' ? 'date' : 'text');
+                input.type = (type || 'placeholder');
                 input.placeholder = 'Entrez une valeur';
 
                 // name utilisable côté serveur (modules[0][value], modules[1][value], ...)
@@ -181,7 +181,7 @@
                 });
 
                 wrapper.appendChild(typeBadge);
-                wrapper.appendChild(typeInputHidden);
+                //wrapper.appendChild(typeInputHidden);
                 wrapper.appendChild(label);
                 wrapper.appendChild(input);
                 wrapper.appendChild(remove);
@@ -198,8 +198,8 @@
                         const label = wrapper.querySelector('label');
                         // the visible value input (not the hidden type input)
                         const valueInput = wrapper.querySelector('input:not([type=hidden])');
-                        // the hidden input that stores the type
-                        const typeHidden = wrapper.querySelector('input[type=hidden]');
+                       
+                        
                         // the little visible badge that shows the type
                         const typeBadge = wrapper.querySelector('span');
 
@@ -212,12 +212,7 @@
                         valueInput.id = id;
                         }
 
-                        if (typeHidden) {
-                        typeHidden.name = `modules[${i}][type]`;
-                        // keep an id for clarity (not strictly necessary)
-                        typeHidden.id = `modules_${i}_type`;
-                        if (typeBadge) typeBadge.textContent = '[' + typeHidden.value + ']';
-                        }
+                        
                     });
                     index = modules.length;
                 }
@@ -226,17 +221,17 @@
                 addNumberBtn.addEventListener('click', ()=> addField('number'));
                 addDateBtn.addEventListener('click', ()=> addField('date'));
 
-                // Exemple de traitement léger côté client pour voir les données envoyées
-                form.addEventListener('submit', function(e){
-                e.preventDefault();
-                const fd = new FormData(form);
-                // Convertit FormData en objet lisible
-                const obj = {};
-                for (const [k, v] of fd.entries()) {
-                    obj[k] = v;
-                }
-                output.textContent = JSON.stringify(obj, null, 2);
-                });
+                // // Exemple de traitement léger côté client pour voir les données envoyées
+                // form.addEventListener('submit', function(e){
+                // e.preventDefault();
+                // const fd = new FormData(form);
+                // // Convertit FormData en objet lisible
+                // const obj = {};
+                // for (const [k, v] of fd.entries()) {
+                //     obj[k] = v;
+                // }
+                // output.textContent = JSON.stringify(obj, null, 2);
+                // });
             });
         </script>
     </body>
