@@ -107,6 +107,8 @@ $grades = $command->fetchAll();
                     
                     ?>
                 </table>
+                
+                <a href="/download-grades.php">Télécharger notes en .csv</a>
             </div>
         </main>
 
