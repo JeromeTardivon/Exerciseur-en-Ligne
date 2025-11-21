@@ -89,6 +89,9 @@
                             <label for="section-title">Titre de la section</label>
                             <input id="section-title" type="text" name="section-title">
                         </li>
+
+
+                        <li><h3>Modules dynamiques</h3></li>
                         
 
                         <li>
@@ -109,8 +112,8 @@
                
                 <form >
                     
-                    <button type="button" id="add-text">Ajouter (texte)</button>
-                    <button type="button" id="add-number">Ajouter (nombre)</button>
+                    <button type="button" id="add-text">Ajouter un champ de texte</button>
+                    <button type="button" id="add-number">Ajouter un titre</button>
                     <button type="button" id="add-date">Ajouter (date)</button>
                 </form>
             </aside>

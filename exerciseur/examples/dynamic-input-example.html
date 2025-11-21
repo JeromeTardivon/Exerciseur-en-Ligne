@@ -50,7 +50,7 @@
 
     // Ajoute un nouveau champ (label + input + remove)
     // addField now accepts a `type` parameter set by which button the user clicked
-    function addField(type) {
+    function addField(type, initialValue = '') {
       const wrapper = document.createElement('div');
       wrapper.className = 'module';
 
@@ -68,17 +68,31 @@
       const typeBadge = document.createElement('span');
       typeBadge.textContent = '[' + (type || 'text') + ']';
       typeBadge.style.marginRight = '0.5rem';
-      const input = document.createElement('input');
-      // choose an appropriate input type for UX, but server receives value as string
-      input.type = (type === 'number') ? 'number' : (type === 'date' ? 'date' : 'text');
-      input.placeholder = 'Entrez une valeur';
+
+      // create the value element: textarea for text type, input otherwise
+      let valueElem;
+      if (type === 'text') {
+        const ta = document.createElement('textarea');
+        ta.placeholder = 'Entrez une valeur';
+        // set requested dimensions (width 200px, height 50px)
+        ta.style.width = '200px';
+        ta.style.height = '50px';
+        ta.value = initialValue || '';
+        valueElem = ta;
+      } else {
+        const inp = document.createElement('input');
+        inp.type = (type === 'number') ? 'number' : (type === 'date' ? 'date' : 'text');
+        inp.placeholder = 'Entrez une valeur';
+        inp.value = initialValue || '';
+        valueElem = inp;
+      }
 
       // name utilisable côté serveur (modules[0][value], modules[1][value], ...)
-      input.name = `modules[${index}][value]`;
+      valueElem.name = `modules[${index}][value]`;
 
       // id lié au label (optionnel, utile pour l'accessibilité)
       const id = `modules_${index}_value`;
-      input.id = id;
+      valueElem.id = id;
       label.htmlFor = id;
 
       const remove = document.createElement('button');
@@ -88,16 +102,19 @@
       remove.addEventListener('click', function(){
         wrapper.remove();
         renumber();
+        saveState();
       });
 
-      wrapper.appendChild(typeBadge);
-      wrapper.appendChild(typeInputHidden);
-      wrapper.appendChild(label);
-      wrapper.appendChild(input);
+  wrapper.appendChild(typeBadge);
+  wrapper.appendChild(typeInputHidden);
+  wrapper.appendChild(label);
+  wrapper.appendChild(valueElem);
       wrapper.appendChild(remove);
       container.appendChild(wrapper);
 
       index++;
+      // persist to localStorage when a module is added
+      saveState();
     }
 
     // Reindexe tous les inputs après suppression pour garder modules[0], modules[1], ...
@@ -106,8 +123,8 @@
       modules.forEach((wrapper, i) => {
         // visible label for the value
         const label = wrapper.querySelector('label');
-        // the visible value input (not the hidden type input)
-        const valueInput = wrapper.querySelector('input:not([type=hidden])');
+        // the visible value element (input or textarea, not the hidden type input)
+        const valueInput = wrapper.querySelector('input:not([type=hidden]), textarea');
         // the hidden input that stores the type
         const typeHidden = wrapper.querySelector('input[type=hidden]');
         // the little visible badge that shows the type
@@ -132,9 +149,43 @@
       index = modules.length;
     }
 
+    // persist/load helpers using localStorage
+    function saveState() {
+      const modules = container.querySelectorAll('.module');
+      const data = [];
+      modules.forEach(wrapper => {
+        const valueInput = wrapper.querySelector('input:not([type=hidden]), textarea');
+        const typeHidden = wrapper.querySelector('input[type=hidden]');
+        data.push({ type: typeHidden ? typeHidden.value : 'text', value: valueInput ? valueInput.value : '' });
+      });
+      try {
+        localStorage.setItem('dynamicModules', JSON.stringify(data));
+      } catch (e) {
+        console.warn('localStorage unavailable:', e);
+      }
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem('dynamicModules');
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        if (!Array.isArray(data)) return;
+        // clear existing
+        container.innerHTML = '';
+        index = 0;
+        data.forEach(item => addField(item.type || 'text', item.value || ''));
+      } catch (e) {
+        console.warn('Failed to load saved modules:', e);
+      }
+    }
+
     addTextBtn.addEventListener('click', ()=> addField('text'));
     addNumberBtn.addEventListener('click', ()=> addField('number'));
     addDateBtn.addEventListener('click', ()=> addField('date'));
+
+    // try to restore previously added modules
+    loadState();
 
     // Exemple de traitement léger côté client pour voir les données envoyées
     form.addEventListener('submit', function(e){
