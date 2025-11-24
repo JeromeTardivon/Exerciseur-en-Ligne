@@ -9,9 +9,9 @@ session_start();
 
     <body>
         <!-- nav -->
-         <?php include 'modules/header.php' ?>
+        <?php include 'modules/header.php' ?>
 
-        <main>
+        <main id="main-create-class">
             <form action="/processing-forms/processing-form-class-creation.php" method="post">
                 <fieldset>
                     <legend>Création de classe</legend>
