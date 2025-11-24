@@ -2,19 +2,30 @@
 include_once __DIR__ . '/config/config.php';
 include_once __DIR__ . '/db/db-connection.php';
 $_TITLE = "Éditeur Classe";
-$studentsToAdd = array();
 $class = getClass($db, $_GET['id-class']);
-if (isset($_GET['add-student'])) {
-    if (!studentInList($_SESSION['studentsToAdd'], $_GET['add-student'])) {
-        $_SESSION['studentsToAdd'][] = $_GET['add-student'];
+$listStudents = getStudentsFromClass($db, $class['id']);
+$teacher = getResponsableFromClass($db, $class['id']);
+if (isset($_POST['add-student'])) {
+    if (!studentInList($_SESSION['studentsToAdd'], $_POST['add-student'])) {
+        $_SESSION['studentsToAdd'][] = $_POST['add-student'];
     }
-} elseif (isset($_GET['delete-student'])){
-    $_SESSION['studentsToAdd'] = array_diff($_SESSION['studentsToAdd'], ['',$_GET['delete-student']]);
-}elseif (isset($_GET['add-student-bd'])){
-    var_dump("--------list------");
-    var_dump($_SESSION['studentsToAdd']);
-    var_dump("--------list------");
-    addStudentsDB($db, $_SESSION['studentsToAdd'],$class['id']);
+} elseif (isset($_POST['delete-student'])) {
+    $_SESSION['studentsToAdd'] = array_diff($_SESSION['studentsToAdd'], ['', $_POST['delete-student']]);
+} elseif (isset($_POST['add-student-db'])) {
+    addStudentsDB($db, $_SESSION['studentsToAdd'], $class['id']);
+    $_SESSION['studentsToAdd'] = array();
+    header("Refresh:0");
+} elseif (isset($_POST['delete-student-db'])) {
+    var_dump($_POST['delete-student-db']);
+    deleteStudentFromClassDB($db, $class['id'], $_POST['delete-student-db']);
+    header("Refresh:0");
+
+}elseif (isset($_POST['className']) || isset($_POST['description'])) {
+    $name = $_POST['className'];
+    $description = $_POST['description'];
+    updateClass($db, $class['id'], $name, $description);
+    header("Refresh:0");
+
 }
 else {
     $_SESSION['studentsToAdd'] = array();
@@ -31,14 +42,15 @@ else {
 
 <main id="main-editor-class">
     <h1><?= $class['name'] ?></h1>
-    <form action="/processing-forms/processing-form-class-edition.php" method="post">
+    <h3>Responsable: <?= $teacher['name'] . ' ' . $teacher['surname'] ?></h3>
+    <form action="editor-class.php?id-class=<?= $class['id'] ?>" method="post">
         <fieldset>
             <label for="nameClass">Nom de la class:</label>
-            <input id="nameClass" type="text" name="name" value="<?= $class['name'] ?>">
+            <input id="nameClass" type="text" name="className" value="<?= $class['name'] ?>">
             <label for="desc">description</label>
-            <textarea id="desc" name="desc" rows="10" cols="50"><?= $class['description'] ?></textarea>
+            <textarea id="desc" name="description" rows="10" cols="50"><?= $class['description'] ?></textarea>
         </fieldset>
-        <input class="btn" type="submit">
+        <input class="btn" type="submit" value="Modifier">
     </form>
     <h2>Ajouter étudiants</h2>
     <ul>
@@ -48,9 +60,9 @@ else {
             <li class="">
                 <div>
                     <a href="profile.php?id-profil=<?= $student['id'] ?>"><?= $student['name'] ?></a>
-                    <form action="editor-class.php?id-class=<?= $class['id'] ?>&add-student=<?= $student['id'] ?>"
-                          method="post">
-                        <input type="submit" value="ajouter">
+                    <form action="editor-class.php?id-class=<?= $class['id'] ?>" method="post">
+                        <input type="hidden" name="add-student" value="<?= $student['id'] ?>">
+                        <input  class = "btn" type="submit" value="Ajouter">
                     </form>
                 </div>
             </li>
@@ -65,10 +77,10 @@ else {
                 foreach ($_SESSION['studentsToAdd'] as $student) { ?>
                     <li class="">
                         <div>
-                            <a href="profile.php?id-profil=<?= $student ?>"><?= getStudentbyId($db,$student)['name'] ?></a>
-                            <form action="editor-class.php?id-class=<?= $class['id'] ?>&delete-student=<?=$student ?>"
-                                  method="post">
-                                <input type="submit" value="Supprimer">
+                            <a href="profile.php?id-profil=<?= $student ?>"><?= getUser($db, $student)['name'] ?></a>
+                            <form action="editor-class.php?id-class=<?= $class['id'] ?>" method="post">
+                                <input type="hidden" name="delete-student" value="<?= $student ?>">
+                                <input class = "btn" type="submit" value="Supprimer">
                             </form>
                         </div>
                     </li>
@@ -76,25 +88,26 @@ else {
 
             } ?>
         </ul>
-        <a class="" href="editor-class.php?id-class=<?= $class['id'] ?>&add-student-bd=true"> Ajouter les étudiants</a>
+        <form action="editor-class.php?id-class=<?= $class['id'] ?>" method="post">
+            <input type="hidden" name="add-student-db" value="true">
+            <input class = "btn" type="submit" value="Ajouter les étudiants">
+        </form>
     </div>
 
     <h2>Liste des étudiants inscrite</h2>
     <ul>
         <?php
-        if (isset($_SESSION['studentsToAdd'])) {
-            foreach ($_SESSION['studentsToAdd'] as $student) { ?>
-                <li class="">
-                    <div>
-                        <a href="profile.php?id-profil=<?= $student ?>"><?= getStudentbyId($db,$student)['name'] ?></a>
-                        <form action="editor-class.php?id-class=<?= $class['id'] ?>&delete-student=<?=$student ?>"
-                              method="post">
-                            <input type="submit" value="Supprimer">
-                        </form>
-                    </div>
-                </li>
-            <?php }
-        } ?>
+        foreach ($listStudents as $student) { ?>
+            <li class="">
+                <div>
+                    <a href="profile.php?id-profil=<?= $student['id_user'] ?>"><?= getUser($db, $student['id_user'])['name'] ?></a>
+                    <form action="editor-class.php?id-class=<?= $class['id'] ?>" method="post">
+                        <input type="hidden" name="delete-student-db" value="<?= $student['id_user'] ?>">
+                        <input class = "btn" type="submit" value="Supprimer">
+                    </form>
+                </div>
+            </li>
+        <?php } ?>
     </ul>
 </main>
 

@@ -24,7 +24,7 @@ include_once './config/config.php';
                         <!-- le nb de li sera en fonction de la hauteur de l'écran -->
                         <ul>
                             <?php
-                                $list = getTeachersClasses($db);
+                                $list = getTeachersClasses($db, $_SESSION['user']['id']);
                                 foreach ($list as $class) {?>
                                     <li class="btn"><a href="editor-class.php?id-class=<?= $class['id']?>"><?=$class['name']?></a></li>
                                     <?php }
