@@ -92,8 +92,10 @@ $grades = $command->fetchAll();
 
             <div>
                 <h2>Tableau de notes</h2>
-                <table>
-                    <?php 
+                <?php 
+
+                if (count($grades) > 0) {
+                    echo "<table>";
 
                     foreach ($grades as $g) {
                         echo "<tr> \n";
@@ -104,13 +106,17 @@ $grades = $command->fetchAll();
 
                         echo "</tr>";
                     }
-                    
-                    ?>
-                </table>
+
+                    echo "</table>";
+
+                    echo "<a class='btn' href='/download-grades.php'>Télécharger notes en .csv</a>";
+                } else {
+                    echo "<p>Vous n'avez pas encore de notes. Complétez des exercices pour obtenir des notes.</p>";
+                }
+
+                ?>
             </div>
         </main>
-
-        
 
         <!-- footer -->
         <?php include 'modules/footer.php' ?>        
