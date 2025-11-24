@@ -412,6 +412,10 @@ input[type="search"] {
     padding: 1%;
 }
 
+#main-create-class .btn {
+    padding: 1%;
+}
+
 footer {
     display: flex;
     flex-direction: row;
