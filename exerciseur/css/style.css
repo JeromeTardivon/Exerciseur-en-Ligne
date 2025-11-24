@@ -420,6 +420,29 @@ input[type="search"] {
     margin: 1%;
 }
 
+#main-contact {
+    margin: 1%;
+    display: flex;
+    flex-direction: column;
+}
+
+#main-contact * {
+    margin: 0%;
+}
+
+#main-contact a {
+    color: var(--main-color);
+}
+
+#main-contact a:visited {
+    color:rgba(141, 63, 18, 0.801);
+}
+
+#main-contact ul {
+    list-style-type:disc;
+    margin-left: 2%;
+}
+
 footer {
     display: flex;
     flex-direction: row;
