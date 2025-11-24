@@ -27,7 +27,7 @@ include_once __DIR__ .'/../db/db-connection.php';
             <li>Récents</li>
             <li>Mes Chapitres</li>
             <li><a href="/about.php">À propos</a></li>
-            <li>Contact</li>
+            <li><a href="/contact.php">Contact</a></li>
             <li><a href="/settings-page.php">Paramètres</a></li>
         </ul>
     </nav>
