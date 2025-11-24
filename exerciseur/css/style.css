@@ -416,6 +416,10 @@ input[type="search"] {
     padding: 1%;
 }
 
+#main-about {
+    margin: 1%;
+}
+
 footer {
     display: flex;
     flex-direction: row;
