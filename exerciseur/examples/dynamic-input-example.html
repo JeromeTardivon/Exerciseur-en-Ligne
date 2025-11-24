@@ -91,10 +91,10 @@
         saveState();
       });
 
-  wrapper.appendChild(typeBadge);
-  wrapper.appendChild(typeInputHidden);
-  wrapper.appendChild(label);
-  wrapper.appendChild(input);
+      wrapper.appendChild(typeBadge);
+      wrapper.appendChild(typeInputHidden);
+      wrapper.appendChild(label);
+      wrapper.appendChild(input);
       wrapper.appendChild(remove);
       container.appendChild(wrapper);
 
@@ -109,8 +109,8 @@
       modules.forEach((wrapper, i) => {
         // visible label for the value
         const label = wrapper.querySelector('label');
-  // the visible value input (not the hidden type input)
-  const valueInput = wrapper.querySelector('input:not([type=hidden])');
+        // the visible value input (not the hidden type input)
+        const valueInput = wrapper.querySelector('input:not([type=hidden])');
         // the hidden input that stores the type
         const typeHidden = wrapper.querySelector('input[type=hidden]');
         // the little visible badge that shows the type
@@ -140,7 +140,7 @@
       const modules = container.querySelectorAll('.module');
       const data = [];
       modules.forEach(wrapper => {
-  const valueInput = wrapper.querySelector('input:not([type=hidden])');
+        const valueInput = wrapper.querySelector('input:not([type=hidden])');
         const typeHidden = wrapper.querySelector('input[type=hidden]');
         data.push({ type: typeHidden ? typeHidden.value : 'text', value: valueInput ? valueInput.value : '' });
       });

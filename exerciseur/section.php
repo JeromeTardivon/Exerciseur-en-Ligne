@@ -142,55 +142,59 @@
                 //curr id, +1 after element creation
                 let index = 0;
 
-                // Add new field with type, text and remove button
-                function addField(type) {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'module';
 
-                const label = document.createElement('label');
-                label.textContent = 'Champ ' + (index + 1) + ':';
+                function createrWrapper(type){
+                    const wrapper = document.createElement('div');
+                    wrapper.className = type;
+                    return wrapper;
+                }
 
+                function creatLabel(content, id){
+                    const label = document.createElement('label');
+                    label.textContent = content;
+                    label.htmlFor = id;
+                    return label;
+                }
 
-                // hidden input for the type (set from the button clicked)
-                // const typeInputHidden = document.createElement('input');
-                // typeInputHidden.type = 'hidden';
-                // typeInputHidden.name = `modules[${index}][type]`;
-                // typeInputHidden.value = type || 'text';
+                function creatInput(type, id, placeholder, defaultv, name){
+                    const input = document.createElement('input');
+                    input.type = (type);
+                    input.placeholder = placeholder;
+                    input.defaultValue=defaultv;
+                    input.id = id;
+                    input.name = name;
+                    return input;
+                }
 
-                // small visible badge showing the chosen type
-                const typeBadge = document.createElement('span');
-                typeBadge.textContent = (type || 'placeholder');
+                function createRemove(wrapper){
+                    const remove = document.createElement('button');
+                    remove.type = 'button';
+                    remove.className = 'remove';
+                    remove.textContent = "Supprimer l'élément";
+                    remove.addEventListener('click', function(){
+                        wrapper.remove();
+                        renumber();
+                        saveState();
+                    });
+
+                    return remove;
+                }
                 
-                const input = document.createElement('input');
-                // choose an appropriate input type for UX, but server receives value as string
-                input.type = (type || 'placeholder');
-                input.placeholder = 'Entrez une valeur';
 
-                // name utilisable côté serveur (modules[0][value], modules[1][value], ...)
-                input.name = `modules[${index}][value]`;
-
-                // id lié au label (optionnel, utile pour l'accessibilité)
-                const id = `modules_${index}_value`;
-                input.id = id;
-                label.htmlFor = id;
-
-                const remove = document.createElement('button');
-                remove.type = 'button';
-                remove.className = 'remove';
-                remove.textContent = 'Supprimer';
-                remove.addEventListener('click', function(){
-                    wrapper.remove();
-                    renumber();
-                });
-
-                wrapper.appendChild(typeBadge);
-                //wrapper.appendChild(typeInputHidden);
-                wrapper.appendChild(label);
-                wrapper.appendChild(input);
-                wrapper.appendChild(remove);
-                container.appendChild(wrapper);
-
-                index++;
+                // Add new textfield and remove button
+                function addTextField() {
+                    const wrapper = createrWrapper('text');
+                    const id = `modules_${index}_value`;
+                    // name usable server side (modules[0][value], modules[1][value], ...)
+                    const input = creatInput('text',id, "Entrez du texte ici","",`modules[${index}][value]`);
+                    const label = creatLabel("Champ de texte : ", id);
+                    const remove = createRemove(wrapper);
+                    wrapper.appendChild(label);
+                    wrapper.appendChild(input);
+                    wrapper.appendChild(remove);
+                    container.appendChild(wrapper);
+                    index++;
+                    saveState();
                 }
 
                 // Reindexe tous les inputs après suppression pour garder modules[0], modules[1], ...
@@ -220,9 +224,40 @@
                     index = modules.length;
                 }
 
-                addTextBtn.addEventListener('click', ()=> addField('text'));
-                addNumberBtn.addEventListener('click', ()=> addField('number'));
-                addDateBtn.addEventListener('click', ()=> addField('date'));
+                function saveState() {
+                    const modules = container.querySelectorAll('.module');
+                    const data = [];
+                    modules.forEach(wrapper => {
+                        const valueInput = wrapper.querySelector('input:not([type=hidden])');
+                        const typeHidden = wrapper.querySelector('input[type=hidden]');
+                        data.push({ type: typeHidden ? typeHidden.value : 'text', value: valueInput ? valueInput.value : '' });
+                    });
+                    try {
+                        localStorage.setItem('dynamicModules', JSON.stringify(data));
+                    } catch (e) {
+                        console.warn('localStorage unavailable:', e);
+                    }
+                }
+
+                function loadState() {
+                    try {
+                        const raw = localStorage.getItem('dynamicModules');
+                        if (!raw) return;
+                        const data = JSON.parse(raw);
+                        if (!Array.isArray(data)) return;
+                        // clear existing
+                        container.innerHTML = '';
+                        index = 0;
+                        data.forEach(item => addField(item.type || 'text', item.value || ''));
+                    }catch (e) {
+                        console.warn('Failed to load saved modules:', e);
+                    }
+                }
+
+                addTextBtn.addEventListener('click', ()=> addTextField());
+                addNumberBtn.addEventListener('click', ()=> addTextField());
+                addDateBtn.addEventListener('click', ()=> addTextField());
+                loadState();
 
                 // // Exemple de traitement léger côté client pour voir les données envoyées
                 // form.addEventListener('submit', function(e){
