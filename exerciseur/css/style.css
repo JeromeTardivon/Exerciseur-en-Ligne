@@ -101,7 +101,15 @@ nav > ul {
 }
 
 #main-profile > div {
+    display: flex;
+    flex-direction: column;
     margin-left: 5%;
+}
+
+#main-profile > div > .btn {
+    width: fit-content;
+    padding: 2%;
+    margin-top: 2%;
 }
 
 #account-buttons {
