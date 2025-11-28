@@ -3,7 +3,7 @@ session_start();
 function getClasses($db, $teacherId): array
 {
     $listClasses = array();
-    $statement = $db -> prepare("SELECT * FROM inclass WHERE id_user LIKE '$teacherId' AND responsible");
+    $statement = $db -> prepare("SELECT * FROM inclass WHERE id_user LIKE '$teacherId'");
     $statement -> execute();
     $classes = $statement -> fetchAll();
     foreach ($classes as $class) {
