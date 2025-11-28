@@ -31,12 +31,12 @@ session_start();
             </div>
         </form>
 
-        <form action="" method="post">
+        <form action="/processing-forms/processing-class-search.php" method="get">
             <div>
                 <label for="classSearchBar"><h2>Rechercher une classe</h2></label>
 
                 <div>
-                    <input type="search" id="classSearchBar" name="classSearchBar" class="btn">
+                    <input type="search" id="classSearchBar" name="search" class="btn">
                     <button type="submit" class="btn">Rechercher</button>
                 </div>
             </div>
