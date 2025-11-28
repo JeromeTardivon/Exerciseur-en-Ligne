@@ -27,6 +27,20 @@ $res = $command->fetchAll();
         <?php include '../modules/header.php' ?>
 
         <main id="chapter-search">
+            <form action="/processing-forms/processing-chapter-search.php" method="get">
+                <div>
+                    <!-- @Bastien changement de h2 dans le label parce que c'est interdit ça bonne journée-->
+                    <label for="search"><h2>Rechercher un chapitre</h2></label>
+
+                    <div>
+                        <input type="search" id="exerciseSearchBar" name="search" class="btn">
+                        <button type="submit" class="btn">Rechercher</button>
+                    </div>
+                </div>
+            </form>
+
+            <h2>Résultats</h2>
+
             <ol>
                 <?php
                     foreach ($res as $r) {
