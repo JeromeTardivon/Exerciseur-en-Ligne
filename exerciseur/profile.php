@@ -79,7 +79,7 @@ $grades = $command->fetchAll();
                         <ul>
                             <?php
 
-                            foreach (getTeachersClasses($db) as $class) {
+                            foreach (getClasses($db,$_SESSION['user']['id']) as $class) {
                                 echo "<li>" . $class['name'] . "</li>";
                             }
 
