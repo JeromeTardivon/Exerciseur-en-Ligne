@@ -19,14 +19,14 @@ session_start();
     </div>
 
     <div class="searching-section">
-        <form action="" method="post">
+        <form action="/chapter-search.php" method="get">
             <div>
                 <!-- @Bastien changement de h2 dans le label parce que c'est interdit ça bonne journée-->
                 <label for="exerciseSearchBar"><h2>Rechercher un exercice par mot clé</h2></label>
 
                 <div>
-                    <input type="search" id="exerciseSearchBar" name="searchExercise" class="btn">
-                    <input type="submit" class="btn">
+                    <input type="search" id="exerciseSearchBar" name="search" class="btn">
+                    <button type="submit" class="btn">Rechercher</button>
                 </div>
             </div>
         </form>
@@ -37,7 +37,7 @@ session_start();
 
                 <div>
                     <input type="search" id="classSearchBar" name="classSearchBar" class="btn">
-                    <input type="submit" class="btn">
+                    <button type="submit" class="btn">Rechercher</button>
                 </div>
             </div>
         </form>
