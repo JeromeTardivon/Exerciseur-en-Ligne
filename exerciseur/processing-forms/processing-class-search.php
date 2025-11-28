@@ -7,8 +7,7 @@ if (!isset($_GET["search"])) {
     $_GET["search"] = "";
 }
 
-$command = $db->prepare("SELECT c.title, c.description FROM exercise e JOIN chapter c ON e.id_chapter = c.id WHERE 
-                                (c.title LIKE concat('%', :title, '%') OR c.description LIKE concat('%', :title, '%')) AND c.visible = TRUE ");
+$command = $db->prepare("SELECT name FROM class WHERE name LIKE concat('%', :title, '%')");
 $command->execute([
     "title" => $_GET["search"]
 ]);
@@ -26,14 +25,13 @@ $res = $command->fetchAll();
         <!-- nav -->
         <?php include '../modules/header.php' ?>
 
-        <main id="chapter-search">
-            <form action="/processing-forms/processing-chapter-search.php" method="get">
+        <main id="class-search">
+            <form action="/processing-forms/processing-class-search.php" method="get">
                 <div>
-                    <!-- @Bastien changement de h2 dans le label parce que c'est interdit ça bonne journée-->
-                    <label for="search"><h2>Rechercher un chapitre</h2></label>
+                    <label for="search"><h2>Rechercher une classe</h2></label>
 
                     <div>
-                        <input type="search" id="exerciseSearchBar" name="search" class="btn">
+                        <input type="search" id="classSearchBar" name="search" class="btn">
                         <button type="submit" class="btn">Rechercher</button>
                     </div>
                 </div>
@@ -44,7 +42,7 @@ $res = $command->fetchAll();
             <ol>
                 <?php
                     foreach ($res as $r) {
-                        echo "<li>" . $r['title'] . " ; " . $r['description'] . "</li>";
+                        echo "<li>" . $r['name'] . "</li>";
                     }
                 ?>
             </ol>

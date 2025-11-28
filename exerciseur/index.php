@@ -22,7 +22,7 @@ session_start();
         <form action="/processing-forms/processing-chapter-search.php" method="get">
             <div>
                 <!-- @Bastien changement de h2 dans le label parce que c'est interdit ça bonne journée-->
-                <label for="exerciseSearchBar"><h2>Rechercher un exercice par mot clé</h2></label>
+                <label for="search"><h2>Rechercher un exercice par mot clé</h2></label>
 
                 <div>
                     <input type="search" id="exerciseSearchBar" name="search" class="btn">
@@ -31,12 +31,12 @@ session_start();
             </div>
         </form>
 
-        <form action="" method="post">
+        <form action="/processing-forms/processing-class-search.php" method="get">
             <div>
-                <label for="classSearchBar"><h2>Rechercher une classe</h2></label>
+                <label for="search"><h2>Rechercher une classe</h2></label>
 
                 <div>
-                    <input type="search" id="classSearchBar" name="classSearchBar" class="btn">
+                    <input type="search" id="classSearchBar" name="search" class="btn">
                     <button type="submit" class="btn">Rechercher</button>
                 </div>
             </div>
