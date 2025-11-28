@@ -5,6 +5,7 @@ $_TITLE = "Éditeur Classe";
 $class = getClass($db, $_GET['id-class']);
 $listStudents = getStudentsFromClass($db, $class['id']);
 $teacher = getResponsableFromClass($db, $class['id']);
+$activesClassCodes = getClassCodes($db, $class['id']);
 if (isset($_POST['add-student'])) {
     if (!studentInList($_SESSION['studentsToAdd'], $_POST['add-student'])) {
         $_SESSION['studentsToAdd'][] = $_POST['add-student'];
@@ -18,14 +19,17 @@ if (isset($_POST['add-student'])) {
 } elseif (isset($_POST['delete-student-db'])) {
     deleteStudentFromClassDB($db, $class['id'], $_POST['delete-student-db']);
     header("Refresh:0");
-}elseif (isset($_POST['className']) || isset($_POST['description'])) {
+} elseif (isset($_POST['className']) || isset($_POST['description'])) {
     $name = $_POST['className'];
     $description = $_POST['description'];
     updateClass($db, $class['id'], $name, $description);
     header("Refresh:0");
 
-}
-else {
+} elseif (isset($_POST['generate-code-class'])) {
+    var_dump($_POST['number-usages-code']);
+    var_dump(generateCodeClass($db, $class['id'], $_POST['number-usages-code']));
+    header("Refresh:0");
+} else {
     $_SESSION['studentsToAdd'] = array();
 }
 ?>
@@ -60,7 +64,7 @@ else {
                     <a href="profile.php?id-profil=<?= $student['id'] ?>"><?= $student['name'] ?></a>
                     <form action="editor-class.php?id-class=<?= $class['id'] ?>" method="post">
                         <input type="hidden" name="add-student" value="<?= $student['id'] ?>">
-                        <input  class = "btn" type="submit" value="Ajouter">
+                        <input class="btn" type="submit" value="Ajouter">
                     </form>
                 </div>
             </li>
@@ -68,7 +72,7 @@ else {
         ?>
     </ul>
     <div>
-        <h2 <?= isset($_SESSION['studentsToAdd'])? "" : "hidden" ?>>Liste des étudiants à ajouter</h2>
+        <h2 <?= isset($_SESSION['studentsToAdd']) ? "" : "hidden" ?>>Liste des étudiants à ajouter</h2>
         <ul>
             <?php
             if (isset($_SESSION['studentsToAdd'])) {
@@ -78,7 +82,7 @@ else {
                             <a href="profile.php?id-profil=<?= $student ?>"><?= getUser($db, $student)['name'] ?></a>
                             <form action="editor-class.php?id-class=<?= $class['id'] ?>" method="post">
                                 <input type="hidden" name="delete-student" value="<?= $student ?>">
-                                <input class = "btn" type="submit" value="Supprimer">
+                                <input class="btn" type="submit" value="Supprimer">
                             </form>
                         </div>
                     </li>
@@ -86,13 +90,14 @@ else {
 
             } ?>
         </ul>
-        <form action="editor-class.php?id-class=<?= $class['id'] ?>" method="post" <?= isset($_SESSION['studentsToAdd'])? "" : "hidden" ?>>
+        <form action="editor-class.php?id-class=<?= $class['id'] ?>"
+              method="post" <?= isset($_SESSION['studentsToAdd']) ? "" : "hidden" ?>>
             <input type="hidden" name="add-student-db" value="true">
-            <input class = "btn" type="submit" value="Ajouter les étudiants">
+            <input class="btn" type="submit" value="Ajouter les étudiants">
         </form>
     </div>
 
-    <h2 <?= empty($listStudents)? "hidden" : "" ?>>Liste des étudiants inscrite</h2>
+    <h2 <?= empty($listStudents) ? "hidden" : "" ?>>Liste des étudiants inscrite</h2>
     <ul>
         <?php
         foreach ($listStudents as $student) { ?>
@@ -101,12 +106,33 @@ else {
                     <a href="profile.php?id-profil=<?= $student['id_user'] ?>"><?= getUser($db, $student['id_user'])['name'] ?></a>
                     <form action="editor-class.php?id-class=<?= $class['id'] ?>" method="post">
                         <input type="hidden" name="delete-student-db" value="<?= $student['id_user'] ?>">
-                        <input class = "btn" type="submit" value="Supprimer">
+                        <input class="btn" type="submit" value="Supprimer">
                     </form>
                 </div>
             </li>
         <?php } ?>
     </ul>
+    <div>
+        <h2>Generation de codes d'invitation à la classe</h2>
+        <form action="" method="post">
+            <label>Nombre d'usages:
+                <input type="number" name="number-usages-code" value="1" min="1">
+            </label>
+            <input type="submit" name="generate-code-class">
+        </form>
+        <h4>Codes Actifs</h4>
+        <ul>
+            <?php
+            foreach ($activesClassCodes as $code) { ?>
+                <li>
+                    <div>
+                        <p><?= $code['code'] ?></p>
+                        <p><?= $code['num_usage'] ?></p>
+                    </div>
+                </li>
+            <?php } ?>
+        </ul>
+    </div>
 </main>
 
 
