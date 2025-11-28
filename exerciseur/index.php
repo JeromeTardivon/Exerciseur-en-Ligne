@@ -19,7 +19,7 @@ session_start();
     </div>
 
     <div class="searching-section">
-        <form action="/chapter-search.php" method="get">
+        <form action="/processing-forms/processing-chapter-search.php" method="get">
             <div>
                 <!-- @Bastien changement de h2 dans le label parce que c'est interdit ça bonne journée-->
                 <label for="exerciseSearchBar"><h2>Rechercher un exercice par mot clé</h2></label>

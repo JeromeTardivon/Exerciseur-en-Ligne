@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/db/db-connection.php';
-require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/../db/db-connection.php';
+require_once __DIR__ . '/../config/config.php';
 
 if (!isset($_GET["search"])) {
     $_GET["search"] = "";
@@ -20,11 +20,11 @@ $res = $command->fetchAll();
 <!DOCTYPE html>
 
 <html lang="fr">
-<?php $_TITLE="Recherche de Chapitre";include 'modules/include.php' ?>
+<?php $_TITLE="Recherche de Chapitre";include '../modules/include.php' ?>
 
     <body>
         <!-- nav -->
-        <?php include 'modules/header.php' ?>
+        <?php include '../modules/header.php' ?>
 
         <main id="chapter-search">
             <ol>
@@ -37,6 +37,6 @@ $res = $command->fetchAll();
         </main>
 
         <!-- footer -->
-        <?php include 'modules/footer.php' ?>
+        <?php include '../modules/footer.php' ?>
     </body>
 </html>
