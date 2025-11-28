@@ -26,7 +26,7 @@ session_start();
 
                 <div>
                     <input type="search" id="exerciseSearchBar" name="searchExercise" class="btn">
-                    <input type="submit" class="btn">
+                    <button type="submit" class="btn">Rechercher</button>
                 </div>
             </div>
         </form>
@@ -37,7 +37,7 @@ session_start();
 
                 <div>
                     <input type="search" id="classSearchBar" name="classSearchBar" class="btn">
-                    <input type="submit" class="btn">
+                    <button type="submit" class="btn">Rechercher</button>
                 </div>
             </div>
         </form>
