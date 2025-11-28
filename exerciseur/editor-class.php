@@ -16,10 +16,8 @@ if (isset($_POST['add-student'])) {
     $_SESSION['studentsToAdd'] = array();
     header("Refresh:0");
 } elseif (isset($_POST['delete-student-db'])) {
-    var_dump($_POST['delete-student-db']);
     deleteStudentFromClassDB($db, $class['id'], $_POST['delete-student-db']);
     header("Refresh:0");
-
 }elseif (isset($_POST['className']) || isset($_POST['description'])) {
     $name = $_POST['className'];
     $description = $_POST['description'];
@@ -70,7 +68,7 @@ else {
         ?>
     </ul>
     <div>
-        <h2>Liste des étudiants à ajouter</h2>
+        <h2 <?= isset($_SESSION['studentsToAdd'])? "" : "hidden" ?>>Liste des étudiants à ajouter</h2>
         <ul>
             <?php
             if (isset($_SESSION['studentsToAdd'])) {
@@ -88,13 +86,13 @@ else {
 
             } ?>
         </ul>
-        <form action="editor-class.php?id-class=<?= $class['id'] ?>" method="post">
+        <form action="editor-class.php?id-class=<?= $class['id'] ?>" method="post" <?= isset($_SESSION['studentsToAdd'])? "" : "hidden" ?>>
             <input type="hidden" name="add-student-db" value="true">
             <input class = "btn" type="submit" value="Ajouter les étudiants">
         </form>
     </div>
 
-    <h2>Liste des étudiants inscrite</h2>
+    <h2 <?= empty($listStudents)? "hidden" : "" ?>>Liste des étudiants inscrite</h2>
     <ul>
         <?php
         foreach ($listStudents as $student) { ?>
