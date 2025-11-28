@@ -115,6 +115,8 @@
                 <form >
                     
                     <button type="button" id="add-text">Ajouter un champ de texte</button>
+                    <span>Titres</span> <img src="Arrow-down.svg" alt="arrow" width="5px" height="5px">
+                    <!-- show buttons if the span is clicked (and change image)-->
                     <button type="button" id="add-title-1">Ajouter un titre 1</button>
                     <button type="button" id="add-title-2">Ajouter un titre 2</button>
                     <button type="button" id="add-title-3">Ajouter un titre 3</button>
@@ -252,7 +254,7 @@
                     const modules = container.querySelectorAll('.module');
                     modules.forEach((wrapper, i) => {
                         const label = wrapper.querySelector('label');
-                        const valueInput = wrapper.querySelector('input');             
+                        const valueInput = wrapper.querySelector('input, textarea');             
                         const id = `modules_${i}_value`;
                         if (label){ 
                             label.htmlFor = id;
@@ -269,7 +271,7 @@
                     const modules = container.querySelectorAll('.module');
                     const data = [];
                     modules.forEach(wrapper => {
-                        const valueInput = wrapper.querySelector('input');
+                        const valueInput = wrapper.querySelector('input, textarea');
                         // save the semantic type (stored on the wrapper) and the current input value
                         data.push({ type: wrapper.dataset.type || 'wut? gtfo', value: valueInput ? valueInput.value : '' });
                     });
