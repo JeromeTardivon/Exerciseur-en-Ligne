@@ -13,7 +13,7 @@ if (isset($_POST['add-student'])) {
 } elseif (isset($_POST['delete-student'])) {
     $_SESSION['studentsToAdd'] = array_diff($_SESSION['studentsToAdd'], ['', $_POST['delete-student']]);
 } elseif (isset($_POST['add-student-db'])) {
-    addStudentsDB($db, $_SESSION['studentsToAdd'], $class['id']);
+    addStudentsToClassDB($db, $_SESSION['studentsToAdd'], $class['id']);
     $_SESSION['studentsToAdd'] = array();
     header("Refresh:0");
 } elseif (isset($_POST['delete-student-db'])) {
