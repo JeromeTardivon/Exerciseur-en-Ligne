@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html lang="fr">
  <?php include 'modules/include.php' ?>
 
@@ -113,7 +115,11 @@
                 <form >
                     
                     <button type="button" id="add-text">Ajouter un champ de texte</button>
-                    <button type="button" id="add-number">Ajouter un titre</button>
+                    <button type="button" id="add-title-1">Ajouter un titre 1</button>
+                    <button type="button" id="add-title-2">Ajouter un titre 2</button>
+                    <button type="button" id="add-title-3">Ajouter un titre 3</button>
+                    <button type="button" id="add-title-4">Ajouter un titre 4</button>
+                    <button type="button" id="add-title-5">Ajouter un titre 5</button>
                     <button type="button" id="add-date">Ajouter (date)</button>
                 </form>
             </aside>
@@ -133,7 +139,11 @@
                 const container = document.getElementById('inputs');
                 
                 const addTextBtn = document.getElementById('add-text');
-                const addNumberBtn = document.getElementById('add-number');
+                const addTitle1Btn = document.getElementById('add-title-1');
+                const addTitle2Btn = document.getElementById('add-title-2');
+                const addTitle3Btn = document.getElementById('add-title-3');
+                const addTitle4Btn = document.getElementById('add-title-4');
+                const addTitle5Btn = document.getElementById('add-title-5');
                 const addDateBtn = document.getElementById('add-date');
 
                 const form = document.getElementById('dynamic-form');
@@ -141,11 +151,16 @@
 
                 //curr id, +1 after element creation
                 let index = 0;
+                // when true we suspend saving to localStorage (used during restore)
+                let suspendSave = false;
 
 
                 function createrWrapper(type){
                     const wrapper = document.createElement('div');
-                    wrapper.className = type;
+                    
+                    wrapper.className = 'module';
+                    
+                    wrapper.dataset.type = type;
                     return wrapper;
                 }
 
@@ -160,7 +175,8 @@
                     const input = document.createElement('input');
                     input.type = (type);
                     input.placeholder = placeholder;
-                    input.defaultValue=defaultv;
+                    // set current value (use value so it's readable via .value)
+                    input.value = defaultv || '';
                     input.id = id;
                     input.name = name;
                     return input;
@@ -179,14 +195,26 @@
 
                     return remove;
                 }
+
+                function createTextarea(id, placeholder, defaultv, name){
+                    const textarea = document.createElement('textarea');
+                    textarea.placeholder = placeholder;
+                    // set current value (use value so it's readable via .value)
+                    textarea.value = defaultv || '';
+                    textarea.id = id;
+                    textarea.name = name;
+                    textarea.rows = 4;
+                    textarea.cols = 50;
+                    return textarea;
+                }
                 
 
-                // Add new textfield and remove button
-                function addTextField() {
+                //Add new textfield and remove button
+                function addTextField(defaultv = "") {
                     const wrapper = createrWrapper('text');
                     const id = `modules_${index}_value`;
-                    // name usable server side (modules[0][value], modules[1][value], ...)
-                    const input = creatInput('text',id, "Entrez du texte ici","",`modules[${index}][value]`);
+                    //name usable server side (modules[0][value], modules[1][value], ...)
+                    const input = createTextarea(id, "Entrez du texte ici", defaultv,`modules[${index}][value]`);
                     const label = creatLabel("Champ de texte : ", id);
                     const remove = createRemove(wrapper);
                     wrapper.appendChild(label);
@@ -194,43 +222,56 @@
                     wrapper.appendChild(remove);
                     container.appendChild(wrapper);
                     index++;
-                    saveState();
+                    if (!suspendSave) saveState();
+                    wrapper.addEventListener('input', () => {
+                        if (!suspendSave) saveState();
+                    });
                 }
 
-                // Reindexe tous les inputs après suppression pour garder modules[0], modules[1], ...
+                function addTitleField(defaultv = "", size = 5) {
+                    const wrapper = createrWrapper('title'.concat(size));
+                    const id = `modules_${index}_value`;
+                    //name usable server side (modules[0][value], modules[1][value], ...)
+                    const input = creatInput('text',id, "Entrez votre titre ici", defaultv,`modules[${index}][value]`);
+                    const label = creatLabel("Titre " + size + ": ", id);
+                    const remove = createRemove(wrapper);
+                    wrapper.appendChild(label);
+                    wrapper.appendChild(input);
+                    wrapper.appendChild(remove);
+                    container.appendChild(wrapper);
+                    index++;
+                    if (!suspendSave) saveState();
+
+                    wrapper.addEventListener('input', () => {
+                        if (!suspendSave) saveState();
+                    });
+                }
+
+                //Redo the id of inputs after deletion to keep modules[0], modules[1], ...
                 function renumber() {
                     const modules = container.querySelectorAll('.module');
                     modules.forEach((wrapper, i) => {
-                        // visible label for the value
                         const label = wrapper.querySelector('label');
-                        // the visible value input (not the hidden type input)
-                        const valueInput = wrapper.querySelector('input:not([type=hidden])');
-                       
-                        
-                        // the little visible badge that shows the type
-                        const typeBadge = wrapper.querySelector('span');
-
+                        const valueInput = wrapper.querySelector('input');             
                         const id = `modules_${i}_value`;
-                        if (label) label.textContent = 'Champ ' + (i + 1) + ':';
-                        if (label) label.htmlFor = id;
-
+                        if (label){ 
+                            label.htmlFor = id;
+                        }
                         if (valueInput) {
                         valueInput.name = `modules[${i}][value]`;
                         valueInput.id = id;
                         }
-
-                        
                     });
                     index = modules.length;
                 }
-
+                //saves the state of modules to keep them after page refresh
                 function saveState() {
                     const modules = container.querySelectorAll('.module');
                     const data = [];
                     modules.forEach(wrapper => {
-                        const valueInput = wrapper.querySelector('input:not([type=hidden])');
-                        const typeHidden = wrapper.querySelector('input[type=hidden]');
-                        data.push({ type: typeHidden ? typeHidden.value : 'text', value: valueInput ? valueInput.value : '' });
+                        const valueInput = wrapper.querySelector('input');
+                        // save the semantic type (stored on the wrapper) and the current input value
+                        data.push({ type: wrapper.dataset.type || 'wut? gtfo', value: valueInput ? valueInput.value : '' });
                     });
                     try {
                         localStorage.setItem('dynamicModules', JSON.stringify(data));
@@ -238,7 +279,7 @@
                         console.warn('localStorage unavailable:', e);
                     }
                 }
-
+                //loads the saved state of modules including their content
                 function loadState() {
                     try {
                         const raw = localStorage.getItem('dynamicModules');
@@ -248,14 +289,38 @@
                         // clear existing
                         container.innerHTML = '';
                         index = 0;
-                        data.forEach(item => addField(item.type || 'text', item.value || ''));
+                        suspendSave = true;
+                        data.forEach(item => {
+
+                            if(item.type === 'text'){
+                                addTextField(item.value || '');
+                            } else if (typeof item.type === 'string' && item.type.startsWith('title')) {
+                                const size = parseInt(item.type.slice(5)) || 5;
+                                addTitleField(item.value || '', size);
+                            
+                            }else {
+                                console.warn('Unsupported module type during load:', item.type);
+                            }
+                            
+                            
+                            // set the stored semantic type on the wrapper so saveState captures it
+                            const last = container.lastElementChild;
+                            if (last) last.dataset.type = item.type || 'text';
+                        });
+                        suspendSave = false;
+                        
+                        saveState();
                     }catch (e) {
                         console.warn('Failed to load saved modules:', e);
                     }
                 }
 
                 addTextBtn.addEventListener('click', ()=> addTextField());
-                addNumberBtn.addEventListener('click', ()=> addTextField());
+                addTitle5Btn.addEventListener('click', ()=> addTitleField('', 5));
+                addTitle4Btn.addEventListener('click', ()=> addTitleField('', 4));
+                addTitle3Btn.addEventListener('click', ()=> addTitleField('', 3));
+                addTitle2Btn.addEventListener('click', ()=> addTitleField('', 2));
+                addTitle1Btn.addEventListener('click', ()=> addTitleField('', 1));
                 addDateBtn.addEventListener('click', ()=> addTextField());
                 loadState();
 
