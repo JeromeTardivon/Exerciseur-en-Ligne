@@ -26,8 +26,7 @@ if (isset($_POST['add-student'])) {
     header("Refresh:0");
 
 } elseif (isset($_POST['generate-code-class'])) {
-    var_dump($_POST['number-usages-code']);
-    var_dump(generateCodeClass($db, $class['id'], $_POST['number-usages-code']));
+    generateCode($db, $class['id'], $_POST['number-usages-code']);
     header("Refresh:0");
 } else {
     $_SESSION['studentsToAdd'] = array();

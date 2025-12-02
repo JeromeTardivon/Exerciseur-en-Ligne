@@ -88,7 +88,7 @@ function updateClass($db, $classId, $name, $description): void
     $statement->execute();
 }
 
-function generateCodeClass($db, $classId, $nUses): string
+function generateCode($db, $idAssociated, $nUses): string
 {
     $code = bin2hex(random_bytes(5));
     $statement = $db->prepare("SELECT * FROM codes_class WHERE code = '$code'");
@@ -99,7 +99,7 @@ function generateCodeClass($db, $classId, $nUses): string
             $code = bin2hex(random_bytes(5));
         }
     }
-    $statement = $db->prepare("INSERT INTO codes_class (code,num_usage, id_associated) VALUES ('$code', '$nUses', '$classId')");
+    $statement = $db->prepare("INSERT INTO codes_class (code,num_usage, id_associated) VALUES ('$code', '$nUses', '$idAssociated')");
     $statement->execute();
     return $code;
 }
