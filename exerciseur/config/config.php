@@ -49,7 +49,7 @@ function studentInList($listIdStudents, $studentId): bool
     return false;
 }
 
-function addStudentsDB($db, $listIdStudents, $classId): void
+function addStudentsToClassDB($db, $listIdStudents, $classId): void
 {
     foreach ($listIdStudents as $student) {
         $statement = $db->prepare("SELECT COUNT(id_user) as nb FROM inclass WHERE id_user = '$student' AND id_class = '$classId'");
@@ -109,4 +109,18 @@ function getClassCodes($db, $classId)
     $statement = $db->prepare("SELECT code, num_usage FROM codes_class WHERE id_associated = '$classId' AND num_usage > 0");
     $statement->execute();
     return $statement->fetchAll();
+}
+
+function addStudentToClassByCode($db, $studentId, $code): void
+{
+    $statement = $db->prepare("SELECT id_associated FROM codes_class WHERE code = '$code' AND num_usage > 0");
+    $statement->execute();
+    $class = $statement->fetch();
+    if ($class) {
+        $db->beginTransaction();
+        $statement = $db->prepare("UPDATE codes_class SET num_usage := num_usage - 1 WHERE code = '$code'");
+        $statement->execute();
+        addStudentsToClassDB($db, [$studentId], $class['id_associated']);
+        $db->commit();
+    }
 }
