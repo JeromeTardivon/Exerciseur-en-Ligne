@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/db/db-connection.php';
 require_once __DIR__ . '/config/config.php';
-
+$code = "";
 if (!isset($_SESSION["user"])) {
     header('Location: /login.php');
     exit();
@@ -99,7 +99,10 @@ include 'modules/include.php' ?>
         <form method="post" action="/processing-forms/processing-creation-code-teacher.php">
             <input class="btn" type="submit" value="Créer code pour professeur" name="create-code">
         </form>
-        <p<?= isset($_SESSION["create-code"]) ? "" : "hidden" ?>>Code créé --> <?= $code ?></p>
+        <div <?= empty($code) ? "hidden" : "" ?>>
+            <p>Code créé --> <?= $code ?></p>
+        </div>
+
     </div>
 </main>
 
