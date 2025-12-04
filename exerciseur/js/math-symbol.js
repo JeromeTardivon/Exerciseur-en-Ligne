@@ -4,8 +4,16 @@ let addElementsBtnActivated = false;
 
 addElementsBtn.addEventListener("click", addMathsElements);
 
+function reloadMathJax(elem) {
+    MathJax.typeset([elem]);
+    MathJax.startup.document.render(elem);
+}
+
+
+
 function addMathsElements() {
     MathJax.startup.document.render();
+    
     if (!addElementsBtnActivated) {
         let div = document.createElement("div");
         div.setAttribute("id", "add-elements-div");
@@ -27,16 +35,14 @@ function addMathsElements() {
             // adds symbol to clipboard when btn is clicked
             btn.addEventListener("click", ()=>navigator.clipboard.writeText("\\(\\".concat(symbolsArray[i], "\\)")));
             div.appendChild(btn);
-
-            // forces jax to render the symbols inside the div
-            MathJax.typeset([div]);
-            MathJax.startup.document.render(div);
         }
+        
+        // forces jax to render the symbols inside the div
+        reloadMathJax(div);
 
         aside.appendChild(div);
 
         addElementsBtnActivated = true;
-        // reload();
     } else {
         let div = document.getElementById("add-elements-div");
         div.remove();
