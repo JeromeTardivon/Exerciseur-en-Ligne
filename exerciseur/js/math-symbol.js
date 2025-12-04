@@ -21,13 +21,18 @@ function addMathsElements() {
         for (let i = 0; i < symbolsArray.length; i++) {
             let btn = document.createElement("button");
 
+            // adds symbol inside the button
             btn.appendChild(document.createTextNode("\\(\\".concat(symbolsArray[i], "\\)")));
-            btn.addEventListener("click", insertElement);
+
+            // adds symbol to clipboard when btn is clicked
+            btn.addEventListener("click", ()=>navigator.clipboard.writeText("\\(\\".concat(symbolsArray[i], "\\)")));
             div.appendChild(btn);
 
+            // forces jax to render the symbols inside the div
             MathJax.typeset([div]);
             MathJax.startup.document.render(div);
         }
+
         aside.appendChild(div);
 
         addElementsBtnActivated = true;
@@ -38,8 +43,4 @@ function addMathsElements() {
 
         addElementsBtnActivated = false;
     }
-}
-
-function insertElement() {
-
 }
