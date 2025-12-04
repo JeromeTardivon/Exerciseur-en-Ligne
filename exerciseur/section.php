@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
 <html lang="fr">
- <?php include 'modules/include.php' ?>
+    <?php include 'modules/include.php' ?>
+    
 
     <body>
         <!-- nav -->
@@ -112,11 +113,11 @@
                 </form>
             
 
-            <aside>
+            <aside id="chapter-creation-aside-2">
                <h2>Raccourcis</h2>
                
                 <form >
-                    
+                    <button type="button" id="add-symbol">Ajouter un symbole mathématique</button>
                     <button type="button" id="add-text">Ajouter un champ de texte</button>
                     <span>Titres</span> <img src="Arrow-down.svg" alt="arrow" width="5px" height="5px">
                     <!-- show buttons if the span is clicked (and change image)-->
