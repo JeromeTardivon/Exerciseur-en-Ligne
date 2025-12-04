@@ -31,7 +31,7 @@
             </aside>
 
 
-            <form action="section-process.php" method="post" id ="dynamic-form">
+            <form action="processing-form-section.php" method="post" id ="dynamic-form">
 
                 <fieldset>
                     <legend>Paramètres de la section</legend>   
@@ -106,6 +106,9 @@
                     
                 </fieldset>
 
+                <button type="submit">Enregistrer la section</button>
+
+
                 </form>
             
 
@@ -122,7 +125,7 @@
                     <button type="button" id="add-title-3">Ajouter un titre 3</button>
                     <button type="button" id="add-title-4">Ajouter un titre 4</button>
                     <button type="button" id="add-title-5">Ajouter un titre 5</button>
-                    <button type="button" id="add-date">Ajouter (date)</button>
+                    <button type="button" id="add-hint">Ajouter un indice</button>
                 </form>
             </aside>
         </main>
@@ -146,18 +149,19 @@
                 const addTitle3Btn = document.getElementById('add-title-3');
                 const addTitle4Btn = document.getElementById('add-title-4');
                 const addTitle5Btn = document.getElementById('add-title-5');
-                const addDateBtn = document.getElementById('add-date');
+                const addHintBtn = document.getElementById('add-hint');
 
                 const form = document.getElementById('dynamic-form');
                 const output = document.getElementById('output');
 
                 //curr id, +1 after element creation
                 let index = 0;
+                
                 // when true we suspend saving to localStorage (used during restore)
                 let suspendSave = false;
 
 
-                function createrWrapper(type){
+                function createWrapper(type){
                     const wrapper = document.createElement('div');
                     
                     wrapper.className = 'module';
@@ -166,14 +170,14 @@
                     return wrapper;
                 }
 
-                function creatLabel(content, id){
+                function createLabel(content, id){
                     const label = document.createElement('label');
                     label.textContent = content;
                     label.htmlFor = id;
                     return label;
                 }
 
-                function creatInput(type, id, placeholder, defaultv, name){
+                function createInput(type, id, placeholder, defaultv, name){
                     const input = document.createElement('input');
                     input.type = (type);
                     input.placeholder = placeholder;
@@ -209,15 +213,28 @@
                     textarea.cols = 50;
                     return textarea;
                 }
+
+                function createSpinner(id, name, min, max, step,defaultv=0){
+                    const spinner = document.createElement('input');
+                    spinner.type = 'number';
+                    spinner.id = id;
+                    spinner.name = name;
+                    spinner.min = min;
+                    spinner.max = max;
+                    spinner.step = step;
+                    spinner.value = defaultv;
+                    
+                    return spinner;
+                }
                 
 
                 //Add new textfield and remove button
                 function addTextField(defaultv = "") {
-                    const wrapper = createrWrapper('text');
+                    const wrapper = createWrapper('text');
                     const id = `modules_${index}_value`;
                     //name usable server side (modules[0][value], modules[1][value], ...)
                     const input = createTextarea(id, "Entrez du texte ici", defaultv,`modules[${index}][value]`);
-                    const label = creatLabel("Champ de texte : ", id);
+                    const label = createLabel("Champ de texte : ", id);
                     const remove = createRemove(wrapper);
                     wrapper.appendChild(label);
                     wrapper.appendChild(input);
@@ -231,11 +248,11 @@
                 }
 
                 function addTitleField(defaultv = "", size = 5) {
-                    const wrapper = createrWrapper('title'.concat(size));
+                    const wrapper = createWrapper('title'.concat(size));
                     const id = `modules_${index}_value`;
                     //name usable server side (modules[0][value], modules[1][value], ...)
-                    const input = creatInput('text',id, "Entrez votre titre ici", defaultv,`modules[${index}][value]`);
-                    const label = creatLabel("Titre " + size + ": ", id);
+                    const input = createInput('text',id, "Entrez votre titre ici", defaultv,`modules[${index}][value]`);
+                    const label = createLabel("Titre " + size + ": ", id);
                     const remove = createRemove(wrapper);
                     wrapper.appendChild(label);
                     wrapper.appendChild(input);
@@ -244,6 +261,27 @@
                     index++;
                     if (!suspendSave) saveState();
 
+                    wrapper.addEventListener('input', () => {
+                        if (!suspendSave) saveState();
+                    });
+                }
+
+                function addHintField(defaultv = "", defaultnum = 0) {
+                    const wrapper =createWrapper('hint');
+                    const id = `modules_${index}_value`;
+                    const input = createTextarea(id, "Entrez L'indice ici", defaultv,`modules[${index}][value]`);
+                    const label = createLabel("Indice : ", id);
+                    const spinner = createSpinner(`modules_${index}_hint_num`, `modules[${index}][hint_num]`, 0, 100, 1, defaultnum);
+                    const spinnerLabel = createLabel("Nombre d'essai avant affichage de l'indice : ", `modules_${index}_hint_num`);
+                    const remove = createRemove(wrapper);
+                    wrapper.appendChild(label);
+                    wrapper.appendChild(input);
+                    wrapper.appendChild(spinnerLabel);
+                    wrapper.appendChild(spinner);
+                    wrapper.appendChild(remove);
+                    container.appendChild(wrapper);
+                    index++;
+                    if (!suspendSave) saveState();
                     wrapper.addEventListener('input', () => {
                         if (!suspendSave) saveState();
                     });
@@ -300,6 +338,10 @@
                                 const size = parseInt(item.type.slice(5)) || 5;
                                 addTitleField(item.value || '', size);
                             
+                            }else if(item.type === 'hint'){
+                                
+                                addHintField(item.value || '',0);
+
                             }else {
                                 console.warn('Unsupported module type during load:', item.type);
                             }
@@ -323,7 +365,7 @@
                 addTitle3Btn.addEventListener('click', ()=> addTitleField('', 3));
                 addTitle2Btn.addEventListener('click', ()=> addTitleField('', 2));
                 addTitle1Btn.addEventListener('click', ()=> addTitleField('', 1));
-                addDateBtn.addEventListener('click', ()=> addTextField());
+                addHintBtn.addEventListener('click', ()=> addHintField());
                 loadState();
 
                 // // Exemple de traitement léger côté client pour voir les données envoyées

@@ -28,7 +28,7 @@
                 </div> 
             </aside>
 
-            <form action="section-select.php" method="post">
+            <form action="processing-forms/processing-chapter-creation.php" method="post">
 
                 <fieldset>
                     <legend>Paramètres</legend>
@@ -111,6 +111,28 @@
                             <label for="tags-input">Ajouter des tags (séparés par des virgules)</label>
                             <input id="tags-input" name="tags_input" type="text" placeholder="ex: mathématiques, géométrie, fonctions">
                         </li>
+                    </ul>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Création</legend>
+                    
+                    <ul>
+                        <li>
+                        
+                            <label for="title"><h3>Titre :</h3></label>
+                        </li>
+                        <li>
+                            <input id="title" name="title" type="text" placeholder="Entrez le titre du chapitre ici">
+                        </li>
+
+                        <li>
+                            <label for="desc"><h3>Description :</h3></label>
+                        </li>
+                        <li>
+                            <textarea id="desc" name="desc" rows="10"> </textarea>
+                        </li>
+
                     </ul>
                 </fieldset>
 
