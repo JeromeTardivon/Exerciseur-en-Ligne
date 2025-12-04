@@ -29,7 +29,7 @@ CREATE TABLE `chapter` (
   `title` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
   `secondstimelimit` int(11) DEFAULT NULL,
-  `corrend` tinyint(1) DEFAULT 0,
+  `corrend` int(11) DEFAULT 0,
   `tries` int(11) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
