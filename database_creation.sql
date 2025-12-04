@@ -22,17 +22,19 @@ CREATE TABLE class(
   updated_at timestamp NOT NULL DEFAULT now()
 );
 
-CREATE TABLE chapter(
-  id uuid PRIMARY KEY DEFAULT SYS_GUID(),
-  visible BOOLEAN NOT NULL DEFAULT true,
-  level INT NOT NULL DEFAULT 0,
-  title VARCHAR(100) NOT NULL,
-  description text,
-  minutestimelimit INT,
-  coef INT DEFAULT 1,
-  created_at timestamp NOT NULL DEFAULT now(),
-  updated_at timestamp NOT NULL DEFAULT now()
-);
+CREATE TABLE `chapter` (
+  `id` uuid NOT NULL DEFAULT sys_guid(),
+  `visible` tinyint(1) NOT NULL DEFAULT 1,
+  `level` int(11) NOT NULL DEFAULT 0,
+  `title` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL,
+  `secondstimelimit` int(11) DEFAULT NULL,
+  `corrend` tinyint(1) DEFAULT 0,
+  `tries` int(11) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+)
 
 CREATE TABLE exercise(
   id uuid PRIMARY KEY DEFAULT SYS_GUID(),
