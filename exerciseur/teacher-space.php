@@ -74,7 +74,7 @@ include 'modules/include.php' ?>
                 </ul>
             </div>
 
-            <h2 class="btn"><a href="">Créer chapitres</a></h2>
+            <h2 class="btn"><a href="chapter-creation.php">Créer chapitres</a></h2>
         </div>
 
         <div>

@@ -43,43 +43,43 @@ if (!isset($_SESSION["user"])) {
                 </div> 
             </aside>
 
-            <form action="section-select.php" method="post">
+            <form action="processing-forms/processing-chapter-creation.php" method="post">
 
                 <fieldset>
                     <legend>Paramètres</legend>
                     
                     <ul>
                         <li><h3>Visibilité</h3></li>
-                        <li> <input id="visibilityPublic" type="radio" name="visibility" value="0"><label for = 'visibilityPublic'>Publique</label> </li>
-                        <li> <input id="visibilityPrivate" type="radio" name="visibility" value="1" checked = 'true'><label for = 'visibilityPrivate'>Privée</label> </li>
+                        <li> <input id="visibilityPublic" type="radio" name="visibility" value = "1"><label for = 'visibilityPublic'>Publique</label> </li>
+                        <li> <input id="visibilityPrivate" type="radio" name="visibility" value="0" checked = 'true'><label for = 'visibilityPrivate'>Privée</label> </li>
                     
                         <li><h3>Niveau</h3></li>
                         <li>
                             <label for="level-select">Choisissez le niveau du chapitre</label>
                             <select name="level-select" id="level-select">
-                            <option value="unspecified">Non spécifié</option>
-                            <option value="Primaire">Primaire</option>
-                            <option value="CE1">CE1</option>
-                            <option value="CE2">CE2</option>
-                            <option value="CM1">CM1</option>
-                            <option value="CM2">CM2</option>
-                            <option value="College">Collège</option>
-                            <option value="Sixième">Sixième</option>
-                            <option value="Cinquième">Cinquième</option>
-                            <option value="Quatrième">Quatrième</option>
-                            <option value="Troisième">Troisième</option>
-                            <option value="Lycee">Lycée</option>
-                            <option value="Seconde">Seconde</option>
-                            <option value="Première">Première</option>
-                            <option value="Terminale">Terminale</option>
-                            <option value="EtudesSuperieures">Etudes Superieures</option>
+                            <option value="0">Non spécifié</option>
+                            <option value="10">Primaire</option>
+                            <option value="11">CE1</option>
+                            <option value="12">CE2</option>
+                            <option value="13">CM1</option>
+                            <option value="14">CM2</option>
+                            <option value="20">Collège</option>
+                            <option value="21">Sixième</option>
+                            <option value="22">Cinquième</option>
+                            <option value="23">Quatrième</option>
+                            <option value="24">Troisième</option>
+                            <option value="30">Lycée</option>
+                            <option value="31">Seconde</option>
+                            <option value="32">Première</option>
+                            <option value="33">Terminale</option>
+                            <option value="40">Etudes Supérieures</option>
                             
                             </select>
                         </li>
 
                         <li><h3>Limite de temps</h3></li>
                         
-                        <li> <input id="timelimit" type="checkbox" name="timelimit" value="2"><label for = 'timelimit'>Ajouter une limite de temps</label> </li>
+                        <li> <input id="timelimit" type="checkbox" name="timelimit" ><label for = 'timelimit'>Ajouter une limite de temps</label> </li>
                         <span> <!-- hide everything in this span if checkbox not checked -->
                             <label for="timelimit-seconds" >Secondes</label>
                             <input id="timelimit-seconds" name="timelimit_seconds" type="number" min="0" max="59" step="1" value="0">
@@ -110,7 +110,7 @@ if (!isset($_SESSION["user"])) {
 
                         <li><h3>Essais</h3></li>
                         
-                        <li> <input id="limittry" type="checkbox" name="limittry" value="4"><label for="limittry">Limiter le nombre d'essais ? (pour le chapitre complet) </label>
+                        <li> <input id="limittry" type="checkbox" name="limittry" ><label for="limittry">Limiter le nombre d'essais ? (pour le chapitre complet) </label>
 
                             <span> <!-- only show this span if 'limittry' checkbox checked -->
                                 <label for="try-number">Nombre d'essais autorisés:</label>
@@ -119,13 +119,35 @@ if (!isset($_SESSION["user"])) {
                         </li>
 
                         <li><h3>Correction</h3></li>
-                        <li> <input id="correctionend" type="checkbox" name="correctionend" value="5"><label for="correctionend">Afficher la correction à la fin du chapitre?</label> </li>
+                        <li> <input id="correctionend" type="checkbox" name="correctionend" ><label for="correctionend">Afficher la correction à la fin du chapitre?</label> </li>
 
                         <li><h3>Tags</h3></li>
                         <li>
                             <label for="tags-input">Ajouter des tags (séparés par des virgules)</label>
-                            <input id="tags-input" name="tags_input" type="text" placeholder="ex: mathématiques, géométrie, fonctions">
+                            <input id="tags-input" name="tags_input" type="text" placeholder="ex: mathématiques, géométrie, fonctions" required>
                         </li>
+                    </ul>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Création</legend>
+                    
+                    <ul>
+                        <li>
+                        
+                            <label for="title"><h3>Titre :</h3></label>
+                        </li>
+                        <li>
+                            <input id="title" name="title" type="text" placeholder="Entrez le titre du chapitre ici" required>
+                        </li>
+
+                        <li>
+                            <label for="desc"><h3>Description :</h3></label>
+                        </li>
+                        <li>
+                            <textarea id="desc" name="desc" rows="10" required> </textarea>
+                        </li>
+
                     </ul>
                 </fieldset>
 
