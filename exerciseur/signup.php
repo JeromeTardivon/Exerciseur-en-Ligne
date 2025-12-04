@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 
 <html lang="fr">
@@ -16,7 +20,7 @@ include 'modules/include.php' ?>
                 <legend>Statut</legend>
                 <input type="radio" id="statusTeacher" name="status" value="teacher"/><label for="statusTeacher">Enseignant(e)</label>
                 <input type="radio" id="statusStudent" name="status" value="student" checked/><label
-                        for="statusStudent">Etudiant(e)</label>
+                        for="statusStudent">Étudiant(e)</label>
             </fieldset>
             <fieldset>
                 <legend>Identité</legend>
@@ -31,10 +35,14 @@ include 'modules/include.php' ?>
 
                 <label for="password">Mot de passe</label>
                 <input id="password" type="password" name="password">
+
+                <label id="labelTeacherCode" for="teacherCode">Code de creation</label>
+                <input id="teacherCode" type="text" name="teacherCode">
             </fieldset>
             <input type="submit" value="Valider">
         </fieldset>
     </form>
+    <script src="js/controlCreationUser.js"></script>
 </main>
 
 <!-- footer -->

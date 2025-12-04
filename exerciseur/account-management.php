@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+if (!isset($_SESSION["user"])) {
+    header('Location: /');
+    exit();
+}
+
+?>
+
+<!DOCTYPE html>
+
 <html lang="fr">
     <?php $_TITLE="Modification du profil"; include 'modules/include.php' ?>
     <body>
@@ -37,19 +49,33 @@
 
                     <div>
                         <h3>NOM Prénom :</h3>
-                        <div>XXXXXXXX XXXXXXXXXX</div>
+                        <div>
+                            <?= $_SESSION['user']['name'] . " " . $_SESSION['user']['surname'] ?>
+                        </div>
                         
                     </div>
 
                     <div>
                         <h3>Mail :</h3>
-                        <div>XXXXXXXX@XXXXXXXXXX</div>
+                        <div>
+                            <?= $_SESSION['user']['mail'] ?>
+                        </div>
                         
                     </div>
 
                     <div>
                         <h3>Type de compte : </h3>
-                        <div>Etudiant/prof</div>
+                        <div>
+                            <?php
+                                
+                                if($_SESSION['user']['type'] == "student") {
+                                    echo "Étudiant";
+                                } else {
+                                    echo "Enseignant";
+                                }
+                                
+                            ?>
+                        </div>
                         
                     </div>
 

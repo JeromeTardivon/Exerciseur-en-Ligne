@@ -1,11 +1,10 @@
 <?php
 include_once __DIR__ .'/../db/db-connection.php';
-include_once __DIR__ .'/../config/config.php';
 ?>
 <header>
     <div class="barHeader">
         <a href="/index.php">
-            <img src="../exercisor3000.png" alt="">
+            <img src="/img/exercisor3000.png" alt="">
         </a>
         <h1><?php if(isset($_TITLE)){echo $_TITLE;}else{echo "Xercizor 3000";} ?></h1>
         <div class="buttonsHeader">
@@ -22,14 +21,14 @@ include_once __DIR__ .'/../config/config.php';
     </div>
     <nav id="menu">
         <ul>
-            <li><a href="../index.php">Accueil</a></li>
+            <li><a href="/index.php">Accueil</a></li>
             <li>Mes classes</li>
             <li>Suivis</li>
             <li>Récents</li>
             <li>Mes Chapitres</li>
-            <li>A propos</li>
-            <li>Contact</li>
-            <li><a href="../settings-page.php">Paramètres</a></li>
+            <li><a href="/about.php">À propos</a></li>
+            <li><a href="/contact.php">Contact</a></li>
+            <li><a href="/settings-page.php">Paramètres</a></li>
         </ul>
     </nav>
 </header>

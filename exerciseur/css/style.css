@@ -65,13 +65,11 @@ header > div.barHeader {
     color: var(--font-white-color);
 }
 
-.barHeader >a{
-    max-height: 6em;
-    max-width: 6em; 
-    
+.barHeader > a {
+    max-width: 6em;
 }
 
-.barHeader >a >img{
+.barHeader > a >img{
     height: 100%;
     width: 100%;
 }
@@ -79,8 +77,10 @@ header > div.barHeader {
 .barHeader > div.buttonsHeader{
     margin: 15px;
     display: flex;
+    justify-content: space-evenly;
     gap: 5px;
     flex-wrap: nowrap;
+    justify-content: right;
 }
 
 #menu {
@@ -101,7 +101,15 @@ nav > ul {
 }
 
 #main-profile > div {
+    display: flex;
+    flex-direction: column;
     margin-left: 5%;
+}
+
+#main-profile > div > .btn {
+    width: fit-content;
+    padding: 2%;
+    margin-top: 2%;
 }
 
 #account-buttons {
@@ -402,6 +410,37 @@ input[type="search"] {
 
 #login .btn {
     padding: 1%;
+}
+
+#main-create-class .btn {
+    padding: 1%;
+}
+
+#main-about {
+    margin: 1%;
+}
+
+#main-contact {
+    margin: 1%;
+    display: flex;
+    flex-direction: column;
+}
+
+#main-contact * {
+    margin: 0%;
+}
+
+#main-contact a {
+    color: var(--main-color);
+}
+
+#main-contact a:visited {
+    color:rgba(141, 63, 18, 0.801);
+}
+
+#main-contact ul {
+    list-style-type:disc;
+    margin-left: 2%;
 }
 
 footer {
