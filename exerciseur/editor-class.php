@@ -6,32 +6,6 @@ $class = getClass($db, $_GET['id-class']);
 $listStudents = getStudentsFromClass($db, $class['id']);
 $teacher = getResponsableFromClass($db, $class['id']);
 $activesClassCodes = getClassCodes($db, $class['id']);
-if (isset($_POST['add-student'])) {
-    if (!studentInList($_SESSION['studentsToAdd'], $_POST['add-student'])) {
-        $_SESSION['studentsToAdd'][] = $_POST['add-student'];
-    }
-} elseif (isset($_POST['delete-student'])) {
-    $_SESSION['studentsToAdd'] = array_diff($_SESSION['studentsToAdd'], ['', $_POST['delete-student']]);
-} elseif (isset($_POST['add-student-db'])) {
-    addStudentsDB($db, $_SESSION['studentsToAdd'], $class['id']);
-    $_SESSION['studentsToAdd'] = array();
-    header("Refresh:0");
-} elseif (isset($_POST['delete-student-db'])) {
-    deleteStudentFromClassDB($db, $class['id'], $_POST['delete-student-db']);
-    header("Refresh:0");
-} elseif (isset($_POST['className']) || isset($_POST['description'])) {
-    $name = $_POST['className'];
-    $description = $_POST['description'];
-    updateClass($db, $class['id'], $name, $description);
-    header("Refresh:0");
-
-} elseif (isset($_POST['generate-code-class'])) {
-    var_dump($_POST['number-usages-code']);
-    var_dump(generateCodeClass($db, $class['id'], $_POST['number-usages-code']));
-    header("Refresh:0");
-} else {
-    $_SESSION['studentsToAdd'] = array();
-}
 ?>
 
 <!DOCTYPE html>
@@ -45,13 +19,14 @@ if (isset($_POST['add-student'])) {
 <main id="main-editor-class">
     <h1><?= $class['name'] ?></h1>
     <h3>Responsable: <?= $teacher['name'] . ' ' . $teacher['surname'] ?></h3>
-    <form action="editor-class.php?id-class=<?= $class['id'] ?>" method="post">
+    <form action="/processing-forms/processing-form-class-edition.php" method="post">
         <fieldset>
             <label for="nameClass">Nom de la class:</label>
             <input id="nameClass" type="text" name="className" value="<?= $class['name'] ?>">
             <label for="desc">description</label>
             <textarea id="desc" name="description" rows="10" cols="50"><?= $class['description'] ?></textarea>
         </fieldset>
+        <input type="hidden" name="class" value="<?= $class['id'] ?>">
         <input class="btn" type="submit" value="Modifier">
     </form>
     <h2>Ajouter étudiants</h2>
@@ -62,8 +37,9 @@ if (isset($_POST['add-student'])) {
             <li class="">
                 <div>
                     <a href="profile.php?id-profil=<?= $student['id'] ?>"><?= $student['name'] ?></a>
-                    <form action="editor-class.php?id-class=<?= $class['id'] ?>" method="post">
+                    <form action="/processing-forms/processing-form-class-edition.php" method="post">
                         <input type="hidden" name="add-student" value="<?= $student['id'] ?>">
+                        <input type="hidden" name="class" value="<?= $class['id'] ?>">
                         <input class="btn" type="submit" value="Ajouter">
                     </form>
                 </div>
@@ -80,8 +56,9 @@ if (isset($_POST['add-student'])) {
                     <li class="">
                         <div>
                             <a href="profile.php?id-profil=<?= $student ?>"><?= getUser($db, $student)['name'] ?></a>
-                            <form action="editor-class.php?id-class=<?= $class['id'] ?>" method="post">
+                            <form action="/processing-forms/processing-form-class-edition.php" method="post">
                                 <input type="hidden" name="delete-student" value="<?= $student ?>">
+                                <input type="hidden" name="class" value="<?= $class['id'] ?>">
                                 <input class="btn" type="submit" value="Supprimer">
                             </form>
                         </div>
@@ -90,9 +67,10 @@ if (isset($_POST['add-student'])) {
 
             } ?>
         </ul>
-        <form action="editor-class.php?id-class=<?= $class['id'] ?>"
+        <form action="/processing-forms/processing-form-class-edition.php"
               method="post" <?= isset($_SESSION['studentsToAdd']) ? "" : "hidden" ?>>
             <input type="hidden" name="add-student-db" value="true">
+            <input type="hidden" name="class" value="<?= $class['id'] ?>">
             <input class="btn" type="submit" value="Ajouter les étudiants">
         </form>
     </div>
@@ -104,8 +82,9 @@ if (isset($_POST['add-student'])) {
             <li class="">
                 <div>
                     <a href="profile.php?id-profil=<?= $student['id_user'] ?>"><?= getUser($db, $student['id_user'])['name'] ?></a>
-                    <form action="editor-class.php?id-class=<?= $class['id'] ?>" method="post">
+                    <form action="/processing-forms/processing-form-class-edition.php" method="post">
                         <input type="hidden" name="delete-student-db" value="<?= $student['id_user'] ?>">
+                        <input type="hidden" name="class" value="<?= $class['id'] ?>">
                         <input class="btn" type="submit" value="Supprimer">
                     </form>
                 </div>
@@ -114,10 +93,11 @@ if (isset($_POST['add-student'])) {
     </ul>
     <div>
         <h2>Generation de codes d'invitation à la classe</h2>
-        <form action="" method="post">
+        <form action="/processing-forms/processing-form-class-edition.php" method="post">
             <label>Nombre d'usages:
                 <input type="number" name="number-usages-code" value="1" min="1">
             </label>
+            <input type="hidden" name="class" value="<?= $class['id'] ?>">
             <input type="submit" name="generate-code-class">
         </form>
         <h4>Codes Actifs</h4>

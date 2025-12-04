@@ -5,8 +5,23 @@ if (!empty($_POST['lastname']) && !empty($_POST['surname']) && !empty($_POST['em
     $statement->execute(['email' => $_POST['email']]);
     $user = $statement->fetch();
     if (!$user) {
-        $statement = $db->prepare("INSERT INTO users (name, surname, mail, password, type) VALUES (:lastname, :surName, :email, :password, :type)");
-        $statement->execute(['email' => $_POST['email'], 'lastname' => $_POST['lastname'], 'surName' => $_POST['surname'], 'password' => password_hash($_POST['password'], PASSWORD_DEFAULT), 'type' => $_POST['status']]);
+        if ($_POST['status'] == 'teacher') {
+            $statement = $db->prepare("SELECT code FROM codes_class WHERE code = :code ");
+            $statement->execute(['code' => $_POST['teacherCode']]);
+            $code = $statement->fetch();
+            if ($code) {
+                var_dump($code['code']);
+                $db->beginTransaction();
+                $statement = $db->prepare("DELETE FROM codes_class WHERE code = :code");
+                $statement->execute(['code' => $code['code']]);
+                $statement = $db->prepare("INSERT INTO users (name, surname, mail, password, type) VALUES (:lastname, :surName, :email, :password, :type)");
+                $statement->execute(['email' => $_POST['email'], 'lastname' => $_POST['lastname'], 'surName' => $_POST['surname'], 'password' => password_hash($_POST['password'], PASSWORD_DEFAULT), 'type' => $_POST['status']]);
+                $db->commit();
+            }
+        } else {
+            $statement = $db->prepare("INSERT INTO users (name, surname, mail, password, type) VALUES (:lastname, :surName, :email, :password, :type)");
+            $statement->execute(['email' => $_POST['email'], 'lastname' => $_POST['lastname'], 'surName' => $_POST['surname'], 'password' => password_hash($_POST['password'], PASSWORD_DEFAULT), 'type' => $_POST['status']]);
+        }
     }
 }
 header('Location: /index.php');
