@@ -82,3 +82,9 @@ CREATE TABLE course(
   updated_at timestamp NOT NULL DEFAULT now(),
   CONSTRAINT FK_course__chapter FOREIGN KEY (id_chapter) REFERENCES chapter(id)
 );
+
+CREATE TABLE `owns` (
+  `id_user` uuid NOT NULL,
+  `id_chapter` uuid NOT NULL,
+  PRIMARY KEY (`id_user`,`id_chapter`)
+)
