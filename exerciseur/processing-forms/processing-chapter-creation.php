@@ -1,15 +1,14 @@
 <?php
 include_once __DIR__ . '/../config/config.php';
 include_once __DIR__ . '/../db/db-connection.php';
-if (isset($_POST['visibility']) && isset($_POST['level-select']) && isset($_POST['class-select']) && isset($_POST['tags_input']) && isset($_POST['title']) && isset($_POST['desc']) && isset($_SESSION['user']) && $_SESSION['user']['type'] === 'teacher')
-     {
+if (isset($_POST['visibility']) && isset($_POST['level-select']) && isset($_POST['class-select']) && isset($_POST['tags_input']) && isset($_POST['title']) && isset($_POST['desc']) && isset($_SESSION['user']) && $_SESSION['user']['type'] === 'teacher'){
     $visibility = $_POST['visibility'];
     $level = $_POST['level-select'];
     $class = $_POST['class-select'];
     $tags = $_POST['tags_input'];
     $title = $_POST['title'];
     $description = $_POST['desc'];
-    $show_correction_end = isset($_POST['correctionend']) && $_POST['correctionend']==1 ? 1 : 0;
+    $show_correction_end = isset($_POST['correctionend']) && $_POST['correctionend']== "on" ? 1 : 0;
     $instructor_id = $_SESSION['user']['id'];
 
   
@@ -39,8 +38,27 @@ if (isset($_POST['visibility']) && isset($_POST['level-select']) && isset($_POST
 
     }
 
+    if(isset($_POST['class-select']) && $_POST['class-select'] != 'unspecified'){
+        $classtmp = $_POST['class-select'];
+
+        $statement = $db->prepare("SELECT id FROM class WHERE name = :class_name ORDER BY created_at DESC LIMIT 1" );
+        $statement->execute(['class_name' => $classtmp]);
+
+        if($class = $statement->fetch()){
+            
+        }else{
+            $class = null;
+        }
+        /******************************************** Used if we need to have an option to grade or not the chapters ********************************************/
+        // if(isset($_POST['graded']) && $_POST['graded']==1 && isset($_POST['grade_weight'])){
+        //     $grade_weight = $_POST['grade_weight'];
+        // }else{
+        //     $grade_weight = null;
+        // }
+    }
+
     $db->beginTransaction();
-    $db->prepare("INSERT INTO chapter (visible, level, title, description, secondstimelimit, corrend, tries) VALUES (:visibility, :level, :title, :description, :time_limit, :show_correction_end, :max_tries)")
+    $db->prepare("INSERT INTO chapter (visible, level, title, description, secondstimelimit, corrend, tries, class) VALUES (:visibility, :level, :title, :description, :time_limit, :show_correction_end, :max_tries, :class)")
        ->execute([
            'title' => $title,
            'description' => $description,
@@ -49,31 +67,26 @@ if (isset($_POST['visibility']) && isset($_POST['level-select']) && isset($_POST
            'time_limit' => $timelimit,
            'max_tries' => $try_number,
            'show_correction_end' => $show_correction_end,
+           'class' => $class ? $class['id'] : null,
        ]);
 
     
-    if(isset($_POST['class-select']) && $_POST['class-select'] != 'unspecified')
-    {
+   
 
-        $statement = $db->prepare("SELECT id FROM chapter ORDER BY created_at DESC LIMIT 1");
-        $statement->execute();
-        if($chapter = $statement->fetch()){
+    $statement = $db->prepare("SELECT id FROM chapter ORDER BY created_at DESC LIMIT 1");
+    $statement->execute();
+    if($chapter = $statement->fetch()){
 
-            $statement = $db->prepare("SELECT id FROM class WHERE name = :class_name ORDER BY created_at DESC LIMIT 1" );
-            $statement->execute(['class_name' => $class]);
-            if($class = $statement->fetch()){
+        $db->prepare("INSERT INTO owns (id_user, id_chapter) VALUES (:class_id, :chapter_id)")
+        ->execute([
+        'class_id' => $_SESSION['user']['id'],
+        'chapter_id' => $chapter['id'],
+        ]);
 
-
-                $db->prepare("INSERT INTO inclass (id_class, chapter_id, responsible) VALUES (:class_id, :chapter_id, 1)")
-                ->execute([
-                    'class_id' => $class['id'],
-                    'chapter_id' => $chapter['id'],
-                ]);
-
-            }
-        }
-
+            
     }
+
+    
 
     $db->commit();
 
@@ -86,5 +99,5 @@ if (isset($_POST['visibility']) && isset($_POST['level-select']) && isset($_POST
 
     
 }
-// header('Location: /index.php');
+header('Location: /index.php');
 exit();
