@@ -9,7 +9,7 @@ if (isset($_POST['visibility']) && isset($_POST['level-select']) && isset($_POST
     $tags = $_POST['tags_input'];
     $title = $_POST['title'];
     $description = $_POST['desc'];
-    $show_correction_end = isset($_POST['correctionend']) ? $_POST['correctionend'] : 0;
+    $show_correction_end = isset($_POST['correctionend']) && $_POST['correctionend']==1 ? 1 : 0;
     $instructor_id = $_SESSION['user']['id'];
 
   
@@ -64,7 +64,7 @@ if (isset($_POST['visibility']) && isset($_POST['level-select']) && isset($_POST
             if($class = $statement->fetch()){
 
 
-                $db->prepare("INSERT INTO class_chapter (class_id, chapter_id) VALUES (:class_id, :chapter_id)")
+                $db->prepare("INSERT INTO inclass (id_class, chapter_id, responsible) VALUES (:class_id, :chapter_id, 1)")
                 ->execute([
                     'class_id' => $class['id'],
                     'chapter_id' => $chapter['id'],

@@ -9,7 +9,12 @@ if (!isset($_SESSION["user"])) {
     exit();
 }
 
+//include_once __DIR__ . '/config/config.php';
+include_once __DIR__ . '/db/db-connection.php';
+
 ?>
+
+
 
 <!DOCTYPE html>
 
@@ -94,8 +99,26 @@ if (!isset($_SESSION["user"])) {
                             <label for="class-select">Choisissez la classe dans laquelle ce chapitre sera inscrite</label>
                             <select name="class-select" id="class-select">
                             <option value="unspecified">Hors d'une classe</option>
+                            
                             <!-- dynamically generates options with php, getting all classes the professor is responsible of in the database-->
-                            <?php ?>
+                            <?php 
+                                $id=$_SESSION["user"]["id"];
+                                $classes=$db->prepare("SELECT class.name FROM class JOIN inclass ON class.id=inclass.id_class JOIN 
+                                users ON users.id= inclass.id_user WHERE users.id = '$id';");
+
+                                $classes->execute();
+                                
+                                
+                                while ($classname=$classes->fetch()){
+
+                                    
+                                    
+                                    echo '<option value="' . $classname["name"] .'">' . $classname["name"] .'</option>';
+                                    
+                                    
+                                }
+                            
+                            ?>
                             </select>
 
                             <span><!-- only show this span if a class is selected -->
