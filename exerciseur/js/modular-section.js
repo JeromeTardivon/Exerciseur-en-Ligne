@@ -64,14 +64,25 @@ document.addEventListener('DOMContentLoaded', function(){
 
     function createTextarea(id, placeholder, defaultv, name){
         const textarea = document.createElement('textarea');
+        const p = document.createElement('p');
+
+        textarea.addEventListener("keyup", function(){
+            p.innerHTML = textarea.value;
+            reloadMathJax(p)
+        });
+        
         textarea.placeholder = placeholder;
         // set current value (use value so it's readable via .value)
-        textarea.value = defaultv || '';
+        // textarea.value = defaultv || '';
         textarea.id = id;
         textarea.name = name;
         textarea.rows = 4;
         textarea.cols = 50;
-        return textarea;
+        
+        const wrapper = createWrapper('div');
+        wrapper.appendChild(textarea);
+        wrapper.appendChild(p);
+        return wrapper;
     }
 
     function createSpinner(id, name, min, max, step,defaultv=0){
@@ -227,16 +238,4 @@ document.addEventListener('DOMContentLoaded', function(){
     addTitle1Btn.addEventListener('click', ()=> addTitleField('', 1));
     addHintBtn.addEventListener('click', ()=> addHintField());
     loadState();
-
-    // // Exemple de traitement léger côté client pour voir les données envoyées
-    // form.addEventListener('submit', function(e){
-    // e.preventDefault();
-    // const fd = new FormData(form);
-    // // Convertit FormData en objet lisible
-    // const obj = {};
-    // for (const [k, v] of fd.entries()) {
-    //     obj[k] = v;
-    // }
-    // output.textContent = JSON.stringify(obj, null, 2);
-    // });
 });
