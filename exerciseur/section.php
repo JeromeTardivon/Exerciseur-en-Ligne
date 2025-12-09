@@ -138,7 +138,7 @@
         <?php include 'modules/footer.php' ?> 
 
         <script type=text/javascript src="js/modular-section.js"></script>
-
+        <script type="text/javascript" src="js/math-symbol.js"></script>
         
     </body>
 </html>

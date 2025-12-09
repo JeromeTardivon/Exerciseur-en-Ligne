@@ -9,8 +9,6 @@ function reloadMathJax(elem) {
     MathJax.startup.document.render(elem);
 }
 
-
-
 function addMathsElements() {
     MathJax.startup.document.render();
     
