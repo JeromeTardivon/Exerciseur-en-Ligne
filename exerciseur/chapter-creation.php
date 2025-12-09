@@ -125,7 +125,7 @@ include_once __DIR__ . '/db/db-connection.php';
                                 <input id="graded" type="checkbox" name="graded" value="3"></li><label for="graded">Noter ce chapitre?</label>
                                 <span> <!-- only show this span if 'graded' checkbox checked -->
                                     <label for="grade-weight">Coefficient:</label>
-                                    <input id="grade-weight" name="grade_weight" type="number" min="0" max="100" step="1" value="1">
+                                    <input id="grade-weight" name="grade_weight" type="number" min="1" max="100" step="1" value="1">
                                 </span>
                             
                             </span>
@@ -166,7 +166,7 @@ include_once __DIR__ . '/db/db-connection.php';
 
                         <li>
                             <label for="desc"><h3>Description :</h3></label>
-                        </li>
+                        </li>   
                         <li>
                             <textarea id="desc" name="desc" rows="10" required> </textarea>
                         </li>
