@@ -1,50 +1,75 @@
-let addElementsBtn = document.getElementById("add-symbol");
-let aside = document.getElementById("chapter-creation-aside-2");
-let addElementsBtnActivated = false;
+// disables annoying box around maths formulas, but only in the section creation page
+// so it doesn't get in the way of creation, but it stills show up when doing the exercises
 
-addElementsBtn.addEventListener("click", addMathsElements);
+window.MathJax = {
+    options: {
+        menuOptions: {
+            settings: {
+                enrich: false
+            }
+        }
+    }
+};
+
+let symbolsArray = ["lt", "gt", "le", "leq", "ge", "geq", "neq", "forall", "exists", "nexists", "simeq", "times", "div", "cup", "cap",
+                    "setminus", "subset", "subseteq", "subsetneq", "supset", "in", "notin", "notin", "emptyset", "varnothing", "Rightarrow", 
+                    "Leftarrow", "Leftrightarrow", "mapsto", "infty"];
+
+let lettersArray = ["alpha", "beta", "chi", "delta", "epsilon", "eta", "gamma", "iota", "kappa", "lambda", "mu", "nu", "omega", "phi", "pi",
+                    "psi", "rho", "sigma", "tau", "theta", "upsilon", "xi", "zeta"];
+
+class ElementsBtn {
+    constructor(btnId, displayDiv, dataArray) {
+        this.btn = document.getElementById(btnId);
+        this.displayDiv = document.getElementById(displayDiv);
+        this.addElementsBtnActivated = false;
+        this.dataArray = dataArray;
+
+        this.btn.addEventListener("click", ()=>this.addElements());
+    }
+
+    addElements() {
+        if (this.addElementsBtnActivated == false) {
+            let div = document.createElement("div");
+            div.setAttribute("id", "add-elements-div");
+            div.style.display = "flex";
+            div.style.flexDirection = "row";
+            div.style.flexWrap = "wrap";
+
+            addSymbolSection(div, this.dataArray);
+            
+            reloadMathJax(div);
+
+            this.displayDiv.appendChild(div);
+
+            this.addElementsBtnActivated = true;
+        } else {
+            let div = document.getElementById("add-elements-div");
+            div.remove();
+
+            this.addElementsBtnActivated = false;
+        }
+    }
+}
+
+
+addSymbolsElementsBtn = new ElementsBtn("add-symbol", "chapter-creation-aside-2", symbolsArray);
+addLettersElementsBtn = new ElementsBtn("add-letter", "chapter-creation-aside-2", lettersArray);
 
 function reloadMathJax(elem) {
     MathJax.typeset([elem]);
     MathJax.startup.document.render(elem);
 }
 
-function addMathsElements() {
-    MathJax.startup.document.render();
-    
-    if (!addElementsBtnActivated) {
-        let div = document.createElement("div");
-        div.setAttribute("id", "add-elements-div");
-        div.style.display = "flex";
-        div.style.flexDirection = "row";
-        div.style.flexWrap = "wrap";
-
-        let symbolsArray = [];
-        symbolsArray.push("lt", "gt", "le", "leq", "ge", "geq", "neq", "forall", "exists", "nexists", "simeq", "times", "div", "cup", "cap",
-                          "setminus", "subset", "subseteq", "subsetneq", "supset", "in", "notin", "notin", "emptyset", "varnothing", "Rightarrow", 
-                          "Leftarrow", "Leftrightarrow", "mapsto", "infty");
-
-        for (let i = 0; i < symbolsArray.length; i++) {
-            let btn = document.createElement("button");
-
-            // adds symbol inside the button
-            btn.appendChild(document.createTextNode("\\(\\".concat(symbolsArray[i], "\\)")));
-
-            // adds symbol to clipboard when btn is clicked
-            btn.addEventListener("click", ()=>navigator.clipboard.writeText("\\(\\".concat(symbolsArray[i], "\\)")));
-            div.appendChild(btn);
-        }
+function addSymbolSection(div, array) {
+    for (let i = 0; i < array.length; i++) {
+        let btn = document.createElement("button");
         
-        // forces jax to render the symbols inside the div
-        reloadMathJax(div);
-
-        aside.appendChild(div);
-
-        addElementsBtnActivated = true;
-    } else {
-        let div = document.getElementById("add-elements-div");
-        div.remove();
-
-        addElementsBtnActivated = false;
+        // adds symbol inside the button
+        btn.appendChild(document.createTextNode("\\(\\".concat(array[i], "\\)")));
+        
+        // adds symbol to clipboard when btn is clicked
+        btn.addEventListener("click", ()=>navigator.clipboard.writeText("\\".concat(array[i])));
+        div.appendChild(btn);
     }
 }

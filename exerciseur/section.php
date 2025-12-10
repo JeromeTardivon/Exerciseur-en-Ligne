@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 
 <html lang="fr">
@@ -126,6 +130,7 @@
                     <button type="button" id="add-title-4">Ajouter un titre 4</button>
                     <button type="button" id="add-title-5">Ajouter un titre 5</button>
                     <button type="button" id="add-hint">Ajouter un indice</button>
+                    <button type="button" id="add-letter">Ajouter une lettre greque</button>
                     <button type="button" id="add-symbol">Ajouter un symbole mathématique</button>
                 </form>
             </aside>
