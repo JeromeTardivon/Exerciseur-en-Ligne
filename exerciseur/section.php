@@ -117,7 +117,6 @@
                <h2>Raccourcis</h2>
                
                 <form >
-                    <button type="button" id="add-symbol">Ajouter un symbole mathématique</button>
                     <button type="button" id="add-text">Ajouter un champ de texte</button>
                     <span>Titres</span> <img src="Arrow-down.svg" alt="arrow" width="5px" height="5px">
                     <!-- show buttons if the span is clicked (and change image)-->
@@ -127,6 +126,7 @@
                     <button type="button" id="add-title-4">Ajouter un titre 4</button>
                     <button type="button" id="add-title-5">Ajouter un titre 5</button>
                     <button type="button" id="add-hint">Ajouter un indice</button>
+                    <button type="button" id="add-symbol">Ajouter un symbole mathématique</button>
                 </form>
             </aside>
         </main>
