@@ -1,9 +1,6 @@
-<?php
-session_start();
-?>
-
-<!DOCTYPE html>
-
+<?php 
+include_once __DIR__ . '/config/config.php';
+include_once __DIR__ . '/db/db-connection.php';
 if (!isset($_SESSION["user"])) {
     header('Location: /index.php');
     exit();
@@ -15,8 +12,7 @@ if (!isset($_SESSION["user"])) {
     exit();
 }
 
-//include_once __DIR__ . '/config/config.php';
-include_once __DIR__ . '/db/db-connection.php';
+
 
 ?>
 <!DOCTYPE html>
