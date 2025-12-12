@@ -142,10 +142,15 @@ if (!isset($_SESSION["user"])) {
                     <button type="button" id="add-title-4">Ajouter un titre 4</button>
                     <button type="button" id="add-title-5">Ajouter un titre 5</button>
                     <button type="button" id="add-hint">Ajouter un indice</button>
-                    <button type="button" id="add-letter">Ajouter une lettre greque</button>
-                    <button type="button" id="add-symbol">Ajouter un symbole mathématique</button>
-                    <button type="button" id="add-latex">Ajouter un élément LaTex</button>
                 </form>
+
+                <div id="add-symbols-btn">
+
+                </div>
+
+                <div id="symbols">
+
+                </div>
             </aside>
         </main>
 

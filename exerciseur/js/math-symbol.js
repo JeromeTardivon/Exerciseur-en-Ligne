@@ -11,14 +11,7 @@ window.MathJax = {
     }
 };
 
-let symbolsArray = ["lt", "gt", "le", "leq", "ge", "geq", "neq", "forall", "exists", "nexists", "simeq", "times", "div", "cup", "cap",
-                    "setminus", "subset", "subseteq", "subsetneq", "supset", "in", "notin", "notin", "emptyset", "varnothing", "Rightarrow", 
-                    "Leftarrow", "Leftrightarrow", "mapsto", "infty"];
-
-let lettersArray = ["alpha", "beta", "chi", "delta", "epsilon", "eta", "gamma", "iota", "kappa", "lambda", "mu", "nu", "omega", "phi", "pi",
-                    "psi", "rho", "sigma", "tau", "theta", "upsilon", "xi", "zeta"];
-
-let latexArray = ["\(", "\)"];
+let addElementsBtnArray = [];
 
 
 class ElementsBtn {
@@ -29,10 +22,10 @@ class ElementsBtn {
         this.dataArray = dataArray;
         this.prefix = prefix;
         this.suffix = suffix;
-
+        
         this.btn.addEventListener("click", ()=>this.addElements());
     }
-
+    
     addElements() {
         if (this.addElementsBtnActivated == false) {
             let div = document.createElement("div");
@@ -40,27 +33,22 @@ class ElementsBtn {
             div.style.display = "flex";
             div.style.flexDirection = "row";
             div.style.flexWrap = "wrap";
-
+            
             addSymbolSection(div, this.dataArray, this.prefix, this.suffix);
             
             reloadMathJax(div);
-
+            
             this.displayDiv.appendChild(div);
-
+            
             this.addElementsBtnActivated = true;
         } else {
             let div = document.getElementById("add-elements-".concat(this.btn.id));
             div.remove();
-
+            
             this.addElementsBtnActivated = false;
         }
     }
 }
-
-
-addSymbolsElementsBtn = new ElementsBtn("add-symbol", "chapter-creation-aside-2", symbolsArray);
-addLettersElementsBtn = new ElementsBtn("add-letter", "chapter-creation-aside-2", lettersArray);
-addLatexElementsBtn = new ElementsBtn("add-latex", "chapter-creation-aside-2", latexArray);
 
 function reloadMathJax(elem) {
     MathJax.typeset([elem]);
@@ -79,3 +67,26 @@ function addSymbolSection(div, array, prefix="", suffix="") {
         div.appendChild(btn);
     }
 }
+
+function addElementsBtn(id, btnDiv, symbolsDiv, symbolsArray, innerHtml) {
+    let newBtn = document.createElement("button");
+    newBtn.setAttribute("id", id);
+    newBtn.innerHTML = innerHtml;
+    
+    let div = document.getElementById(btnDiv);
+    div.appendChild(newBtn);
+    addElementsBtnArray.push(new ElementsBtn(id, symbolsDiv, symbolsArray));
+}
+
+let symbolsArray = ["lt", "gt", "le", "leq", "ge", "geq", "neq", "forall", "exists", "nexists", "simeq", "times", "div", "cup", "cap",
+                    "setminus", "subset", "subseteq", "subsetneq", "supset", "in", "notin", "notin", "emptyset", "varnothing", "Rightarrow", 
+                    "Leftarrow", "Leftrightarrow", "mapsto", "infty"];
+
+let lettersArray = ["alpha", "beta", "chi", "delta", "epsilon", "eta", "gamma", "iota", "kappa", "lambda", "mu", "nu", "omega", "phi", "pi",
+                    "psi", "rho", "sigma", "tau", "theta", "upsilon", "xi", "zeta"];
+
+let latexArray = ["\(", "\)"];
+
+addElementsBtn("add-math-symbol", "add-symbols-btn", "symbols", symbolsArray, "Ajouter un symbole");
+addElementsBtn("add-letter", "add-symbols-btn", "symbols", lettersArray, "Ajouter une lettre greque");
+addElementsBtn("add-latex", "add-symbols-btn", "symbols", latexArray, "Ajouter un élément laTeX");
