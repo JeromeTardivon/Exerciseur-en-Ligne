@@ -100,3 +100,12 @@ tag_id uuid,
 chapter_id uuid,
 CONSTRAINT PRIMARY KEY (tag_id,chapter_id)
 );
+
+INSERT INTO tag (tag,weight) VALUES ("maths",2),("mathématiques",2),("stats",4),("statistiques",4),
+("probablilitées",4),("proba",4),("programation",2),("java",3),("javascript",3),("processing",3),
+("c++",3),("html",3),("css",3),("php",3),("qt",4),("arduino",3),("ensembles",5),("dénombrement",5),
+("proba élémentaires",5),("probailitées élémentaires",5),("proba conditionelles",5),("probailitées conditionelles",5),
+("variables aléatoires",4),("variables aléatoires discrètes",5),("variables aléatoires continues",5),("lois de proba",4),
+("lois de probabilitéées",4),("lois discrètes",5),("lois continues",5),("loi de bernoulli",6),("loi binomiale",6)
+,("loi géométrique",6),("loi de pascal",6),("loi hypergéométrique",6),("loi de poisson",6),("loi uniforme",6)
+,("loi exponentielle",6),("loi normales",6),("loi normale",6);
