@@ -78,15 +78,13 @@ function addElementsBtn(id, btnDiv, symbolsDiv, symbolsArray, innerHtml) {
     addElementsBtnArray.push(new ElementsBtn(id, symbolsDiv, symbolsArray));
 }
 
-let symbolsArray = ["lt", "gt", "le", "leq", "ge", "geq", "neq", "simeq", "cup", "cap", "subset", "subseteq", "subsetneq", "supset",
-                    "in", "notin", "notin", "emptyset", "varnothing", "Rightarrow", 
-                    "Leftarrow", "Leftrightarrow", "mapsto", "infty"];
+let comparisonArray = ["lt", "gt", "le", "leq", "ge", "geq", "neq", "simeq", "equiv"];
 
 let lettersArray = ["alpha", "beta", "chi", "delta", "epsilon", "eta", "gamma", "iota", "kappa", "lambda", "mu", "nu", "omega", "phi", "pi",
                     "psi", "rho", "sigma", "tau", "theta", "upsilon", "xi", "zeta"];
 
 let latexArray = ["\(", "\)"];
 
-addElementsBtn("add-math-symbol", "add-symbols-btn", "symbols", symbolsArray, "Ajouter un symbole");
-addElementsBtn("add-letter", "add-symbols-btn", "symbols", lettersArray, "Ajouter une lettre greque");
-addElementsBtn("add-latex", "add-symbols-btn", "symbols", latexArray, "Ajouter un élément laTeX");
+addElementsBtn("add-comparison", "add-symbols-btn", "symbols", comparisonArray, "Symbole de comparaison");
+addElementsBtn("add-letter", "add-symbols-btn", "symbols", lettersArray, "Lettre greque");
+addElementsBtn("add-latex", "add-symbols-btn", "symbols", latexArray, "Élément laTeX");
