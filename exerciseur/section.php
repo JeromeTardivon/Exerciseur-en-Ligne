@@ -157,9 +157,6 @@ if (!isset($_SESSION["user"])) {
             </aside>
         </main>
 
-        
-        
-
         <!-- footer -->
         <?php include 'modules/footer.php' ?> 
 
