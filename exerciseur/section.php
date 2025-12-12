@@ -1,5 +1,8 @@
 <?php
 session_start();
+?>
+
+<!DOCTYPE html>
 
 if (!isset($_SESSION["user"])) {
     header('Location: /index.php');
@@ -134,7 +137,6 @@ include_once __DIR__ . '/db/db-connection.php';
                <h2>Raccourcis</h2>
                
                 <form >
-                    <button type="button" id="add-symbol">Ajouter un symbole mathématique</button>
                     <button type="button" id="add-text">Ajouter un champ de texte</button>
                     <span>Titres</span> <img src="Arrow-down.svg" alt="arrow" width="5px" height="5px">
                     <!-- show buttons if the span is clicked (and change image)-->
@@ -144,6 +146,9 @@ include_once __DIR__ . '/db/db-connection.php';
                     <button type="button" id="add-title-4">Ajouter un titre 4</button>
                     <button type="button" id="add-title-5">Ajouter un titre 5</button>
                     <button type="button" id="add-hint">Ajouter un indice</button>
+                    <button type="button" id="add-letter">Ajouter une lettre greque</button>
+                    <button type="button" id="add-symbol">Ajouter un symbole mathématique</button>
+                    <button type="button" id="add-latex">Ajouter un élément LaTex</button>
                 </form>
             </aside>
         </main>
