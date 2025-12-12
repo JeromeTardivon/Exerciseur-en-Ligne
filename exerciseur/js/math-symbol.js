@@ -36,7 +36,7 @@ class ElementsBtn {
     addElements() {
         if (this.addElementsBtnActivated == false) {
             let div = document.createElement("div");
-            div.setAttribute("id", "add-elements-div");
+            div.setAttribute("id", "add-elements-".concat(this.btn.id));
             div.style.display = "flex";
             div.style.flexDirection = "row";
             div.style.flexWrap = "wrap";
@@ -49,7 +49,7 @@ class ElementsBtn {
 
             this.addElementsBtnActivated = true;
         } else {
-            let div = document.getElementById("add-elements-div");
+            let div = document.getElementById("add-elements-".concat(this.btn.id));
             div.remove();
 
             this.addElementsBtnActivated = false;
