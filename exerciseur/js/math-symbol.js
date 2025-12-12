@@ -78,8 +78,8 @@ function addElementsBtn(id, btnDiv, symbolsDiv, symbolsArray, innerHtml) {
     addElementsBtnArray.push(new ElementsBtn(id, symbolsDiv, symbolsArray));
 }
 
-let symbolsArray = ["lt", "gt", "le", "leq", "ge", "geq", "neq", "forall", "exists", "nexists", "simeq", "times", "div", "cup", "cap",
-                    "setminus", "subset", "subseteq", "subsetneq", "supset", "in", "notin", "notin", "emptyset", "varnothing", "Rightarrow", 
+let symbolsArray = ["lt", "gt", "le", "leq", "ge", "geq", "neq", "simeq", "cup", "cap", "subset", "subseteq", "subsetneq", "supset",
+                    "in", "notin", "notin", "emptyset", "varnothing", "Rightarrow", 
                     "Leftarrow", "Leftrightarrow", "mapsto", "infty"];
 
 let lettersArray = ["alpha", "beta", "chi", "delta", "epsilon", "eta", "gamma", "iota", "kappa", "lambda", "mu", "nu", "omega", "phi", "pi",
