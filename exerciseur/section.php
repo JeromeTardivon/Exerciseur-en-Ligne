@@ -123,7 +123,8 @@ if (!isset($_SESSION["user"])) {
                     
                 </fieldset>
 
-                <button type="submit">Enregistrer la section</button>
+                <button type="submit">Enregistrer la section et continuer</button>
+                <button type="submit">Enregistrer la section et terminer le chapitre</button>
 
 
                 </form>

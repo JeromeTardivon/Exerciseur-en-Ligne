@@ -55,6 +55,8 @@ if (isset($_POST['visibility']) && isset($_POST['level-select']) && isset($_POST
         // }else{
         //     $grade_weight = null;
         // }
+    }else{
+        $class = null;
     }
 
     $db->beginTransaction();
