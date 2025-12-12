@@ -7,8 +7,8 @@ if (!isset($_GET["search"])) {
     $_GET["search"] = "";
 }
 
-$command = $db->prepare("SELECT c.title, c.description FROM exercise e JOIN chapter c ON e.id_chapter = c.id WHERE 
-                                (c.title LIKE concat('%', :title, '%') OR c.description LIKE concat('%', :title, '%')) AND c.visible = TRUE ");
+$command = $db->prepare("SELECT title, description FROM chapter = id WHERE 
+                                (title LIKE concat('%', :title, '%') OR description LIKE concat('%', :title, '%')) AND visible = TRUE ");
 $command->execute([
     "title" => $_GET["search"]
 ]);

@@ -9,7 +9,12 @@ if (!isset($_SESSION["user"])) {
     exit();
 }
 
+//include_once __DIR__ . '/config/config.php';
+include_once __DIR__ . '/db/db-connection.php';
+
 ?>
+
+
 
 <!DOCTYPE html>
 
@@ -94,15 +99,33 @@ if (!isset($_SESSION["user"])) {
                             <label for="class-select">Choisissez la classe dans laquelle ce chapitre sera inscrite</label>
                             <select name="class-select" id="class-select">
                             <option value="unspecified">Hors d'une classe</option>
+                            
                             <!-- dynamically generates options with php, getting all classes the professor is responsible of in the database-->
-                            <?php ?>
+                            <?php 
+                                $id=$_SESSION["user"]["id"];
+                                $classes=$db->prepare("SELECT class.name FROM class JOIN inclass ON class.id=inclass.id_class JOIN 
+                                users ON users.id= inclass.id_user WHERE users.id = '$id';");
+
+                                $classes->execute();
+                                
+                                
+                                while ($classname=$classes->fetch()){
+
+                                    
+                                    
+                                    echo '<option value="' . $classname["name"] .'">' . $classname["name"] .'</option>';
+                                    
+                                    
+                                }
+                            
+                            ?>
                             </select>
 
                             <span><!-- only show this span if a class is selected -->
                                 <input id="graded" type="checkbox" name="graded" value="3"></li><label for="graded">Noter ce chapitre?</label>
                                 <span> <!-- only show this span if 'graded' checkbox checked -->
                                     <label for="grade-weight">Coefficient:</label>
-                                    <input id="grade-weight" name="grade_weight" type="number" min="0" max="100" step="1" value="1">
+                                    <input id="grade-weight" name="grade_weight" type="number" min="1" max="100" step="1" value="1">
                                 </span>
                             
                             </span>
@@ -124,7 +147,7 @@ if (!isset($_SESSION["user"])) {
                         <li><h3>Tags</h3></li>
                         <li>
                             <label for="tags-input">Ajouter des tags (séparés par des virgules)</label>
-                            <input id="tags-input" name="tags_input" type="text" placeholder="ex: mathématiques, géométrie, fonctions" required>
+                            <input id="tags-input" name="tags_input" type="text" placeholder="ex: mathématiques, géométrie, fonctions">
                         </li>
                     </ul>
                 </fieldset>
@@ -143,7 +166,7 @@ if (!isset($_SESSION["user"])) {
 
                         <li>
                             <label for="desc"><h3>Description :</h3></label>
-                        </li>
+                        </li>   
                         <li>
                             <textarea id="desc" name="desc" rows="10" required> </textarea>
                         </li>

@@ -376,6 +376,34 @@ input[type="search"] {
     flex-direction: row;
 }
 
+#chapter-creation-aside-2 form, #add-symbols-btn {
+    display: flex;
+    flex-direction: column;
+}
+
+#chapter-creation-aside-2 form > span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#chapter-creation-aside-2 img {
+    height: 15px;
+    width: 15px;
+}
+
+#symbols > div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#symbols > div > * {
+    width: 10%;
+    font-size: x-large;
+}
+
 #chapter {
     display: flex;
     flex-direction: column;

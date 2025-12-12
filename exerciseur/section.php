@@ -1,5 +1,21 @@
-<!DOCTYPE html>
+<?php 
+include_once __DIR__ . '/config/config.php';
+include_once __DIR__ . '/db/db-connection.php';
+if (!isset($_SESSION["user"])) {
+    header('Location: /index.php');
+    exit();
+} else if ($_SESSION["user"]["type"] != "teacher") {
+    header('Location: /index.php');
+    exit();
+}else if (!isset($_SESSION['current_chapter_id'])) {
+    header('Location: /index.php');
+    exit();
+}
 
+
+
+?>
+<!DOCTYPE html>
 <html lang="fr">
     <?php include 'modules/include.php' ?>
     
@@ -32,7 +48,7 @@
             </aside>
 
 
-            <form action="processing-form-section.php" method="post" id ="dynamic-form">
+            <form action="processing-forms/processing-section.php" method="post" id ="dynamic-form">
 
                 <fieldset>
                     <legend>Paramètres de la section</legend>   
@@ -107,7 +123,8 @@
                     
                 </fieldset>
 
-                <button type="submit">Enregistrer la section</button>
+                <button type="submit">Enregistrer la section et continuer</button>
+                <button type="submit">Enregistrer la section et terminer le chapitre</button>
 
 
                 </form>
@@ -117,9 +134,8 @@
                <h2>Raccourcis</h2>
                
                 <form >
-                    <button type="button" id="add-symbol">Ajouter un symbole mathématique</button>
                     <button type="button" id="add-text">Ajouter un champ de texte</button>
-                    <span>Titres</span> <img src="Arrow-down.svg" alt="arrow" width="5px" height="5px">
+                    <span>Titres <img src="Arrow-down.svg" alt="arrow" width="5px" height="5px"></span> 
                     <!-- show buttons if the span is clicked (and change image)-->
                     <button type="button" id="add-title-1">Ajouter un titre 1</button>
                     <button type="button" id="add-title-2">Ajouter un titre 2</button>
@@ -128,14 +144,24 @@
                     <button type="button" id="add-title-5">Ajouter un titre 5</button>
                     <button type="button" id="add-hint">Ajouter un indice</button>
                 </form>
+
+                
+
+                <div id="add-symbols-btn">
+
+                </div>
+
+                <div id="symbols">
+
+                </div>
             </aside>
         </main>
 
         <!-- footer -->
         <?php include 'modules/footer.php' ?> 
 
-        <script type=text/javascript src="js/modular-section.js"></script>
         <script type="text/javascript" src="js/math-symbol.js"></script>
+        <script type=text/javascript src="js/modular-section.js"></script>
         
     </body>
 </html>
