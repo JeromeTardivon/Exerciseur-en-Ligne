@@ -88,3 +88,15 @@ CREATE TABLE `owns` (
   `id_chapter` uuid NOT NULL,
   PRIMARY KEY (`id_user`,`id_chapter`)
 )
+
+CREATE TABLE tag(
+id uuid PRIMARY KEY DEFAULT SYS_GUID(),
+tag VARCHAR(20),
+weight INT DEFAULT 1
+);
+
+CREATE TABLE tagged(
+tag_id uuid,
+chapter_id uuid,
+CONSTRAINT PRIMARY KEY (tag_id,chapter_id)
+);
