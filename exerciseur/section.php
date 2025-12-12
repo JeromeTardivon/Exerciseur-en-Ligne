@@ -132,6 +132,7 @@ session_start();
                     <button type="button" id="add-hint">Ajouter un indice</button>
                     <button type="button" id="add-letter">Ajouter une lettre greque</button>
                     <button type="button" id="add-symbol">Ajouter un symbole mathématique</button>
+                    <button type="button" id="add-latex">Ajouter un élément LaTex</button>
                 </form>
             </aside>
         </main>

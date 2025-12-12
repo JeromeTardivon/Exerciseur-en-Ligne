@@ -18,12 +18,17 @@ let symbolsArray = ["lt", "gt", "le", "leq", "ge", "geq", "neq", "forall", "exis
 let lettersArray = ["alpha", "beta", "chi", "delta", "epsilon", "eta", "gamma", "iota", "kappa", "lambda", "mu", "nu", "omega", "phi", "pi",
                     "psi", "rho", "sigma", "tau", "theta", "upsilon", "xi", "zeta"];
 
+let latexArray = ["\(", "\)"];
+
+
 class ElementsBtn {
-    constructor(btnId, displayDiv, dataArray) {
+    constructor(btnId, displayDiv, dataArray, prefix="\\", suffix="") {
         this.btn = document.getElementById(btnId);
         this.displayDiv = document.getElementById(displayDiv);
         this.addElementsBtnActivated = false;
         this.dataArray = dataArray;
+        this.prefix = prefix;
+        this.suffix = suffix;
 
         this.btn.addEventListener("click", ()=>this.addElements());
     }
@@ -36,7 +41,7 @@ class ElementsBtn {
             div.style.flexDirection = "row";
             div.style.flexWrap = "wrap";
 
-            addSymbolSection(div, this.dataArray);
+            addSymbolSection(div, this.dataArray, this.prefix, this.suffix);
             
             reloadMathJax(div);
 
@@ -55,13 +60,14 @@ class ElementsBtn {
 
 addSymbolsElementsBtn = new ElementsBtn("add-symbol", "chapter-creation-aside-2", symbolsArray);
 addLettersElementsBtn = new ElementsBtn("add-letter", "chapter-creation-aside-2", lettersArray);
+addLatexElementsBtn = new ElementsBtn("add-latex", "chapter-creation-aside-2", latexArray);
 
 function reloadMathJax(elem) {
     MathJax.typeset([elem]);
     MathJax.startup.document.render(elem);
 }
 
-function addSymbolSection(div, array) {
+function addSymbolSection(div, array, prefix="", suffix="") {
     for (let i = 0; i < array.length; i++) {
         let btn = document.createElement("button");
         
@@ -69,7 +75,7 @@ function addSymbolSection(div, array) {
         btn.appendChild(document.createTextNode("\\(\\".concat(array[i], "\\)")));
         
         // adds symbol to clipboard when btn is clicked
-        btn.addEventListener("click", ()=>navigator.clipboard.writeText("\\".concat(array[i])));
+        btn.addEventListener("click", ()=>navigator.clipboard.writeText(prefix.concat(array[i], suffix)));
         div.appendChild(btn);
     }
 }
