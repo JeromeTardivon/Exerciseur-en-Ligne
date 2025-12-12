@@ -1,5 +1,22 @@
-<!DOCTYPE html>
+<?php
+session_start();
 
+if (!isset($_SESSION["user"])) {
+    header('Location: /index.php');
+    exit();
+} else if ($_SESSION["user"]["type"] != "teacher") {
+    header('Location: /index.php');
+    exit();
+}else if (!isset($_SESSION['current_chapter_id'])) {
+    header('Location: /index.php');
+    exit();
+}
+
+//include_once __DIR__ . '/config/config.php';
+include_once __DIR__ . '/db/db-connection.php';
+
+?>
+<!DOCTYPE html>
 <html lang="fr">
     <?php include 'modules/include.php' ?>
     
@@ -32,7 +49,7 @@
             </aside>
 
 
-            <form action="processing-form-section.php" method="post" id ="dynamic-form">
+            <form action="processing-forms/processing-section.php" method="post" id ="dynamic-form">
 
                 <fieldset>
                     <legend>Paramètres de la section</legend>   

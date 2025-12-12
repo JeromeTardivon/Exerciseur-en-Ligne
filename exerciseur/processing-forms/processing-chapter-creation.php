@@ -86,6 +86,8 @@ if (isset($_POST['visibility']) && isset($_POST['level-select']) && isset($_POST
             
     }
 
+    $_SESSION['current_chapter_id'] = $chapter['id'];
+
     
 
     $db->commit();
@@ -99,5 +101,5 @@ if (isset($_POST['visibility']) && isset($_POST['level-select']) && isset($_POST
 
     
 }
-header('Location: /index.php');
+header('Location: /section.php');
 exit();

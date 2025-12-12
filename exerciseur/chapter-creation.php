@@ -147,7 +147,7 @@ include_once __DIR__ . '/db/db-connection.php';
                         <li><h3>Tags</h3></li>
                         <li>
                             <label for="tags-input">Ajouter des tags (séparés par des virgules)</label>
-                            <input id="tags-input" name="tags_input" type="text" placeholder="ex: mathématiques, géométrie, fonctions" required>
+                            <input id="tags-input" name="tags_input" type="text" placeholder="ex: mathématiques, géométrie, fonctions">
                         </li>
                     </ul>
                 </fieldset>
