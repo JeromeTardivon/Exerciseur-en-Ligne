@@ -30,9 +30,6 @@ class ElementsBtn {
         if (this.addElementsBtnActivated == false) {
             let div = document.createElement("div");
             div.setAttribute("id", "add-elements-".concat(this.btn.id));
-            div.style.display = "flex";
-            div.style.flexDirection = "row";
-            div.style.flexWrap = "wrap";
             
             addSymbolSection(div, this.dataArray, this.prefix, this.suffix);
             
