@@ -1,6 +1,6 @@
 <?php
 include_once __DIR__ . '/../config/config.php';
-include_once __DIR__ . '/../db/db-connection.php';
+require_once __DIR__ . '/../db/db-connection.php';
 if (isset($_POST['visibility']) && isset($_POST['level-select']) && isset($_POST['class-select']) && isset($_POST['tags_input']) && isset($_POST['title']) && isset($_POST['desc']) && isset($_SESSION['user']) && $_SESSION['user']['type'] === 'teacher'){
     $visibility = $_POST['visibility'];
     $level = $_POST['level-select'];

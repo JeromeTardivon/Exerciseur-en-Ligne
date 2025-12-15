@@ -6,10 +6,7 @@ require_once __DIR__ . '/config/config.php';
 // checks if user is connected
 if (isset($_SESSION["user"])) {
     // changer les infos à afficher (surtout l'id)
-    $command = $db->prepare("SELECT e.id, c.title, r.grade, r.created_at FROM result r JOIN exercise e ON r.id_exercise = e.id JOIN chapter c ON r.id_subject = c.id WHERE r.id_user = :user");
-    $command->execute(["user" => $_SESSION["user"]["id"]]);
-
-    $grades = $command->fetchAll();
+    $grades = getGrades($db, $_SESSION["user"]["id"]);
 
     $namefile = "export.csv";
     $content = "id,title,grade,created_at \n";

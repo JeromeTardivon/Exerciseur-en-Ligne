@@ -124,3 +124,9 @@ function addStudentToClassByCode($db, $studentId, $code): void
         $db->commit();
     }
 }
+
+function getGrades($db, $id): array{
+    $command = $db->prepare("SELECT e.id, c.title, r.grade, r.created_at FROM result r JOIN exercise e ON r.id_exercise = e.id JOIN chapter c ON r.id_subject = c.id WHERE r.id_user = :user");
+    $command->execute(["user" => $id]);
+    return $command->fetchAll();
+}
