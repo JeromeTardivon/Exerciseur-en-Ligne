@@ -1,7 +1,9 @@
 <?php
 include_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/db/Database.php';
+
 use db\Database;
+
 $db = Database::getInstance()->getDb();
 
 $_TITLE = "Éditeur Classe";
@@ -9,6 +11,7 @@ $class = getClass($db, $_GET['id-class']);
 $listStudents = getStudentsFromClass($db, $class['id']);
 $teacher = getResponsableFromClass($db, $class['id']);
 $activesClassCodes = getClassCodes($db, $class['id']);
+$listChapters = getChaptersClass($db, $class['id']);
 ?>
 
 <!DOCTYPE html>
@@ -32,6 +35,18 @@ $activesClassCodes = getClassCodes($db, $class['id']);
         <input type="hidden" name="class" value="<?= $class['id'] ?>">
         <input class="btn" type="submit" value="Modifier">
     </form>
+    <h2>Chapitres de la classe</h2>
+    <ul>
+        <?php
+        foreach ($listChapters as $chapter) { ?>
+            <li class="">
+                <div>
+                    <a href="chapter.php?id-chapter=<?= $chapter['id'] ?>"><?= $chapter['title'] ?></a>
+                </div>
+            </li>
+        <?php }
+        ?>
+    </ul>
     <h2>Ajouter étudiants</h2>
     <ul>
         <?php
