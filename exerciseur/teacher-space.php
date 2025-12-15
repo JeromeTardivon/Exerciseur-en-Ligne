@@ -61,16 +61,14 @@ include 'modules/include.php' ?>
                 <!-- le contenu de la liste sera à changer avec du php pour avoir la liste des classes auquels il a accès -->
                 <!-- le nb de li sera en fonction de la hauteur de l'écran -->
                 <ul>
-                    <li class="btn"><a href="">Chapitre 1</a></li>
-                    <li class="btn"><a href="">Chapitre 2</a></li>
-                    <li class="btn"><a href="">Chapitre 1</a></li>
-                    <li class="btn"><a href="">Chapitre 2</a></li>
-                    <li class="btn"><a href="">Chapitre 1</a></li>
-                    <li class="btn"><a href="">Chapitre 2</a></li>
-                    <li class="btn"><a href="">Chapitre 1</a></li>
-                    <li class="btn"><a href="">Chapitre 2</a></li>
-                    <li class="btn"><a href="">Chapitre 1</a></li>
-                    <li class="btn"><a href="">Chapitre 2</a></li>
+                    <?php
+                    $listChapters = getChaptersTeacher($db, $_SESSION['user']['id']);
+                    foreach ($listChapters as $chapter) { ?>
+                        <li class="btn"><a
+                                    href="chapter.php?id-chapter=<?= $chapter['id'] ?>"><?= $chapter['title'] ?></a>
+                        </li>
+                    <?php }
+                    ?>
                 </ul>
             </div>
 
