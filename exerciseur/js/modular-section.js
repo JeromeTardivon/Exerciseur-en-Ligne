@@ -73,13 +73,20 @@ document.addEventListener('DOMContentLoaded', function(){
         
         textarea.placeholder = placeholder;
         // set current value (use value so it's readable via .value)
-        // textarea.value = defaultv || '';
+        textarea.value = defaultv || '';
         textarea.id = id;
         textarea.name = name;
         textarea.rows = 4;
         textarea.cols = 50;
         
-        const wrapper = createWrapper('div');
+        // use a plain wrapper for the textarea preview area so it does NOT
+        // get the 'module' class or a dataset.type. Previously we used
+        // createWrapper('preview') which created a nested element with
+        // class 'module' and data-type 'preview' — that produced duplicate
+        // module entries in saveState() and caused loadState() to overwrite
+        // the real module types with 'preview'. Keep this wrapper plain.
+        const wrapper = document.createElement('div');
+        wrapper.className = 'preview';
         wrapper.appendChild(textarea);
         wrapper.appendChild(p);
         return wrapper;
@@ -213,6 +220,8 @@ document.addEventListener('DOMContentLoaded', function(){
                     
                     addHintField(item.value || '',0);
 
+                }else if(item.type === 'div'){
+                    
                 }else {
                     console.warn('Unsupported module type during load:', item.type);
                 }
