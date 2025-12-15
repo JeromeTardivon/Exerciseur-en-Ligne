@@ -1,8 +1,9 @@
 <?php
 //config
-require_once __DIR__ . '/db/db-connection.php';
 require_once __DIR__ . '/config/config.php';
-
+require_once __DIR__ . '/db/Database.php';
+use db\Database;
+$db = Database::getInstance()->getDb();
 // checks if user is connected
 if (isset($_SESSION["user"])) {
     // changer les infos à afficher (surtout l'id)

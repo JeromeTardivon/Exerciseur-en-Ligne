@@ -1,6 +1,9 @@
 <?php
 include_once __DIR__ . '/config/config.php';
-include_once __DIR__ . '/db/db-connection.php';
+require_once __DIR__ . '/db/Database.php';
+use db\Database;
+$db = Database::getInstance()->getDb();
+
 $_TITLE = "Éditeur Classe";
 $class = getClass($db, $_GET['id-class']);
 $listStudents = getStudentsFromClass($db, $class['id']);
