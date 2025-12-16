@@ -155,9 +155,12 @@ let lettersMinArray = ["alpha", "beta", "chi", "delta", "epsilon", "eta", "gamma
 
 let lettersArray = ["Delta", "Gamma", "Lambda", "Omega", "Phi", "Pi", "Psi", "Sigma", "Theta", "Upsilon", "Xi"];
 
+let delimitersArray = ["lbrace", "rbrace", "langle", "rangle", "lfloor", "rfloor", "lceil", "rceil"];
+
 let latexArray = ["\(", "\)"];
 
-addElementsBtn("add-comparison", "add-symbols-btn", "symbols", comparisonArray, "Symboles de comparaison");
+addElementsBtn("add-latex", "add-symbols-btn", "symbols", latexArray, "Éléments laTeX");
 addElementsBtn("add-letter-min", "add-symbols-btn", "symbols", lettersMinArray, "Lettres greques (miniscules)");
 addElementsBtn("add-letter-maj", "add-symbols-btn", "symbols", lettersArray, "Lettres greques (majuscules)");
-addElementsBtn("add-latex", "add-symbols-btn", "symbols", latexArray, "Éléments laTeX");
+addElementsBtn("add-comparison", "add-symbols-btn", "symbols", comparisonArray, "Symboles de comparaison");
+addElementsBtn("add-delimiters", "add-symbols-btn", "symbols", delimitersArray, "Délimiteurs");
