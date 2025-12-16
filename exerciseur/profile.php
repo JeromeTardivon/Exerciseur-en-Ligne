@@ -69,16 +69,6 @@ include 'modules/include.php'; ?>
 
         <div id="profile-details">
             <div>
-                <h2>Historique exercice</h2>
-                <ul>
-                    <li>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-                    <li>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-                    <li>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-                    <li>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-                    <li>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-                </ul>
-            </div>
-            <div>
                 <h2>Classes</h2>
                 <ul>
                     <?php

@@ -222,11 +222,16 @@ aside img {
     margin: 0%;
 }
 
-#profile-details > div > ul{
-    background-color: var(--main-color);
+#profile-details > div > ul {
+    max-height: 20em;
+    overflow-y: auto;
+}
+
+#profile-details > div li {
     border: 1px solid black;
     border-radius: var(--radius);
-    padding: 1%;
+    margin: 0.5em;
+    padding: 1em;
 }
 
 
@@ -469,6 +474,25 @@ input[type="search"] {
 #main-contact ul {
     list-style-type:disc;
     margin-left: 2%;
+}
+
+#main-editor-class .btn {
+    padding: 0.25em 1em;
+}
+
+#main-editor-class ul {
+    display: flex;
+    flex-direction: column;
+}
+
+#main-editor-class ul div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#main-editor-class ul div > * {
+    margin: 0.5em;
 }
 
 footer {
