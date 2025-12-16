@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const addTitle5Btn = document.getElementById('add-title-5');
     const addTrueFalseBtn = document.getElementById('add-true-false');
     const addOpenQuestionBtn = document.getElementById('add-open-question');
+    const addNumericalQuestionBtn = document.getElementById('add-numerical-question');
     const addHintBtn = document.getElementById('add-hint');
 
     const form = document.getElementById('dynamic-form');
@@ -209,6 +210,24 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 
+    function addNumericalQuestionField(defaultv = "") {
+        const wrapper = createWrapper('numericalquestion');
+        const id = `modules_${index}_value`;
+        //name usable server side (modules[0][value], modules[1][value], ...)
+        const input = createTextarea(id, "Entrez la question numérique ici", defaultv,`modules[${index}][value]`);
+        const label = createLabel("Question numérique : ", id);
+        const remove = createRemove(wrapper);
+        wrapper.appendChild(label);
+        wrapper.appendChild(input);
+        wrapper.appendChild(remove);
+        container.appendChild(wrapper);
+        index++;
+        if (!suspendSave) saveState();
+        wrapper.addEventListener('input', () => {
+            if (!suspendSave) saveState();
+        });
+    }
+
     //Redo the id of inputs after deletion to keep modules[0], modules[1], ...
     function renumber() {
         const modules = container.querySelectorAll('.module');
@@ -291,6 +310,7 @@ document.addEventListener('DOMContentLoaded', function(){
     addTitle1Btn.addEventListener('click', ()=> addTitleField('', 1));
     addTrueFalseBtn.addEventListener('click', ()=> addTrueFalseField());
     addOpenQuestionBtn.addEventListener('click', ()=> addOpenQuestionField());
+    addNumericalQuestionBtn.addEventListener('click', ()=> addNumericalQuestionField());
     addHintBtn.addEventListener('click', ()=> addHintField());
     loadState();
 });
