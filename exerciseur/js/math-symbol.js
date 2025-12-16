@@ -157,6 +157,11 @@ let lettersArray = ["Delta", "Gamma", "Lambda", "Omega", "Phi", "Pi", "Psi", "Si
 
 let delimitersArray = ["lbrace", "rbrace", "langle", "rangle", "lfloor", "rfloor", "lceil", "rceil"];
 
+let miscArray = ["infty", "nabla", "partial", "eth", "clubsuit", "diamondsuit", "heartsuit", "spadesuit", "forall", "exists", "nexists", "emptyset",
+                 "varnothing", "sharp", "flat", "natural", "mho"];
+
+let ensemblesArray = ["mathbb{N}", "mathbb{Z}", "mathbb{D}", "mathbb{Q}", "mathbb{R}", "mathbb{C}", "mathbb{H}", "mathbb{O}", "mathbb{S}"];
+
 let latexArray = ["\(", "\)"];
 
 addElementsBtn("add-latex", "add-symbols-btn", "symbols", latexArray, "Éléments laTeX");
@@ -164,3 +169,5 @@ addElementsBtn("add-letter-min", "add-symbols-btn", "symbols", lettersMinArray, 
 addElementsBtn("add-letter-maj", "add-symbols-btn", "symbols", lettersArray, "Lettres greques (majuscules)");
 addElementsBtn("add-comparison", "add-symbols-btn", "symbols", comparisonArray, "Symboles de comparaison");
 addElementsBtn("add-delimiters", "add-symbols-btn", "symbols", delimitersArray, "Délimiteurs");
+addElementsBtn("add-ensembles", "add-symbols-btn", "symbols", ensemblesArray, "Ensembles de définition");
+addElementsBtn("add-misc", "add-symbols-btn", "symbols", miscArray, "Symboles divers");
