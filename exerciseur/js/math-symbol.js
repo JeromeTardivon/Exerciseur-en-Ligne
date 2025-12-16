@@ -150,11 +150,14 @@ function addElementsBtn(id, btnDiv, symbolsDiv, symbolsArray, innerHtml) {
 
 let comparisonArray = ["lt", "gt", "le", "ge", "neq", "simeq", "equiv"];
 
-let lettersArray = ["alpha", "beta", "chi", "delta", "epsilon", "eta", "gamma", "iota", "kappa", "lambda", "mu", "nu", "omega", "phi", "pi",
+let lettersMinArray = ["alpha", "beta", "chi", "delta", "epsilon", "eta", "gamma", "iota", "kappa", "lambda", "mu", "nu", "omega", "phi", "pi",
                     "psi", "rho", "sigma", "tau", "theta", "upsilon", "xi", "zeta"];
+
+let lettersArray = ["Delta", "Gamma", "Lambda", "Omega", "Phi", "Pi", "Psi", "Sigma", "Theta", "Upsilon", "Xi"];
 
 let latexArray = ["\(", "\)"];
 
-addElementsBtn("add-comparison", "add-symbols-btn", "symbols", comparisonArray, "Symbole de comparaison");
-addElementsBtn("add-letter", "add-symbols-btn", "symbols", lettersArray, "Lettre greque");
-addElementsBtn("add-latex", "add-symbols-btn", "symbols", latexArray, "Élément laTeX");
+addElementsBtn("add-comparison", "add-symbols-btn", "symbols", comparisonArray, "Symboles de comparaison");
+addElementsBtn("add-letter-min", "add-symbols-btn", "symbols", lettersMinArray, "Lettres greques (miniscules)");
+addElementsBtn("add-letter-maj", "add-symbols-btn", "symbols", lettersArray, "Lettres greques (majuscules)");
+addElementsBtn("add-latex", "add-symbols-btn", "symbols", latexArray, "Éléments laTeX");

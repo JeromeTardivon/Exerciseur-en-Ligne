@@ -380,7 +380,7 @@ input[type="search"] {
     flex-direction: row;
 }
 
-#chapter-creation-aside-1 > div {
+#chapter-creation-aside-1 > div, #chapter-creation-aside-2 form {
     position: sticky;
     top: 2em;
 }
