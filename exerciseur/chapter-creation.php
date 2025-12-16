@@ -168,7 +168,7 @@ include_once __DIR__ . '/db/db-connection.php';
                             <label for="desc"><h3>Description :</h3></label>
                         </li>   
                         <li>
-                            <textarea id="desc" name="desc" rows="10" required> </textarea>
+                            <textarea id="desc" name="desc" rows="10" required ></textarea>
                         </li>
 
                     </ul>

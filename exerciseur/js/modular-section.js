@@ -79,12 +79,7 @@ document.addEventListener('DOMContentLoaded', function(){
         textarea.rows = 4;
         textarea.cols = 50;
         
-        // use a plain wrapper for the textarea preview area so it does NOT
-        // get the 'module' class or a dataset.type. Previously we used
-        // createWrapper('preview') which created a nested element with
-        // class 'module' and data-type 'preview' — that produced duplicate
-        // module entries in saveState() and caused loadState() to overwrite
-        // the real module types with 'preview'. Keep this wrapper plain.
+            
         const wrapper = document.createElement('div');
         wrapper.className = 'preview';
         wrapper.appendChild(textarea);
