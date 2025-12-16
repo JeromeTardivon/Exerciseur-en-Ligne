@@ -234,7 +234,6 @@ aside img {
     padding: 1em;
 }
 
-
 input[type="search"] {
     width: 90%;
 }
@@ -386,7 +385,7 @@ input[type="search"] {
     flex-direction: column;
 }
 
-#chapter-creation-aside-2 form > span {
+#chapter-creation-aside-2 form > label {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -397,6 +396,26 @@ input[type="search"] {
     height: 15px;
     width: 15px;
 }
+
+#chapter-creation-aside-2 form :not(input[type="checkbox"]:checked) ~ div {
+    display: none;
+}
+
+#chapter-creation-aside-2 form input[type="checkbox"]:checked ~ div {
+    display: flex;
+    flex-direction: column;
+}
+
+#chapter-creation-aside-2 form :not(input[type="checkbox"]:checked) ~ label img {
+    transform: rotateX(180deg);
+    transition: transform 0.75s ease;
+
+}
+#chapter-creation-aside-2 form input[type="checkbox"]:checked ~ label img {
+    transform: rotateX(0deg);
+    transition: transform 0.75s ease;
+}
+
 
 #symbols > div {
     display: flex;
