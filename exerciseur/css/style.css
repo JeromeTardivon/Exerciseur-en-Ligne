@@ -380,6 +380,11 @@ input[type="search"] {
     flex-direction: row;
 }
 
+#chapter-creation-aside-1 > div, #chapter-creation-aside-2 form {
+    position: sticky;
+    top: 2em;
+}
+
 #chapter-creation-aside-2 form, #add-symbols-btn {
     display: flex;
     flex-direction: column;

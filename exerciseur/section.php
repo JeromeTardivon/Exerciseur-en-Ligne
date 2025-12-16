@@ -25,26 +25,17 @@ if (!isset($_SESSION["user"])) {
         <?php include 'modules/header.php' ?>
 
         <main id="chapter-creation">     
-            <aside>
+            <aside id=chapter-creation-aside-1>
                 <h2>Outils</h2>
                 <div>
-                    <ul>      
-                        <li>Outil1</li>
-                        <li>Outil2</li>
-                    </ul>
+                    <div id="add-symbols-btn">
+    
+                    </div>
+    
+                    <div id="symbols">
+    
+                    </div>
                 </div>
-                <div>
-                    <ul>      
-                        <li>Outil1</li>
-                        <li>Outil2</li>
-                    </ul>
-                </div>
-                <div>
-                    <ul>      
-                        <li>Outil1</li>
-                        <li>Outil2</li>
-                    </ul>
-                </div> 
             </aside>
 
 
@@ -131,35 +122,26 @@ if (!isset($_SESSION["user"])) {
             
 
             <aside id="chapter-creation-aside-2">
-               <h2>Raccourcis</h2>
+               <h2>Modules</h2>
                
                 <form >
                     <button type="button" id="add-text">Ajouter un champ de texte</button>
+                    <button type="button" id="add-hint">Ajouter un indice</button>
+
+                    <!-- show buttons if the span is clicked (and change image)-->
                     <input type="checkbox" id="dropdown" hidden/>
                     <label for="dropdown">Titres <img src="Arrow-down.svg" alt="arrow" width="5px" height="5px"></label> 
-                    <!-- show buttons if the span is clicked (and change image)-->
                     <div>
                         <button type="button" id="add-title-1">Ajouter un titre 1</button>
                         <button type="button" id="add-title-2">Ajouter un titre 2</button>
                         <button type="button" id="add-title-3">Ajouter un titre 3</button>
                         <button type="button" id="add-title-4">Ajouter un titre 4</button>
                         <button type="button" id="add-title-5">Ajouter un titre 5</button>
-                        <button type="button" id="add-hint">Ajouter un indice</button>
                     </div>
                     <button type="button" id="add-true-false">Ajouter une question Vrai/Faux</button>
                     <button type="button" id="add-open-question">Ajouter une question à réponse ouverte</button>
                     <button type="button" id="add-hint">Ajouter un indice</button>
                 </form>
-
-                
-
-                <div id="add-symbols-btn">
-
-                </div>
-
-                <div id="symbols">
-
-                </div>
             </aside>
         </main>
 
