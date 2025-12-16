@@ -145,6 +145,7 @@ if (!isset($_SESSION["user"])) {
                         <button type="button" id="add-title-4">Ajouter un titre 4</button>
                         <button type="button" id="add-title-5">Ajouter un titre 5</button>
                     </div>
+                    <button type="button" id="add-multiple-choice">Ajouter une question QCM</button>
                     <button type="button" id="add-true-false">Ajouter une question Vrai/Faux</button>
                     <button type="button" id="add-open-question">Ajouter une question à réponse ouverte</button>
                     <button type="button" id="add-numerical-question">Ajouter une question numérique</button>
