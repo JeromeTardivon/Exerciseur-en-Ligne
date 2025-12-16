@@ -69,23 +69,15 @@ include 'modules/include.php'; ?>
 
         <div id="profile-details">
             <div>
-                <h2>Historique exercice</h2>
-                <ul>
-                    <li>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-                    <li>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-                    <li>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-                    <li>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-                    <li>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-                </ul>
-            </div>
-            <div>
                 <h2>Classes</h2>
                 <ul>
                     <?php
                     $list = getClasses($db, $_SESSION['user']['id']);
                     foreach ($list as $class) { ?>
-                        <li><a href="editor-class.php?id-class=<?= $class['id'] ?>"><?= $class['name'] ?></a></li>
-                    <?php } ?>
+                        <li class="btn"><a
+                                    href="editor-class.php?id-class=<?= $class['id'] ?>"><?= $class['name'] ?></a></li>
+                    <?php }
+                    ?>
                 </ul>
                 <form action="" method="post">
                     <label>
