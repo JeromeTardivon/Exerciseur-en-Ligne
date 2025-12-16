@@ -152,7 +152,7 @@ $classes = getClasses($db, $_SESSION["user"]["id"]);
                             <label for="desc"><h3>Description :</h3></label>
                         </li>   
                         <li>
-                            <textarea id="desc" name="desc" rows="10" required> </textarea>
+                            <textarea id="desc" name="desc" rows="10" required ></textarea>
                         </li>
 
                     </ul>
