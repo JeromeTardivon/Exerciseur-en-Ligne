@@ -42,7 +42,7 @@ include 'modules/include.php' ?>
                     $list = getClasses($db, $_SESSION['user']['id']);
                     foreach ($list as $class) { ?>
                         <li class="btn"><a
-                                    href="editor-class.php?id-class=<?= $class['id'] ?>"><?= $class['name'] ?></a></li>
+                                    href="class.php?id-class=<?= $class['id'] ?>"><?= $class['name'] ?></a></li>
                     <?php }
                     ?>
                 </ul>

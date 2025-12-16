@@ -35,7 +35,7 @@ $listChapters = getChaptersClass($db, $class['id']);
         <input type="hidden" name="class" value="<?= $class['id'] ?>">
         <input class="btn" type="submit" value="Modifier">
     </form>
-    <h2>Chapitres de la classe</h2>
+    <h2 <?= empty($listChapters) ? "hidden" : "" ?>>Chapitres de la classe</h2>
     <ul>
         <?php
         foreach ($listChapters as $chapter) { ?>
