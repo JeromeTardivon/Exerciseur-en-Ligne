@@ -74,7 +74,7 @@ include 'modules/include.php'; ?>
                     <?php
                     $list = getClasses($db, $_SESSION['user']['id']);
                     foreach ($list as $class) { ?>
-                        <li><a href="class.php?id-class=<?= $class['id'] ?>"><?= $class['name'] ?></a></li>
+                        <li class="btn"><a href="class.php?id-class=<?= $class['id'] ?>"><?= $class['name'] ?></a></li>
                     <?php } ?>
                 </ul>
                 <form action="" method="post">
