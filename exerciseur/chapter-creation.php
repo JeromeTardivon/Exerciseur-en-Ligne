@@ -1,5 +1,8 @@
 <?php
-session_start();
+include_once __DIR__ . '/config/config.php';
+include_once __DIR__ . '/db/db-connection.php';
+require_once __DIR__ . '/db/Database.php';
+use db\Database;
 
 if (!isset($_SESSION["user"])) {
     header('Location: /index.php');
@@ -8,16 +11,10 @@ if (!isset($_SESSION["user"])) {
     header('Location: /index.php');
     exit();
 }
-
-//include_once __DIR__ . '/config/config.php';
-include_once __DIR__ . '/db/db-connection.php';
-
+$db = Database::getInstance()->getDb();
+$classes = getClasses($db, $_SESSION["user"]["id"]);
 ?>
-
-
-
 <!DOCTYPE html>
-
 <html lang="fr">
  <?php include 'modules/include.php' ?>
 
@@ -101,23 +98,10 @@ include_once __DIR__ . '/db/db-connection.php';
                             <option value="unspecified">Hors d'une classe</option>
                             
                             <!-- dynamically generates options with php, getting all classes the professor is responsible of in the database-->
-                            <?php 
-                                $id=$_SESSION["user"]["id"];
-                                $classes=$db->prepare("SELECT class.name FROM class JOIN inclass ON class.id=inclass.id_class JOIN 
-                                users ON users.id= inclass.id_user WHERE users.id = '$id';");
-
-                                $classes->execute();
-                                
-                                
-                                while ($classname=$classes->fetch()){
-
-                                    
-                                    
-                                    echo '<option value="' . $classname["name"] .'">' . $classname["name"] .'</option>';
-                                    
-                                    
+                            <?php
+                                foreach ($classes as $class) {
+                                    echo '<option value="' . $class["name"] .'">' . $class["name"] .'</option>';
                                 }
-                            
                             ?>
                             </select>
 
