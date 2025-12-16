@@ -126,16 +126,17 @@ if (!isset($_SESSION["user"])) {
                
                 <form >
                     <button type="button" id="add-text">Ajouter un champ de texte</button>
+                    <button type="button" id="add-hint">Ajouter un indice</button>
+
+                    <!-- show buttons if the span is clicked (and change image)-->
                     <input type="checkbox" id="dropdown" hidden/>
                     <label for="dropdown">Titres <img src="Arrow-down.svg" alt="arrow" width="5px" height="5px"></label> 
-                    <!-- show buttons if the span is clicked (and change image)-->
                     <div>
                         <button type="button" id="add-title-1">Ajouter un titre 1</button>
                         <button type="button" id="add-title-2">Ajouter un titre 2</button>
                         <button type="button" id="add-title-3">Ajouter un titre 3</button>
                         <button type="button" id="add-title-4">Ajouter un titre 4</button>
                         <button type="button" id="add-title-5">Ajouter un titre 5</button>
-                        <button type="button" id="add-hint">Ajouter un indice</button>
                     </div>
                 </form>
             </aside>
