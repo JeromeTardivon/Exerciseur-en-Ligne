@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const addTitle4Btn = document.getElementById('add-title-4');
     const addTitle5Btn = document.getElementById('add-title-5');
     const addTrueFalseBtn = document.getElementById('add-true-false');
+    const addOpenQuestionBtn = document.getElementById('add-open-question');
     const addHintBtn = document.getElementById('add-hint');
 
     const form = document.getElementById('dynamic-form');
@@ -190,6 +191,24 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 
+    function addOpenQuestionField(defaultv = "") {
+        const wrapper = createWrapper('openquestion');
+        const id = `modules_${index}_value`;
+        //name usable server side (modules[0][value], modules[1][value], ...)
+        const input = createTextarea(id, "Entrez la question/consigne ici", defaultv,`modules[${index}][value]`);
+        const label = createLabel("Question à réponse ouverte : ", id);
+        const remove = createRemove(wrapper);
+        wrapper.appendChild(label);
+        wrapper.appendChild(input);
+        wrapper.appendChild(remove);
+        container.appendChild(wrapper);
+        index++;
+        if (!suspendSave) saveState();
+        wrapper.addEventListener('input', () => {
+            if (!suspendSave) saveState();
+        });
+    }
+
     //Redo the id of inputs after deletion to keep modules[0], modules[1], ...
     function renumber() {
         const modules = container.querySelectorAll('.module');
@@ -271,6 +290,7 @@ document.addEventListener('DOMContentLoaded', function(){
     addTitle2Btn.addEventListener('click', ()=> addTitleField('', 2));
     addTitle1Btn.addEventListener('click', ()=> addTitleField('', 1));
     addTrueFalseBtn.addEventListener('click', ()=> addTrueFalseField());
+    addOpenQuestionBtn.addEventListener('click', ()=> addOpenQuestionField());
     addHintBtn.addEventListener('click', ()=> addHintField());
     loadState();
 });
