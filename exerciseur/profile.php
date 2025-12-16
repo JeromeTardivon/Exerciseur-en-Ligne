@@ -82,12 +82,10 @@ include 'modules/include.php'; ?>
                 <h2>Classes</h2>
                 <ul>
                     <?php
-
-                    foreach (getClasses($db, $_SESSION['user']['id']) as $class) {
-                        echo "<li>" . $class['name'] . "</li>";
-                    }
-
-                    ?>
+                    $list = getClasses($db, $_SESSION['user']['id']);
+                    foreach ($list as $class) { ?>
+                        <li><a href="editor-class.php?id-class=<?= $class['id'] ?>"><?= $class['name'] ?></a></li>
+                    <?php } ?>
                 </ul>
                 <form action="" method="post">
                     <label>
