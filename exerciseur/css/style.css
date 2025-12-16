@@ -471,6 +471,25 @@ input[type="search"] {
     margin-left: 2%;
 }
 
+#main-editor-class .btn {
+    padding: 0.25em 1em;
+}
+
+#main-editor-class ul {
+    display: flex;
+    flex-direction: column;
+}
+
+#main-editor-class ul div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#main-editor-class ul div > * {
+    margin: 0.5em;
+}
+
 footer {
     display: flex;
     flex-direction: row;
