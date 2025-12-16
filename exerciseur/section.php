@@ -122,7 +122,7 @@ if (!isset($_SESSION["user"])) {
             
 
             <aside id="chapter-creation-aside-2">
-               <h2>Raccourcis</h2>
+               <h2>Modules</h2>
                
                 <form >
                     <button type="button" id="add-text">Ajouter un champ de texte</button>
