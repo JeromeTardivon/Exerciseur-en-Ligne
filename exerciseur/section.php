@@ -25,26 +25,17 @@ if (!isset($_SESSION["user"])) {
         <?php include 'modules/header.php' ?>
 
         <main id="chapter-creation">     
-            <aside>
+            <aside id=chapter-creation-aside-1>
                 <h2>Outils</h2>
                 <div>
-                    <ul>      
-                        <li>Outil1</li>
-                        <li>Outil2</li>
-                    </ul>
+                    <div id="add-symbols-btn">
+    
+                    </div>
+    
+                    <div id="symbols">
+    
+                    </div>
                 </div>
-                <div>
-                    <ul>      
-                        <li>Outil1</li>
-                        <li>Outil2</li>
-                    </ul>
-                </div>
-                <div>
-                    <ul>      
-                        <li>Outil1</li>
-                        <li>Outil2</li>
-                    </ul>
-                </div> 
             </aside>
 
 
@@ -147,16 +138,6 @@ if (!isset($_SESSION["user"])) {
                         <button type="button" id="add-hint">Ajouter un indice</button>
                     </div>
                 </form>
-
-                
-
-                <div id="add-symbols-btn">
-
-                </div>
-
-                <div id="symbols">
-
-                </div>
             </aside>
         </main>
 
