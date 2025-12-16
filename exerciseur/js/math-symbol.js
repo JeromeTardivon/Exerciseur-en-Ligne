@@ -95,30 +95,56 @@ class ElementsBtn {
         this.btn.addEventListener("click", ()=>this.addElements());
     }
     
-    addElements() {
+    async addElements() {
         if (this.addElementsBtnActivated == false) {
             let div = document.createElement("div");
             div.setAttribute("id", "add-elements-".concat(this.btn.id));
             
             addSymbolSection(div, this.dataArray, this.prefix, this.suffix);
             
-            reloadMathJax(div);
-            
+            this.btn.style.color = "red";
             this.displayDiv.appendChild(div);
+            
+            await reloadMathJax(div);
             
             this.addElementsBtnActivated = true;
         } else {
             let div = document.getElementById("add-elements-".concat(this.btn.id));
             div.remove();
             
+            this.btn.style.color = "";
             this.addElementsBtnActivated = false;
         }
     }
 }
 
-function reloadMathJax(elem) {
-    MathJax.typeset([elem]);
-    MathJax.startup.document.render(elem);
+async function reloadMathJax(elem) {
+    if (!window.MathJax) return;
+
+    // ensure MathJax has finished loading before invoking typesetting
+    if (MathJax.startup && MathJax.startup.promise) {
+        try {
+            await MathJax.startup.promise;
+        } catch (err) {
+            // ignore startup promise errors and continue
+            console.warn('MathJax startup.promise rejected:', err);
+        }
+    }
+
+    if (MathJax.typesetPromise) {
+        try {
+            await MathJax.typesetPromise([elem]);
+        } catch (err) {
+            // gracefully handle MathJax errors
+            console.error('MathJax typesetPromise error:', err);
+        }
+    } else if (MathJax.typeset) {
+        try {
+            MathJax.typeset([elem]);
+        } catch (err) {
+            console.error('MathJax typeset error:', err);
+        }
+    }
 }
 
 function addSymbolSection(div, array, prefix="", suffix="") {
