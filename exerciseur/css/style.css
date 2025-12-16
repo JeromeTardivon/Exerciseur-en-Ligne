@@ -222,11 +222,16 @@ aside img {
     margin: 0%;
 }
 
-#profile-details > div > ul{
-    background-color: var(--main-color);
+#profile-details > div > ul {
+    max-height: 20em;
+    overflow-y: auto;
+}
+
+#profile-details > div li {
     border: 1px solid black;
     border-radius: var(--radius);
-    padding: 1%;
+    margin: 0.5em;
+    padding: 1em;
 }
 
 
