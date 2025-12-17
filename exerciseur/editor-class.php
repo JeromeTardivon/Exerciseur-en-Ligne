@@ -4,14 +4,15 @@ require_once __DIR__ . '/db/Database.php';
 
 use db\Database;
 
-$db = Database::getInstance()->getDb();
+$db = Database::getInstance();
 
 $_TITLE = "Éditeur Classe";
-$class = getClass($db, $_GET['id-class']);
-$listStudents = getStudentsFromClass($db, $class['id']);
-$teacher = getResponsableFromClass($db, $class['id']);
-$activesClassCodes = getClassCodes($db, $class['id']);
-$listChapters = getChaptersClass($db, $class['id']);
+$class = $db->getClass($_GET['id-class']);
+$listStudents = $db->getStudentsFromClass($class['id']);
+$teacher = $db->getResponsableFromClass($class['id']);
+$activesClassCodes = $db->getClassCodes($class['id']);
+$listChapters = $db->getChaptersClass($class['id']);
+$listAllStudents = $db->getStudents();
 ?>
 
 <!DOCTYPE html>
@@ -50,8 +51,8 @@ $listChapters = getChaptersClass($db, $class['id']);
     <h2>Ajouter étudiants</h2>
     <ul>
         <?php
-        $list = getStudents($db);
-        foreach ($list as $student) { ?>
+
+        foreach ($listAllStudents as $student) { ?>
             <li class="">
                 <div>
                     <a href="profile.php?id-profil=<?= $student['id'] ?>"><?= $student['name'] ?></a>
@@ -73,7 +74,7 @@ $listChapters = getChaptersClass($db, $class['id']);
                 foreach ($_SESSION['studentsToAdd'] as $student) { ?>
                     <li class="">
                         <div>
-                            <a href="profile.php?id-profil=<?= $student ?>"><?= getUser($db, $student)['name'] ?></a>
+                            <a href="profile.php?id-profil=<?= $student ?>"><?= Database::getInstance()->getUser($student)['name'] ?></a>
                             <form action="/processing-forms/processing-form-class-edition.php" method="post">
                                 <input type="hidden" name="delete-student" value="<?= $student ?>">
                                 <input type="hidden" name="class" value="<?= $class['id'] ?>">
@@ -99,7 +100,7 @@ $listChapters = getChaptersClass($db, $class['id']);
         foreach ($listStudents as $student) { ?>
             <li class="">
                 <div>
-                    <a href="profile.php?id-profil=<?= $student['id_user'] ?>"><?= getUser($db, $student['id_user'])['name'] ?></a>
+                    <a href="profile.php?id-profil=<?= $student['id_user'] ?>"><?= Database::getInstance()->getUser($student['id_user'])['name'] ?></a>
                     <form action="/processing-forms/processing-form-class-edition.php" method="post">
                         <input type="hidden" name="delete-student-db" value="<?= $student['id_user'] ?>">
                         <input type="hidden" name="class" value="<?= $class['id'] ?>">
