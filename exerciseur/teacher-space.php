@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/db/db-connection.php';
 require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/db/Database.php';
+use db\Database;
 $code = "";
 if (!isset($_SESSION["user"])) {
     header('Location: /login.php');
@@ -13,7 +15,9 @@ if (!isset($_SESSION["user"])) {
 if (isset($_SESSION["code-generated"])) {
     $code = $_SESSION["code-generated"];
 }
-
+$db = Database::getInstance();
+$list = $db->getClasses($_SESSION['user']['id']);
+$listChapters = $db->getChaptersTeacher($_SESSION['user']['id']);
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +43,7 @@ include 'modules/include.php' ?>
                 <!-- le nb de li sera en fonction de la hauteur de l'écran -->
                 <ul>
                     <?php
-                    $list = getClasses($db, $_SESSION['user']['id']);
+
                     foreach ($list as $class) { ?>
                         <li class="btn"><a
                                     href="class.php?id-class=<?= $class['id'] ?>"><?= $class['name'] ?></a></li>
@@ -62,7 +66,7 @@ include 'modules/include.php' ?>
                 <!-- le nb de li sera en fonction de la hauteur de l'écran -->
                 <ul>
                     <?php
-                    $listChapters = getChaptersTeacher($db, $_SESSION['user']['id']);
+
                     foreach ($listChapters as $chapter) { ?>
                         <li class="btn"><a
                                     href="chapter.php?id-chapter=<?= $chapter['id'] ?>"><?= $chapter['title'] ?></a>

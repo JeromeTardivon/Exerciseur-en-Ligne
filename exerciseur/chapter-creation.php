@@ -11,8 +11,8 @@ if (!isset($_SESSION["user"])) {
     header('Location: /index.php');
     exit();
 }
-$db = Database::getInstance()->getDb();
-$classes = getClasses($db, $_SESSION["user"]["id"]);
+$db = Database::getInstance();
+$classes = $db->getClasses($_SESSION["user"]["id"]);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
