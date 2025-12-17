@@ -126,7 +126,7 @@ if (!isset($_SESSION["user"])) {
                
                 <form >
                     <button type="button" id="add-text">Ajouter un champ de texte</button>
-                    <button type="button" id="add-hint">Ajouter un indice</button>
+                    
 
                     <!-- show buttons if the span is clicked (and change image)-->
                     <input type="checkbox" id="dropdown" hidden/>
