@@ -1,6 +1,7 @@
 <?php
 include_once __DIR__ . '/../config/config.php';
 include_once __DIR__ . '/../db/db-connection.php';
+
 if (isset($_POST['weight']) && isset($_POST['time']) && isset($_POST['ansdef']) && isset($_POST['showans']) &&isset($_SESSION['user']) && $_SESSION['user']['type'] === 'teacher'){
     
 
@@ -28,13 +29,16 @@ if (isset($_POST['weight']) && isset($_POST['time']) && isset($_POST['ansdef']) 
         ':id_chapter' => $chapter_id
     ]);
 
-
-
     
 
-
-   
     
 }
- header('Location: /section.php');
+
+    //used to reset the local strage beetween sections
+    $_SESSION['clear_local_storage'] = true;
+
+
+header('Location: /section.php');
 exit();
+?>
+

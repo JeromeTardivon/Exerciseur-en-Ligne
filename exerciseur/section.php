@@ -150,6 +150,15 @@ if (!isset($_SESSION["user"])) {
         <!-- footer -->
         <?php include 'modules/footer.php' ?> 
 
+        <?php
+        
+        if (isset($_SESSION['clear_local_storage']) && $_SESSION['clear_local_storage']) {
+            
+            echo '<script>try{localStorage.removeItem("dynamicModules"); /*localStorage.clear();*/}catch(e){}</script>';
+            unset($_SESSION['clear_local_storage']);
+        }
+        ?>
+
         <script type="text/javascript" src="js/math-symbol.js"></script>
         <script type=text/javascript src="js/modular-section.js"></script>
         

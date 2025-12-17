@@ -55,6 +55,13 @@ document.addEventListener('DOMContentLoaded', function(){
             p.innerHTML = input.value;
             reloadMathJax(p)
         });
+        input.addEventListener("click", function(){
+            p.innerHTML = input.value;
+            reloadMathJax(p)
+        });
+        
+        p.innerHTML = input.value;
+        reloadMathJax(p);
 
         const wrapper = document.createElement('div');
         wrapper.className = "preview";
@@ -83,9 +90,14 @@ document.addEventListener('DOMContentLoaded', function(){
 
         textarea.addEventListener("keyup", function(){
             p.innerHTML = textarea.value;
-            reloadMathJax(p)
+            reloadMathJax(p);
         });
-        
+
+        textarea.addEventListener("click", function(){
+            p.innerHTML = textarea.value;
+            reloadMathJax(p);
+        });
+
         textarea.placeholder = placeholder;
         // set current value (use value so it's readable via .value)
         textarea.value = defaultv || '';
@@ -93,6 +105,8 @@ document.addEventListener('DOMContentLoaded', function(){
         textarea.name = name;
         textarea.rows = 4;
         textarea.cols = 50;
+        p.innerHTML = textarea.value;
+        reloadMathJax(p);
         
         
         const wrapper = document.createElement('div');
