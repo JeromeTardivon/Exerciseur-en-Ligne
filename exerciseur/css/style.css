@@ -519,6 +519,15 @@ input[type="search"] {
     margin: 0.5em;
 }
 
+#chapter-search .btn, #class-search .btn {
+    padding: 0.5em;
+}
+
+#chapter-search ol, #class-search ol {
+    display: flex;
+    flex-direction: column;
+}
+
 footer {
     display: flex;
     flex-direction: row;
