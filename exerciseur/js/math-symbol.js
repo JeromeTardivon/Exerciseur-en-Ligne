@@ -95,30 +95,56 @@ class ElementsBtn {
         this.btn.addEventListener("click", ()=>this.addElements());
     }
     
-    addElements() {
+    async addElements() {
         if (this.addElementsBtnActivated == false) {
             let div = document.createElement("div");
             div.setAttribute("id", "add-elements-".concat(this.btn.id));
             
             addSymbolSection(div, this.dataArray, this.prefix, this.suffix);
             
-            reloadMathJax(div);
-            
+            this.btn.style.color = "red";
             this.displayDiv.appendChild(div);
+            
+            await reloadMathJax(div);
             
             this.addElementsBtnActivated = true;
         } else {
             let div = document.getElementById("add-elements-".concat(this.btn.id));
             div.remove();
             
+            this.btn.style.color = "";
             this.addElementsBtnActivated = false;
         }
     }
 }
 
-function reloadMathJax(elem) {
-    MathJax.typeset([elem]);
-    MathJax.startup.document.render(elem);
+async function reloadMathJax(elem) {
+    if (!window.MathJax) return;
+
+    // ensure MathJax has finished loading before invoking typesetting
+    if (MathJax.startup && MathJax.startup.promise) {
+        try {
+            await MathJax.startup.promise;
+        } catch (err) {
+            // ignore startup promise errors and continue
+            console.warn('MathJax startup.promise rejected:', err);
+        }
+    }
+
+    if (MathJax.typesetPromise) {
+        try {
+            await MathJax.typesetPromise([elem]);
+        } catch (err) {
+            // gracefully handle MathJax errors
+            console.error('MathJax typesetPromise error:', err);
+        }
+    } else if (MathJax.typeset) {
+        try {
+            MathJax.typeset([elem]);
+        } catch (err) {
+            console.error('MathJax typeset error:', err);
+        }
+    }
 }
 
 function addSymbolSection(div, array, prefix="", suffix="") {
@@ -150,11 +176,24 @@ function addElementsBtn(id, btnDiv, symbolsDiv, symbolsArray, innerHtml) {
 
 let comparisonArray = ["lt", "gt", "le", "ge", "neq", "simeq", "equiv"];
 
-let lettersArray = ["alpha", "beta", "chi", "delta", "epsilon", "eta", "gamma", "iota", "kappa", "lambda", "mu", "nu", "omega", "phi", "pi",
+let lettersMinArray = ["alpha", "beta", "chi", "delta", "epsilon", "eta", "gamma", "iota", "kappa", "lambda", "mu", "nu", "omega", "phi", "pi",
                     "psi", "rho", "sigma", "tau", "theta", "upsilon", "xi", "zeta"];
+
+let lettersArray = ["Delta", "Gamma", "Lambda", "Omega", "Phi", "Pi", "Psi", "Sigma", "Theta", "Upsilon", "Xi"];
+
+let delimitersArray = ["lbrace", "rbrace", "langle", "rangle", "lfloor", "rfloor", "lceil", "rceil"];
+
+let miscArray = ["infty", "nabla", "partial", "eth", "clubsuit", "diamondsuit", "heartsuit", "spadesuit", "forall", "exists", "nexists", "emptyset",
+                 "varnothing", "sharp", "flat", "natural", "mho"];
+
+let ensemblesArray = ["mathbb{N}", "mathbb{Z}", "mathbb{D}", "mathbb{Q}", "mathbb{R}", "mathbb{C}", "mathbb{H}", "mathbb{O}", "mathbb{S}"];
 
 let latexArray = ["\(", "\)"];
 
-addElementsBtn("add-comparison", "add-symbols-btn", "symbols", comparisonArray, "Symbole de comparaison");
-addElementsBtn("add-letter", "add-symbols-btn", "symbols", lettersArray, "Lettre greque");
-addElementsBtn("add-latex", "add-symbols-btn", "symbols", latexArray, "Élément laTeX");
+addElementsBtn("add-latex", "add-symbols-btn", "symbols", latexArray, "Éléments laTeX");
+addElementsBtn("add-letter-min", "add-symbols-btn", "symbols", lettersMinArray, "Lettres greques (miniscules)");
+addElementsBtn("add-letter-maj", "add-symbols-btn", "symbols", lettersArray, "Lettres greques (majuscules)");
+addElementsBtn("add-comparison", "add-symbols-btn", "symbols", comparisonArray, "Symboles de comparaison");
+addElementsBtn("add-delimiters", "add-symbols-btn", "symbols", delimitersArray, "Délimiteurs");
+addElementsBtn("add-ensembles", "add-symbols-btn", "symbols", ensemblesArray, "Ensembles de définition");
+addElementsBtn("add-misc", "add-symbols-btn", "symbols", miscArray, "Symboles divers");
