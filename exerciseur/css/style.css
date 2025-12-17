@@ -3,6 +3,9 @@ body {
     --secondary-color: #e2c391;
     --dark-blue-color: #272D2D;
     --font-white-color: #ffffff;
+    --font-largest: 60px;
+    --font-larger: 50px;
+    --font-large: 40px;
     --radius: 15px;
 
     display: flex;
@@ -33,6 +36,35 @@ th, td {
 textarea {
     max-width: 100%;
     min-width: 100%;
+}
+
+div[data-type="title1"] p {
+    font-size: var(--font-largest);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+div[data-type="title2"] p {
+    font-size: var(--font-larger);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+div[data-type="title3"] p {
+    font-size: var(--font-large);
+    font-weight: bold;
+    font-style: italic;
+}
+
+div[data-type="title4"] p {
+    font-size: var(--font-large);
+    font-weight: normal;
+}
+
+div[data-type="title5"] p {
+    font-size: var(--font-large);
+    font-weight: normal;
+    font-style: italic;
 }
 
 .btn {
@@ -517,6 +549,15 @@ input[type="search"] {
 
 #main-editor-class ul div > * {
     margin: 0.5em;
+}
+
+#chapter-search .btn, #class-search .btn {
+    padding: 0.5em;
+}
+
+#chapter-search ol, #class-search ol {
+    display: flex;
+    flex-direction: column;
 }
 
 footer {
