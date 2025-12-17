@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', function(){
     const addTitle5Btn = document.getElementById('add-title-5');
     const addTrueFalseBtn = document.getElementById('add-true-false');
     const addOpenQuestionBtn = document.getElementById('add-open-question');
+    const addNumericalQuestionBtn = document.getElementById('add-numerical-question');
+    const addMultipleChoiceBtn = document.getElementById('add-multiple-choice');
     const addHintBtn = document.getElementById('add-hint');
 
     const form = document.getElementById('dynamic-form');
@@ -53,6 +55,13 @@ document.addEventListener('DOMContentLoaded', function(){
             p.innerHTML = input.value;
             reloadMathJax(p)
         });
+        input.addEventListener("click", function(){
+            p.innerHTML = input.value;
+            reloadMathJax(p)
+        });
+        
+        p.innerHTML = input.value;
+        reloadMathJax(p);
 
         const wrapper = document.createElement('div');
         wrapper.className = "preview";
@@ -81,9 +90,14 @@ document.addEventListener('DOMContentLoaded', function(){
 
         textarea.addEventListener("keyup", function(){
             p.innerHTML = textarea.value;
-            reloadMathJax(p)
+            reloadMathJax(p);
         });
-        
+
+        textarea.addEventListener("click", function(){
+            p.innerHTML = textarea.value;
+            reloadMathJax(p);
+        });
+
         textarea.placeholder = placeholder;
         // set current value (use value so it's readable via .value)
         textarea.value = defaultv || '';
@@ -91,6 +105,8 @@ document.addEventListener('DOMContentLoaded', function(){
         textarea.name = name;
         textarea.rows = 4;
         textarea.cols = 50;
+        p.innerHTML = textarea.value;
+        reloadMathJax(p);
         
         
         const wrapper = document.createElement('div');
@@ -111,6 +127,16 @@ document.addEventListener('DOMContentLoaded', function(){
         spinner.value = defaultv;
         
         return spinner;
+    }
+
+    function createCheckbox(id, name, defaultv = false){
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = id;
+        checkbox.name = name;
+        checkbox.checked = defaultv;
+        
+        return checkbox;
     }
     
 
@@ -173,6 +199,81 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 
+    
+    function createMCQChoice(defaultText = '', checked = false) {
+        const choice = document.createElement('div');
+        choice.className = 'mcq-choice';
+
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.className = 'mcq-choice-checked';
+        cb.checked = !!checked;
+
+        const text = document.createElement('input');
+        text.type = 'text';
+        text.className = 'mcq-choice-text';
+        text.placeholder = 'Choix';
+        text.value = defaultText || '';
+
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.textContent = 'Supprimer le choix';
+        remove.addEventListener('click', () => {
+            choice.remove();
+            // bubble up renumber/save
+            renumber();
+            if (!suspendSave) saveState();
+        });
+
+        choice.appendChild(cb);
+        choice.appendChild(text);
+        choice.appendChild(remove);
+        return choice;
+    }
+
+    function addMultipleChoiceField(data = null) {
+        const wrapper = createWrapper('mcq');
+        const id = `modules_${index}_value`;
+
+        const label = createLabel('Question : ', id);
+        const question = createTextarea(id, 'Entrez la question ici', (data && data.question) ? data.question : '', `modules[${index}][question]`);
+
+        const choicesContainer = document.createElement('div');
+        choicesContainer.className = 'mcq-choices';
+
+        
+        const choices = (data && Array.isArray(data.choices)) ? data.choices : [{text:'', checked:false},{text:'', checked:false}];
+        choices.forEach(c => {
+            const ch = createMCQChoice(c.text || '', !!c.checked);
+            choicesContainer.appendChild(ch);
+        });
+
+        const addChoiceBtn = document.createElement('button');
+        addChoiceBtn.type = 'button';
+        addChoiceBtn.textContent = 'Ajouter un choix';
+        addChoiceBtn.addEventListener('click', () => {
+            const ch = createMCQChoice();
+            choicesContainer.appendChild(ch);
+            renumber();
+            if (!suspendSave) saveState();
+        });
+
+        const remove = createRemove(wrapper);
+        wrapper.appendChild(label);
+        wrapper.appendChild(question);
+        wrapper.appendChild(choicesContainer);
+        wrapper.appendChild(addChoiceBtn);
+        wrapper.appendChild(remove);
+        container.appendChild(wrapper);
+        index++;
+        if (!suspendSave) saveState();
+
+        
+        wrapper.addEventListener('input', () => {
+            if (!suspendSave) saveState();
+        });
+    }
+
     function addTrueFalseField(defaultv = "") {
         const wrapper = createWrapper('truefalse');
         const id = `modules_${index}_value`;
@@ -190,6 +291,8 @@ document.addEventListener('DOMContentLoaded', function(){
             if (!suspendSave) saveState();
         });
     }
+
+    
 
     function addOpenQuestionField(defaultv = "") {
         const wrapper = createWrapper('openquestion');
@@ -209,19 +312,80 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 
-    //Redo the id of inputs after deletion to keep modules[0], modules[1], ...
+    function addNumericalQuestionField(defaultv = "") {
+        const wrapper = createWrapper('numericalquestion');
+        const id = `modules_${index}_value`;
+        //name usable server side (modules[0][value], modules[1][value], ...)
+        const input = createTextarea(id, "Entrez la question numérique ici", defaultv,`modules[${index}][value]`);
+        const label = createLabel("Question numérique : ", id);
+        const remove = createRemove(wrapper);
+        wrapper.appendChild(label);
+        wrapper.appendChild(input);
+        wrapper.appendChild(remove);
+        container.appendChild(wrapper);
+        index++;
+        if (!suspendSave) saveState();
+        wrapper.addEventListener('input', () => {
+            if (!suspendSave) saveState();
+        });
+    }
+
+    //Redo the id of inputs to keep modules[0], modules[1], ...
     function renumber() {
         const modules = container.querySelectorAll('.module');
         modules.forEach((wrapper, i) => {
             const label = wrapper.querySelector('label');
-            const valueInput = wrapper.querySelector('input, textarea');             
             const id = `modules_${i}_value`;
+            const type = wrapper.dataset.type || '';
             if (label){ 
-                label.htmlFor = id;
+                // prefer to update label target where appropriate
+                if (type === 'mcq') {
+                    label.htmlFor = `modules_${i}_question`;
+                } else {
+                    label.htmlFor = id;
+                }
             }
-            if (valueInput) {
-            valueInput.name = `modules[${i}][value]`;
-            valueInput.id = id;
+
+            if (type === 'hint') {
+                // textarea for hint and a spinner for tries
+                const textarea = wrapper.querySelector('textarea');
+                if (textarea) {
+                    textarea.name = `modules[${i}][value]`;
+                    textarea.id = `modules_${i}_value`;
+                }
+                const spinner = wrapper.querySelector('input[type=number]');
+                if (spinner) {
+                    spinner.name = `modules[${i}][hint_num]`;
+                    spinner.id = `modules_${i}_hint_num`;
+                }
+            } else if (type && type.startsWith('title') || type === 'text' || type === 'div') {
+                const valueInput = wrapper.querySelector('input, textarea');
+                if (valueInput) {
+                    valueInput.name = `modules[${i}][value]`;
+                    valueInput.id = `modules_${i}_value`;
+                }
+            } else if (type === 'mcq') {
+                // question textarea
+                const questionTa = wrapper.querySelector('textarea');
+                if (questionTa) {
+                    questionTa.name = `modules[${i}][question]`;
+                    questionTa.id = `modules_${i}_question`;
+                }
+                // choices
+                const choices = wrapper.querySelectorAll('.mcq-choice');
+                choices.forEach((choice, j) => {
+                    const txt = choice.querySelector('.mcq-choice-text');
+                    const cb = choice.querySelector('.mcq-choice-checked');
+                    if (txt) txt.name = `modules[${i}][choices][${j}][text]`;
+                    if (cb) cb.name = `modules[${i}][choices][${j}][checked]`;
+                });
+            } else {
+                // generic fallback: rename first input/textarea as value
+                const v = wrapper.querySelector('input, textarea');
+                if (v) {
+                    v.name = `modules[${i}][value]`;
+                    v.id = `modules_${i}_value`;
+                }
             }
         });
         index = modules.length;
@@ -231,9 +395,29 @@ document.addEventListener('DOMContentLoaded', function(){
         const modules = container.querySelectorAll('.module');
         const data = [];
         modules.forEach(wrapper => {
-            const valueInput = wrapper.querySelector('input, textarea');
-            // save the semantic type (stored on the wrapper) and the current input value
-            data.push({ type: wrapper.dataset.type || 'wut? gtfo', value: valueInput ? valueInput.value : '' });
+            const type = wrapper.dataset.type || 'text';
+            if (type === 'hint') {
+                const ta = wrapper.querySelector('textarea');
+                const spinner = wrapper.querySelector('input[type=number]');
+                data.push({ type: 'hint', value: ta ? ta.value : '', hint_num: spinner ? Number(spinner.value) : 0 });
+            } else if (type === 'mcq') {
+                const questionTa = wrapper.querySelector('textarea');
+                const question = questionTa ? questionTa.value : '';
+                const choices = [];
+                wrapper.querySelectorAll('.mcq-choice').forEach(ch => {
+                    const txt = ch.querySelector('.mcq-choice-text');
+                    const cb = ch.querySelector('.mcq-choice-checked');
+                    choices.push({ text: txt ? txt.value : '', checked: !!(cb && cb.checked) });
+                });
+                data.push({ type: 'mcq', question: question, choices: choices });
+            } else if (type.startsWith('title') || type === 'text' || type === 'truefalse' || type === 'openquestion' || type === 'numericalquestion') {
+                const valueInput = wrapper.querySelector('input, textarea');
+                data.push({ type: type, value: valueInput ? valueInput.value : '' });
+            } else {
+                // fallback: try to grab a value
+                const valueInput = wrapper.querySelector('input, textarea');
+                data.push({ type: type, value: valueInput ? valueInput.value : '' });
+            }
         });
         try {
             localStorage.setItem('dynamicModules', JSON.stringify(data));
@@ -260,13 +444,25 @@ document.addEventListener('DOMContentLoaded', function(){
                     const size = parseInt(item.type.slice(5)) || 5;
                     addTitleField(item.value || '', size);
                 
-                }else if(item.type === 'hint'){
-                    
-                    addHintField(item.value || '',0);
+                } else if (item.type === 'hint') {
+                    addHintField(item.value || '', item.hint_num || 0);
 
-                }else if(item.type === 'div'){
-                    
-                }else {
+                } else if (item.type === 'mcq') {
+                    addMultipleChoiceField(item);
+
+                } else if (item.type === 'truefalse') {
+                    addTrueFalseField(item.value || '');
+
+                } else if (item.type === 'openquestion') {
+                    addOpenQuestionField(item.value || '');
+
+                } else if (item.type === 'numericalquestion') {
+                    addNumericalQuestionField(item.value || '');
+
+                } else if (item.type === 'div') {
+                    // ignore placeholder divs
+
+                } else {
                     console.warn('Unsupported module type during load:', item.type);
                 }
                 
@@ -291,6 +487,8 @@ document.addEventListener('DOMContentLoaded', function(){
     addTitle1Btn.addEventListener('click', ()=> addTitleField('', 1));
     addTrueFalseBtn.addEventListener('click', ()=> addTrueFalseField());
     addOpenQuestionBtn.addEventListener('click', ()=> addOpenQuestionField());
+    addNumericalQuestionBtn.addEventListener('click', ()=> addNumericalQuestionField());
+    addMultipleChoiceBtn.addEventListener('click', ()=> addMultipleChoiceField());
     addHintBtn.addEventListener('click', ()=> addHintField());
     loadState();
 });

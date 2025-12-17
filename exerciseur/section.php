@@ -4,7 +4,7 @@ include_once __DIR__ . '/db/db-connection.php';
 if (!isset($_SESSION["user"])) {
     header('Location: /index.php');
     exit();
-} else if ($_SESSION["user"]["type"] != "teacher") {
+} else if ($_SESSION["user"]["type"] != "teacher" && $_SESSION["user"]["type"] != "admin") {
     header('Location: /index.php');
     exit();
 }else if (!isset($_SESSION['current_chapter_id'])) {
@@ -115,7 +115,7 @@ if (!isset($_SESSION["user"])) {
                 </fieldset>
 
                 <button type="submit">Enregistrer la section et continuer</button>
-                <button type="submit">Enregistrer la section et terminer le chapitre</button>
+                <button type="submit" formaction="index.php">Enregistrer la section et terminer le chapitre</button>
 
 
                 </form>
@@ -138,8 +138,10 @@ if (!isset($_SESSION["user"])) {
                         <button type="button" id="add-title-4">Ajouter un titre 4</button>
                         <button type="button" id="add-title-5">Ajouter un titre 5</button>
                     </div>
+                    <button type="button" id="add-multiple-choice">Ajouter une question QCM</button>
                     <button type="button" id="add-true-false">Ajouter une question Vrai/Faux</button>
                     <button type="button" id="add-open-question">Ajouter une question à réponse ouverte</button>
+                    <button type="button" id="add-numerical-question">Ajouter une question numérique</button>
                     <button type="button" id="add-hint">Ajouter un indice</button>
                 </form>
             </aside>
@@ -147,6 +149,15 @@ if (!isset($_SESSION["user"])) {
 
         <!-- footer -->
         <?php include 'modules/footer.php' ?> 
+
+        <?php
+        
+        if (isset($_SESSION['clear_local_storage']) && $_SESSION['clear_local_storage']) {
+            
+            echo '<script>try{localStorage.removeItem("dynamicModules"); /*localStorage.clear();*/}catch(e){}</script>';
+            unset($_SESSION['clear_local_storage']);
+        }
+        ?>
 
         <script type="text/javascript" src="js/math-symbol.js"></script>
         <script type=text/javascript src="js/modular-section.js"></script>

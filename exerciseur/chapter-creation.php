@@ -7,7 +7,7 @@ use db\Database;
 if (!isset($_SESSION["user"])) {
     header('Location: /index.php');
     exit();
-} else if ($_SESSION["user"]["type"] != "teacher") {
+} else if ($_SESSION["user"]["type"] != "teacher" && $_SESSION["user"]["type"] != "admin") {
     header('Location: /index.php');
     exit();
 }
