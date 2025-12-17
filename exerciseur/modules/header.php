@@ -6,7 +6,7 @@ include_once __DIR__ .'/../db/db-connection.php';
         <a href="/index.php">
             <img src="/img/exercisor3000.png" alt="">
         </a>
-        <h1><?php if(isset($_TITLE)){echo $_TITLE;}else{echo "Xercizor 3000";} ?></h1>
+        <h1><?php if(isset($_TITLE)){echo $_TITLE;}else{echo "Exerciseur en ligne";} ?></h1>
         <div class="buttonsHeader">
             <a class="btn" href="../teacher-space.php">Espace Professeurs</a>
             <?php

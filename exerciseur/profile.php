@@ -33,7 +33,7 @@ include 'modules/include.php'; ?>
     <aside>
         <div id="profile">
             <!-- image placeholder A CHANGER -->
-            <img src="/img/exercisor3000.png" alt="photo de profil">
+            <img src="/img/profile-pic.jpg" alt="photo de profil">
             <div>
                 <h2>
                     <?= $_SESSION['user']['name'] . " " . $_SESSION['user']['surname'] ?>
