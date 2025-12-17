@@ -2,7 +2,7 @@
 require_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/db/Database.php';
 use db\Database;
-$db = Database::getInstance()->getDb();
+$db = Database::getInstance();
 
 
 if (!isset($_SESSION["user"])) {
@@ -11,10 +11,11 @@ if (!isset($_SESSION["user"])) {
 }
 
 // changer les infos à afficher (surtout l'id)
-$grades = getGrades($db, $_SESSION["user"]["id"]);
+$grades = $db->getGrades($_SESSION["user"]["id"]);
+$list = $db->getClasses($_SESSION['user']['id']);
 
 if (isset($_POST['code-class-add'])) {
-    addStudentToClassByCode($db, $_SESSION["user"]["id"], $_POST['code-class-add']);
+    $db->addStudentToClassByCode($_SESSION["user"]["id"], $_POST['code-class-add']);
     header("Refresh:0");
 }
 
@@ -33,7 +34,7 @@ include 'modules/include.php'; ?>
     <aside>
         <div id="profile">
             <!-- image placeholder A CHANGER -->
-            <img src="/img/exercisor3000.png" alt="photo de profil">
+            <img src="/img/profile-pic.jpg" alt="photo de profil">
             <div>
                 <h2>
                     <?= $_SESSION['user']['name'] . " " . $_SESSION['user']['surname'] ?>
@@ -72,7 +73,7 @@ include 'modules/include.php'; ?>
                 <h2>Classes</h2>
                 <ul>
                     <?php
-                    $list = getClasses($db, $_SESSION['user']['id']);
+
                     foreach ($list as $class) { ?>
                         <li class="btn"><a href="class.php?id-class=<?= $class['id'] ?>"><?= $class['name'] ?></a></li>
                     <?php } ?>

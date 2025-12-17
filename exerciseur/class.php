@@ -4,14 +4,14 @@ require_once __DIR__ . '/db/Database.php';
 
 use db\Database;
 
-$db = Database::getInstance()->getDb();
+$db = Database::getInstance();
 
 $_TITLE = "Éditeur Classe";
-$class = getClass($db, $_GET['id-class']);
-$listStudents = getStudentsFromClass($db, $class['id']);
-$teacher = getResponsableFromClass($db, $class['id']);
-$activesClassCodes = getClassCodes($db, $class['id']);
-$listChapters = getChaptersClass($db, $class['id']);
+$class = $db->getClass($_GET['id-class']);
+$listStudents = $db->getStudentsFromClass($class['id']);
+$teacher = $db->getResponsableFromClass($class['id']);
+$activesClassCodes = $db->getClassCodes($class['id']);
+$listChapters = $db->getChaptersClass($class['id']);
 ?>
 
 <!DOCTYPE html>
@@ -49,10 +49,34 @@ $listChapters = getChaptersClass($db, $class['id']);
         <?php
         foreach ($listStudents as $student) { ?>
             <li class="">
-                <a href="profile.php?id-profil=<?= $student['id_user'] ?>"><?= getUser($db, $student['id_user'])['name'] ?></a>
+                <a href="profile.php?id-profil=<?= $student['id_user'] ?>"><?= Database::getInstance()->getUser($student['id_user'])['name'] ?></a>
             </li>
         <?php } ?>
     </ul>
+
+    <div>
+        <h2>Generation de codes d'invitation à la classe</h2>
+        <form action="/processing-forms/processing-form-class-edition.php" method="post">
+            <label>Nombre d'usages:
+                <input type="number" name="number-usages-code" value="1" min="1">
+            </label>
+            <input type="hidden" name="class" value="<?= $class['id'] ?>">
+            <input type="submit" name="generate-code-class">
+        </form>
+        <h4>Codes Actifs</h4>
+        <ul>
+            <?php
+            foreach ($activesClassCodes as $code) { ?>
+                <li>
+                    <div>
+                        <p><?= $code['code'] ?></p>
+                        <p><?= $code['num_usage'] ?></p>
+                    </div>
+                </li>
+            <?php } ?>
+        </ul>
+    </div>
+
 </main>
 
 

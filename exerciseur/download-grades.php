@@ -3,11 +3,11 @@
 require_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/db/Database.php';
 use db\Database;
-$db = Database::getInstance()->getDb();
+$db = Database::getInstance();
 // checks if user is connected
 if (isset($_SESSION["user"])) {
     // changer les infos à afficher (surtout l'id)
-    $grades = getGrades($db, $_SESSION["user"]["id"]);
+    $grades = $db->getGrades($_SESSION["user"]["id"]);
 
     $namefile = "export.csv";
     $content = "id,title,grade,created_at \n";
