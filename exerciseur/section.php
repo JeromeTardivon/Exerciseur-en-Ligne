@@ -4,7 +4,7 @@ include_once __DIR__ . '/db/db-connection.php';
 if (!isset($_SESSION["user"])) {
     header('Location: /index.php');
     exit();
-} else if ($_SESSION["user"]["type"] != "teacher") {
+} else if ($_SESSION["user"]["type"] != "teacher" && $_SESSION["user"]["type"] != "admin") {
     header('Location: /index.php');
     exit();
 }else if (!isset($_SESSION['current_chapter_id'])) {
@@ -124,7 +124,7 @@ if (!isset($_SESSION["user"])) {
                 </fieldset>
 
                 <button type="submit">Enregistrer la section et continuer</button>
-                <button type="submit">Enregistrer la section et terminer le chapitre</button>
+                <button type="submit" formaction="index.php">Enregistrer la section et terminer le chapitre</button>
 
 
                 </form>
