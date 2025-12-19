@@ -178,4 +178,14 @@ class Database
         }
         return $listChapters;
     }
+
+    public function studentSearchFromClass($classId, $search) {
+        $statement = $this->getDb()->prepare("SELECT * FROM users u JOIN inclass i ON u.id = i.id_user
+                                             WHERE u.name LIKE (concat('%', :search, '%')) AND
+                                             i.id_class = '$classId' AND responsible LIKE 0");
+        $statement->execute([
+            "search" => $search
+        ]);
+        return $statement->fetchAll();
+    }
 }
