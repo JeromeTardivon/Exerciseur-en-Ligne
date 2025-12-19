@@ -22,7 +22,12 @@ if (isset($_GET["class-search"]) && $_GET["class-search"] != "") {
 } else {
     $listClasses = $db->getClasses($_SESSION['user']['id']);
 }
-$listChapters = $db->getChaptersTeacher($_SESSION['user']['id']);
+
+if (isset($_GET["chapter-search"]) && $_GET["chapter-search"] != "") {
+    $listChapters = $db->chapterSearchFromTeacher($_SESSION['user']['id'], $_GET["chapter-search"]);
+} else {
+    $listChapters = $db->getChaptersTeacher($_SESSION['user']['id']);
+}
 ?>
 
 <!DOCTYPE html>
