@@ -31,13 +31,16 @@ include 'modules/include.php' ?>
 <?php include 'modules/header.php' ?>
 
 <main class="teacher-space">
-    <form action="formgteacherspace.php" method="post">
+    <form action="formgteacherspace.php" method="get">
         <div>
             <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div -->
             <div>
                 <h2>Gérer mes classes</h2>
 
-                <input class="btn" type="search" placeholder="Rechercher classe">
+                <div class="search">
+                    <input class="btn" type="search" id="class-search" name="class-search" placeholder="Rechercher classe">
+                    <button type="submit" class="btn">Rechercher</button>
+                </div>
 
                 <!-- le contenu de la liste sera à changer avec du php pour avoir la liste des classes auquels il a accès -->
                 <!-- le nb de li sera en fonction de la hauteur de l'écran -->
@@ -60,7 +63,10 @@ include 'modules/include.php' ?>
             <div>
                 <h2>Gérer mes chapitres</h2>
 
-                <input class="btn" type="search" placeholder="Rechercher chapitre">
+                <div class="search">
+                    <input class="btn" type="search" id="chapter-search" name="chapter-search" placeholder="Rechercher chapitre">
+                    <button type="submit" class="btn">Rechercher</button>
+                </div>
 
                 <!-- le contenu de la liste sera à changer avec du php pour avoir la liste des classes auquels il a accès -->
                 <!-- le nb de li sera en fonction de la hauteur de l'écran -->
@@ -84,7 +90,10 @@ include 'modules/include.php' ?>
             <div>
                 <h2>Gérer mes sujets</h2>
 
-                <input class="btn" type="search" placeholder="Rechercher sujet">
+                <div class="search">
+                    <input class="btn" type="search" id="subject-search" name="subject-search" placeholder="Rechercher sujet">
+                    <button type="submit" class="btn">Rechercher</button>
+                </div>
 
                 <!-- le contenu de la liste sera à changer avec du php pour avoir la liste des classes auquels il a accès -->
                 <!-- le nb de li sera en fonction de la hauteur de l'écran -->
