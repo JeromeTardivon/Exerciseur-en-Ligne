@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function(){
     const addNumericalQuestionBtn = document.getElementById('add-numerical-question');
     const addMultipleChoiceBtn = document.getElementById('add-multiple-choice');
     const addHintBtn = document.getElementById('add-hint');
+    const saveBtn = document.getElementById('save-section');
+    const saveEndBtn = document.getElementById('save-section-end');
 
     const form = document.getElementById('dynamic-form');
     const output = document.getElementById('output');
@@ -391,7 +393,8 @@ document.addEventListener('DOMContentLoaded', function(){
         index = modules.length;
     }
     //saves the state of modules to keep them after page refresh
-    function saveState() {
+    function saveState(fullSave=true) {
+        
         const modules = container.querySelectorAll('.module');
         const data = [];
         modules.forEach(wrapper => {
@@ -419,11 +422,36 @@ document.addEventListener('DOMContentLoaded', function(){
                 data.push({ type: type, value: valueInput ? valueInput.value : '' });
             }
         });
+
+        
         try {
             localStorage.setItem('dynamicModules', JSON.stringify(data));
+            if(fullSave){   
+                //creates hidden input to send data from localstorage to server
+                let payload = null;
+                try { payload = localStorage.getItem('dynamicModules'); } catch(e) { payload = null; }
+                if (!payload) payload = JSON.stringify(data);
+
+                if (form) {
+                    let hidden = form.querySelector('input[name="content"]');
+                    if (!hidden) {
+                        hidden = document.createElement('input');
+                        hidden.type = 'hidden';
+                        hidden.name = 'content';
+                        hidden.id = 'content';
+                        form.appendChild(hidden);
+                    }
+                    hidden.value = payload;
+                    // optional: warn when payload is large
+                    
+                } else {
+                    console.warn('saveState(true) called but form element not found; cannot attach content input');
+                }
+            }
         } catch (e) {
             console.warn('localStorage unavailable:', e);
         }
+        
     }
     //loads the saved state of modules including their content
     function loadState() {
@@ -490,5 +518,7 @@ document.addEventListener('DOMContentLoaded', function(){
     addNumericalQuestionBtn.addEventListener('click', ()=> addNumericalQuestionField());
     addMultipleChoiceBtn.addEventListener('click', ()=> addMultipleChoiceField());
     addHintBtn.addEventListener('click', ()=> addHintField());
+    saveBtn.addEventListener('click', (e)=> {saveState(true);});
+    saveEndBtn.addEventListener('click', (e)=> {saveState(true);});
     loadState();
 });

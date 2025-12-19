@@ -13,7 +13,7 @@ if (!isset($_SESSION["user"])) {
 }
 
 
-
+$_POST['content']='';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -114,8 +114,8 @@ if (!isset($_SESSION["user"])) {
                     
                 </fieldset>
 
-                <button type="submit">Enregistrer la section et continuer</button>
-                <button type="submit" formaction="index.php">Enregistrer la section et terminer le chapitre</button>
+                <button type="submit" id="save-section">Enregistrer la section et continuer</button>
+                <button type="submit" id="save-section-end" formaction="index.php">Enregistrer la section et terminer le chapitre</button>
 
 
                 </form>
