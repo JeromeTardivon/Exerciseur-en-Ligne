@@ -16,7 +16,12 @@ if (isset($_SESSION["code-generated"])) {
     $code = $_SESSION["code-generated"];
 }
 $db = Database::getInstance();
-$list = $db->getClasses($_SESSION['user']['id']);
+
+if (isset($_GET["class-search"]) && $_GET["class-search"] != "") {
+    $listClasses = $db->classSearchFromTeacher($_SESSION['user']['id'], $_GET["class-search"]);
+} else {
+    $listClasses = $db->getClasses($_SESSION['user']['id']);
+}
 $listChapters = $db->getChaptersTeacher($_SESSION['user']['id']);
 ?>
 
@@ -31,7 +36,7 @@ include 'modules/include.php' ?>
 <?php include 'modules/header.php' ?>
 
 <main class="teacher-space">
-    <form action="formgteacherspace.php" method="get">
+    <form action="teacher-space.php" method="get">
         <div>
             <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div -->
             <div>
@@ -47,7 +52,7 @@ include 'modules/include.php' ?>
                 <ul>
                     <?php
 
-                    foreach ($list as $class) { ?>
+                    foreach ($listClasses as $class) { ?>
                         <li class="btn"><a
                                     href="class.php?id-class=<?= $class['id'] ?>"><?= $class['name'] ?></a></li>
                     <?php }
