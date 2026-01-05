@@ -190,7 +190,10 @@ let ensemblesArray = ["mathbb{N}", "mathbb{Z}", "mathbb{D}", "mathbb{Q}", "mathb
 
 let latexArray = ["\(", "\)"];
 
+let containersArray = ["frac{n}{k}", "binom{n}{k}", "sqrt{x}", "sqrt[n]{x}", "sum_{i=1}^{n}", "prod_{i=1}^{n}", "overline{AB}", "underline{AB}"];
+
 addElementsBtn("add-latex", "add-symbols-btn", "symbols", latexArray, "Éléments laTeX");
+addElementsBtn("add-containers", "add-symbols-btn", "symbols", containersArray, "Conteneurs mathématiques");
 addElementsBtn("add-letter-min", "add-symbols-btn", "symbols", lettersMinArray, "Lettres greques (miniscules)");
 addElementsBtn("add-letter-maj", "add-symbols-btn", "symbols", lettersArray, "Lettres greques (majuscules)");
 addElementsBtn("add-comparison", "add-symbols-btn", "symbols", comparisonArray, "Symboles de comparaison");
