@@ -206,7 +206,7 @@ class Database
     public function chapterSearchFromTeacher($teacherId, $search) {
         $statement = $this->getDb()->prepare("SELECT * FROM inclass i JOIN chapter c ON i.id_class = c.class
                                              WHERE id_user LIKE '$teacherId' AND
-                                             (c.title LIKE concat('%', :search, '%') OR c.description LIKE concat('%', :search, '%'))");
+                                             c.title LIKE concat('%', :search, '%')");
         $statement->execute([
             "search" => $search
         ]);
