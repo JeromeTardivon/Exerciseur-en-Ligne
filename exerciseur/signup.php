@@ -36,6 +36,9 @@ include 'modules/include.php' ?>
                 <label for="password">Mot de passe</label>
                 <input id="password" type="password" name="password">
 
+                <label for="userSchoolId">Code d'étudiant</label>
+                <input id="userSchoolId" type="text" name="userSchoolId">
+
                 <label id="labelTeacherCode" for="teacherCode">Code de creation</label>
                 <input id="teacherCode" type="text" name="teacherCode">
             </fieldset>
