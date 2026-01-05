@@ -181,8 +181,32 @@ class Database
 
     public function studentSearchFromClass($classId, $search) {
         $statement = $this->getDb()->prepare("SELECT * FROM users u JOIN inclass i ON u.id = i.id_user
-                                             WHERE u.name LIKE (concat('%', :search, '%')) AND
+                                             WHERE u.name LIKE concat('%', :search, '%') AND
                                              i.id_class = '$classId' AND responsible LIKE 0");
+        $statement->execute([
+            "search" => $search
+        ]);
+        return $statement->fetchAll();
+    }
+
+    public function classSearchFromTeacher($teacherId, $search) {
+        $listClasses = array();
+        $statement = $this->getDb()->prepare("SELECT * FROM inclass i JOIN class c ON i.id_class = c.id
+                                             WHERE id_user LIKE '$teacherId' AND c.name LIKE concat('%', :search, '%')");
+        $statement->execute([
+            "search" => $search
+        ]);
+        $classes = $statement->fetchAll();
+        foreach ($classes as $class) {
+            $listClasses[] = $this->getClass($class['id_class']);
+        }
+        return $listClasses;
+    }
+
+    public function chapterSearchFromTeacher($teacherId, $search) {
+        $statement = $this->getDb()->prepare("SELECT * FROM inclass i JOIN chapter c ON i.id_class = c.class
+                                             WHERE id_user LIKE '$teacherId' AND
+                                             c.title LIKE concat('%', :search, '%')");
         $statement->execute([
             "search" => $search
         ]);
