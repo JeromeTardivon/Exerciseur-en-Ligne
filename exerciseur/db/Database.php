@@ -212,4 +212,30 @@ class Database
         ]);
         return $statement->fetchAll();
     }
+
+    public  function createUser($lastname, $name, $email, $password, $type, $userSchoolId, $teacherCode): void
+    {
+        $statement = $this->getDb()->prepare("SELECT mail FROM users s WHERE s.mail LIKE :email");
+        $statement->execute(['email' => $email]);
+        $user = $statement->fetch();
+        if (!$user) {
+            if ($type == 'teacher') {
+                $statement =  $this->getDb()->prepare("SELECT code FROM codes_class WHERE code = :code ");
+                $statement->execute(['code' => $teacherCode]);
+                $code = $statement->fetch();
+                if ($code) {
+                    var_dump($code['code']);
+                    $this->getDb()->beginTransaction();
+                    $statement =  $this->getDb()->prepare("DELETE FROM codes_class WHERE code = :code");
+                    $statement->execute(['code' => $code['code']]);
+                    $statement =  $this->getDb()->prepare("INSERT INTO users (name, surname, mail, password, type, schoolId) VALUES (:lastname, :surName, :email, :password, :type, :schoolId)");
+                    $statement->execute(['email' => $email, 'lastname' => $lastname, 'surName' => $name, 'password' => password_hash($password, PASSWORD_DEFAULT), 'type' => $type, 'schoolId' => $userSchoolId]);
+                    $this->getDb()->commit();
+                }
+            } else {
+                $statement =  $this->getDb()->prepare("INSERT INTO users (name, surname, mail, password, type, schoolId) VALUES (:lastname, :surName, :email, :password, :type, :schoolId)");
+                $statement->execute(['email' => $email, 'lastname' => $lastname, 'surName' => $name, 'password' => password_hash($password, PASSWORD_DEFAULT), 'type' => $type, 'schoolId' => $userSchoolId]);
+            }
+        }
+    }
 }

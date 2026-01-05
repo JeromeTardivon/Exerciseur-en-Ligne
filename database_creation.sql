@@ -10,6 +10,7 @@ CREATE TABLE users (
   mail varchar(100) NOT NULL UNIQUE,
   password text NOT NULL,
   type varchar(20) NOT NULL DEFAULT 'student',
+  schoolId varchar(15),
   created_at timestamp NOT NULL DEFAULT now(),
   updated_at timestamp NOT NULL DEFAULT now()
 );
