@@ -442,7 +442,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         form.appendChild(hidden);
                     }
                     hidden.value = payload;
-                    // optional: warn when payload is large
+                    
                     
                 } else {
                     console.warn('saveState(true) called but form element not found; cannot attach content input');
@@ -518,7 +518,28 @@ document.addEventListener('DOMContentLoaded', function(){
     addNumericalQuestionBtn.addEventListener('click', ()=> addNumericalQuestionField());
     addMultipleChoiceBtn.addEventListener('click', ()=> addMultipleChoiceField());
     addHintBtn.addEventListener('click', ()=> addHintField());
-    saveBtn.addEventListener('click', (e)=> {saveState(true);});
-    saveEndBtn.addEventListener('click', (e)=> {saveState(true);});
+    saveBtn.addEventListener('click', (e)=> {
+        // ensure no redirect flag is submitted for the normal save (continue on section)
+        if (form) {
+            const r = form.querySelector('input[name="redirect"]');
+            if (r) r.parentNode.removeChild(r);
+        }
+        saveState(true);
+    });
+
+    saveEndBtn.addEventListener('click', (e)=> {
+        // set a hidden redirect flag so server will redirect to index after saving
+        if (form) {
+            let r = form.querySelector('input[name="redirect"]');
+            if (!r) {
+                r = document.createElement('input');
+                r.type = 'hidden';
+                r.name = 'redirect';
+                form.appendChild(r);
+            }
+            r.value = 'index';
+        }
+        saveState(true);
+    });
     loadState();
 });
