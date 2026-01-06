@@ -23,10 +23,11 @@ if (isset($_GET["class-search"]) && $_GET["class-search"] != "") {
     $listClasses = $db->getClasses($_SESSION['user']['id']);
 }
 
-if (isset($_GET["chapter-search"]) && $_GET["chapter-search"] != "") {
+if (isset($_GET["chapter-search"])) {
     $listChapters = $db->chapterSearchFromTeacher($_SESSION['user']['id'], $_GET["chapter-search"]);
 } else {
-    $listChapters = $db->getChaptersTeacher($_SESSION['user']['id']);
+    $listChapters = $db->chapterSearchFromTeacher($_SESSION['user']['id'], "");
+    // $listChapters = $db->getChaptersTeacher($_SESSION['user']['id']);
 }
 ?>
 
@@ -84,6 +85,7 @@ include 'modules/include.php' ?>
                     <?php
 
                     foreach ($listChapters as $chapter) { ?>
+                    
                         <li class="btn"><a
                                     href="chapter.php?id-chapter=<?= $chapter['id'] ?>"><?= $chapter['title'] ?></a>
                         </li>
