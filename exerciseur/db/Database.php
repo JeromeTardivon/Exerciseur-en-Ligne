@@ -190,8 +190,6 @@ class Database
         $statement = $this->getDb()->prepare("SELECT * FROM inclass i JOIN class c ON i.id_class = c.id
                                              WHERE id_user LIKE '$teacherId' AND c.name LIKE concat('%', :search, '%')");
 
-        // $statement = $this->getDb()->prepare("SELECT * FROM owns o");
-
         $statement->execute([
             "search" => $search
         ]);
@@ -204,10 +202,6 @@ class Database
     }
 
     public function chapterSearchFromTeacher($teacherId, $search) {
-        // $statement = $this->getDb()->prepare("SELECT * FROM inclass i JOIN chapter c ON i.id_class = c.class
-        //                                      WHERE id_user LIKE '$teacherId' AND
-        //                                      c.title LIKE concat('%', :search, '%')");
-
         $statement = $this->getDb()->prepare("SELECT * FROM owns o JOIN chapter c ON o.id_chapter = c.id
                                              WHERE o.id_user LIKE '$teacherId' AND c.title LIKE concat('%', :search, '%')");
         $statement->execute([
