@@ -170,12 +170,8 @@ class Database
     function getChaptersTeacher($idTeacher): array
     {
         $listChapters = [];
-        $listClasses = $this->getClasses($idTeacher);
-        foreach ($listClasses as $class) {
-            foreach ($this->getChaptersClass($class['id']) as $chapter) {
-                $listChapters[] = $chapter;
-            }
-        }
+        $statement = $this->getDb()->prepare("SELECT id_chapter FROM owns WHERE id_user='$idTeacher'");
+        $listChapters=$statement->fetchAll();
         return $listChapters;
     }
 }
