@@ -7,12 +7,18 @@ use db\Database;
 $db = Database::getInstance();
 
 $_TITLE = "Éditeur Classe";
+
 $class = $db->getClass($_GET['id-class']);
 $listStudents = $db->getStudentsFromClass($class['id']);
 $teacher = $db->getResponsableFromClass($class['id']);
 $activesClassCodes = $db->getClassCodes($class['id']);
 $listChapters = $db->getChaptersClass($class['id']);
-$listAllStudents = $db->getStudents();
+
+if (isset($_GET["student-search"]) && $_GET["student-search"] != "") {
+    $listAllStudents = $db->studentSearchFromClass($class["id"], $_GET["student-search"]);
+} else {
+    $listAllStudents = $db->getStudents();
+}
 ?>
 
 <!DOCTYPE html>
@@ -49,10 +55,18 @@ $listAllStudents = $db->getStudents();
         ?>
     </ul>
     <h2>Ajouter étudiants</h2>
+    <form action="/editor-class.php" method="get">
+        <input type="search" id="student-search" name="student-search">
+        <input type="text" value="<?= $_GET['id-class'] ?>" name="id-class" id="id-class" hidden>
+        <button type="submit" class="btn">Rechercher étudiant</button>
+    </form>
     <ul>
         <?php
-
-        foreach ($listAllStudents as $student) { ?>
+        $cpt = 0;
+        foreach ($listAllStudents as $student) {
+            if ($cpt > 5) break;
+            $cpt += 1;
+            ?>
             <li class="">
                 <div>
                     <a href="profile.php?id-profil=<?= $student['id'] ?>"><?= $student['name'] ?></a>
@@ -94,7 +108,7 @@ $listAllStudents = $db->getStudents();
         </form>
     </div>
 
-    <h2 <?= empty($listStudents) ? "hidden" : "" ?>>Liste des étudiants inscrite</h2>
+    <h2 <?= empty($listStudents) ? "hidden" : "" ?>>Liste des étudiants inscrits</h2>
     <ul>
         <?php
         foreach ($listStudents as $student) { ?>
@@ -114,7 +128,7 @@ $listAllStudents = $db->getStudents();
         <h2>Generation de codes d'invitation à la classe</h2>
         <form action="/processing-forms/processing-form-class-edition.php" method="post">
             <label>Nombre d'usages:
-                <input type="number" name="number-usages-code" value="1" min="1">
+                <input type="number" name="number-usages-code" value="1" min="1" max="67000">
             </label>
             <input type="hidden" name="class" value="<?= $class['id'] ?>">
             <input type="submit" name="generate-code-class">

@@ -54,7 +54,7 @@ $listChapters = $db->getChaptersClass($class['id']);
         <?php } ?>
     </ul>
 
-    <div>
+    <div <?=$_SESSION['user']['type'] == "teacher" ?  "" : "hidden" ?>>
         <h2>Generation de codes d'invitation à la classe</h2>
         <form action="/processing-forms/processing-form-class-edition.php" method="post">
             <label>Nombre d'usages:

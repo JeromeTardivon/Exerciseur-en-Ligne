@@ -22,6 +22,7 @@ session_start();
         <form action="/processing-forms/processing-chapter-search.php" method="get">
             <div>
                 <!-- @Bastien changement de h2 dans le label parce que c'est interdit ça bonne journée-->
+                <!-- oulà oui en effet je suis outré-->
                 <label for="search"><h2>Rechercher un chapitre par mot clé</h2></label>
 
                 <div>

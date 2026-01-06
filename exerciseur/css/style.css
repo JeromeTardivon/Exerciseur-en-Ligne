@@ -270,6 +270,11 @@ input[type="search"] {
     width: 90%;
 }
 
+.teacher-space .search {
+    display: flex;
+    flex-direction: row;
+}
+
 .teacher-space > form {
     display: flex;
     flex-direction: row;

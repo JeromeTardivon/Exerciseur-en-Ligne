@@ -1,28 +1,13 @@
 <?php
+
+use db\Database;
+
 include_once __DIR__ . '/../db/db-connection.php';
+include_once __DIR__ . '/../db/db-connection.php';
+require_once __DIR__ . '/../db/Database.php';
 if (!empty($_POST['lastname']) && !empty($_POST['surname']) && !empty($_POST['email']) && !empty($_POST['password'])) {
-    $statement = $db->prepare("SELECT mail FROM users s WHERE s.mail LIKE :email");
-    $statement->execute(['email' => $_POST['email']]);
-    $user = $statement->fetch();
-    if (!$user) {
-        if ($_POST['status'] == 'teacher') {
-            $statement = $db->prepare("SELECT code FROM codes_class WHERE code = :code ");
-            $statement->execute(['code' => $_POST['teacherCode']]);
-            $code = $statement->fetch();
-            if ($code) {
-                var_dump($code['code']);
-                $db->beginTransaction();
-                $statement = $db->prepare("DELETE FROM codes_class WHERE code = :code");
-                $statement->execute(['code' => $code['code']]);
-                $statement = $db->prepare("INSERT INTO users (name, surname, mail, password, type) VALUES (:lastname, :surName, :email, :password, :type)");
-                $statement->execute(['email' => $_POST['email'], 'lastname' => $_POST['lastname'], 'surName' => $_POST['surname'], 'password' => password_hash($_POST['password'], PASSWORD_DEFAULT), 'type' => $_POST['status']]);
-                $db->commit();
-            }
-        } else {
-            $statement = $db->prepare("INSERT INTO users (name, surname, mail, password, type) VALUES (:lastname, :surName, :email, :password, :type)");
-            $statement->execute(['email' => $_POST['email'], 'lastname' => $_POST['lastname'], 'surName' => $_POST['surname'], 'password' => password_hash($_POST['password'], PASSWORD_DEFAULT), 'type' => $_POST['status']]);
-        }
-    }
+    $db = Database::getInstance();
+    $db->createUser($_POST['lastname'],$_POST['surname'], $_POST['email'], $_POST['password'], $_POST['status'], $_POST['userSchoolId'], $_POST['teacherCode']);
 }
 header('Location: /index.php');
 exit();
