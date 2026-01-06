@@ -178,6 +178,7 @@ class Database
     {
         $listChapters = [];
         $statement = $this->getDb()->prepare("SELECT id_chapter FROM owns WHERE id_user='$idTeacher'");
+        $statement->execute();
 
         $listidChapters=$statement->fetchAll();
         foreach ($listidChapters as $idChapter) {
