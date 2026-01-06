@@ -167,11 +167,22 @@ class Database
         return $statement->fetchAll();
     }
 
+    function getChapter($idChapter)
+    {
+        $statement = $this->getDb()->prepare("SELECT * FROM chapter WHERE id = :id");
+        $statement->execute(['id' => $idChapter]);
+        return $statement->fetch();
+    }
+
     function getChaptersTeacher($idTeacher): array
     {
         $listChapters = [];
         $statement = $this->getDb()->prepare("SELECT id_chapter FROM owns WHERE id_user='$idTeacher'");
-        $listChapters=$statement->fetchAll();
+
+        $listidChapters=$statement->fetchAll();
+        foreach ($listidChapters as $idChapter) {
+            $listChapters[] = $this->getChapter($idChapter['id_chapter']);
+        }
         return $listChapters;
     }
 
