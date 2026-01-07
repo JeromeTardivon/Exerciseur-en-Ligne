@@ -110,11 +110,15 @@ document.addEventListener('DOMContentLoaded', function(){
         p.innerHTML = textarea.value;
         reloadMathJax(p);
         
+        const spinner = createSpinner(`modules_${index}_hint_num`, `modules[${index}][hint_num]`, 0, 67000, 0.01);
+        const label = createLabel("Nombre de points de la question : ", `modules_${index}_hint_num`);
         
         const wrapper = document.createElement('div');
         wrapper.className = 'preview';
         wrapper.appendChild(textarea);
         wrapper.appendChild(p);
+        wrapper.appendChild(label);
+        wrapper.appendChild(spinner);
         return wrapper;
     }
 
