@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     
-    function createMCQChoice(defaultText = '', checked = false) {
+    function createMCQChoice(defaultText = '', checked = false, gradeValue = 0) {
         const choice = document.createElement('div');
         choice.className = 'mcq-choice';
 
@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
         choice.appendChild(cb);
         choice.appendChild(text);
-        addGradeField(choice, `mcq_choice_${index}_grade`, `mcq_choice_${index}_grade`, 'Barème du choix : ');
+        addGradeField(choice, `mcq_choice_${index}_grade`, `mcq_choice_${index}_grade`, 'Barème du choix : ', 0, 67000, 0.01, gradeValue);
         choice.appendChild(remove);
         return choice;
     }
@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function(){
         
         const choices = (data && Array.isArray(data.choices)) ? data.choices : [{text:'', checked:false},{text:'', checked:false}];
         choices.forEach(c => {
-            const ch = createMCQChoice(c.text || '', !!c.checked);
+            const ch = createMCQChoice(c.text || '', !!c.checked, c.grade || 0);
             choicesContainer.appendChild(ch);
         });
 
@@ -283,7 +283,7 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 
-    function addTrueFalseField(defaultv = "") {
+    function addTrueFalseField(defaultv = "", defaultGrade = 0) {
         const wrapper = createWrapper('truefalse');
         const id = `modules_${index}_value`;
         //name usable server side (modules[0][value], modules[1][value], ...)
@@ -293,19 +293,19 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.appendChild(label);
         wrapper.appendChild(input);
         wrapper.appendChild(remove);
+        addGradeField(wrapper, `truefalse_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', 0, 67000, 0.01, defaultGrade);
         container.appendChild(wrapper);
         index++;
         if (!suspendSave) saveState();
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
-
-        addGradeField(input, `truefalse_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ');
+        
     }
 
     
 
-    function addOpenQuestionField(defaultv = "") {
+    function addOpenQuestionField(defaultv = "", defaultGrade = 0) {
         const wrapper = createWrapper('openquestion');
         const id = `modules_${index}_value`;
         //name usable server side (modules[0][value], modules[1][value], ...)
@@ -315,17 +315,17 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.appendChild(label);
         wrapper.appendChild(input);
         wrapper.appendChild(remove);
+        addGradeField(wrapper, `openquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', 0, 67000, 0.01, defaultGrade);
         container.appendChild(wrapper);
         index++;
         if (!suspendSave) saveState();
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
-
-        addGradeField(input, `openquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ');
+        
     }
 
-    function addNumericalQuestionField(defaultv = "") {
+    function addNumericalQuestionField(defaultv = "", defaultGrade = 0) {
         const wrapper = createWrapper('numericalquestion');
         const id = `modules_${index}_value`;
         //name usable server side (modules[0][value], modules[1][value], ...)
@@ -335,6 +335,7 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.appendChild(label);
         wrapper.appendChild(input);
         wrapper.appendChild(remove);
+        addGradeField(wrapper, `numericalquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', 0, 67000, 0.01, defaultGrade);
         container.appendChild(wrapper);
         index++;
         if (!suspendSave) saveState();
@@ -342,7 +343,6 @@ document.addEventListener('DOMContentLoaded', function(){
             if (!suspendSave) saveState();
         });
 
-        addGradeField(input, `numericalquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ');
     }
 
     //Redo the id of inputs to keep modules[0], modules[1], ...
@@ -494,13 +494,13 @@ document.addEventListener('DOMContentLoaded', function(){
                     addMultipleChoiceField(item);
 
                 } else if (item.type === 'truefalse') {
-                    addTrueFalseField(item.value || '');
+                    addTrueFalseField(item.value || '', item.grade || 0);
 
                 } else if (item.type === 'openquestion') {
-                    addOpenQuestionField(item.value || '');
+                    addOpenQuestionField(item.value || '', item.grade || 0);
 
                 } else if (item.type === 'numericalquestion') {
-                    addNumericalQuestionField(item.value || '');
+                    addNumericalQuestionField(item.value || '', item.grade || 0);
 
                 } else if (item.type === 'div') {
                     // ignore placeholder divs
