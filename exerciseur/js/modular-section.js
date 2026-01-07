@@ -86,6 +86,13 @@ document.addEventListener('DOMContentLoaded', function(){
         return remove;
     }
 
+    function addGradeField(wrapper, id, name, text, min=0, max=67000, step=0.01, defaultv=0) {
+        const spinner = createSpinner(id, name, min, max, step, defaultv);
+        const label = createLabel(text, id);
+        wrapper.appendChild(label);
+        wrapper.appendChild(spinner);
+    }
+
     function createTextarea(id, placeholder, defaultv, name){
         const textarea = document.createElement('textarea');
         const p = document.createElement('p');
@@ -110,15 +117,10 @@ document.addEventListener('DOMContentLoaded', function(){
         p.innerHTML = textarea.value;
         reloadMathJax(p);
         
-        const spinner = createSpinner(`modules_${index}_hint_num`, `modules[${index}][hint_num]`, 0, 67000, 0.01);
-        const label = createLabel("Nombre de points de la question : ", `modules_${index}_hint_num`);
-        
         const wrapper = document.createElement('div');
         wrapper.className = 'preview';
         wrapper.appendChild(textarea);
         wrapper.appendChild(p);
-        wrapper.appendChild(label);
-        wrapper.appendChild(spinner);
         return wrapper;
     }
 
@@ -233,6 +235,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
         choice.appendChild(cb);
         choice.appendChild(text);
+        addGradeField(choice, `mcq_choice_${index}_grade`, `mcq_choice_${index}_grade`, 'Barème du choix : ');
         choice.appendChild(remove);
         return choice;
     }
@@ -296,6 +299,8 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
+
+        addGradeField(input, `truefalse_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ');
     }
 
     
@@ -316,6 +321,8 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
+
+        addGradeField(input, `openquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ');
     }
 
     function addNumericalQuestionField(defaultv = "") {
@@ -334,6 +341,8 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
+
+        addGradeField(input, `numericalquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ');
     }
 
     //Redo the id of inputs to keep modules[0], modules[1], ...
