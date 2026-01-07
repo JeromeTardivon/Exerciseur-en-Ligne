@@ -423,12 +423,14 @@ document.addEventListener('DOMContentLoaded', function(){
                 wrapper.querySelectorAll('.mcq-choice').forEach(ch => {
                     const txt = ch.querySelector('.mcq-choice-text');
                     const cb = ch.querySelector('.mcq-choice-checked');
-                    choices.push({ text: txt ? txt.value : '', checked: !!(cb && cb.checked) });
+                    const grade = ch.querySelector(`input[type="number"]`);
+                    choices.push({ text: txt ? txt.value : '', checked: !!(cb && cb.checked), grade: grade.value});
                 });
                 data.push({ type: 'mcq', question: question, choices: choices });
             } else if (type.startsWith('title') || type === 'text' || type === 'truefalse' || type === 'openquestion' || type === 'numericalquestion') {
                 const valueInput = wrapper.querySelector('input, textarea');
-                data.push({ type: type, value: valueInput ? valueInput.value : '' });
+                const grade = wrapper.querySelector(`input[type="number"]`);
+                data.push({ type: type, value: valueInput ? valueInput.value : '', grade: grade.value });
             } else {
                 // fallback: try to grab a value
                 const valueInput = wrapper.querySelector('input, textarea');
