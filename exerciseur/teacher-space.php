@@ -78,15 +78,14 @@ include 'modules/include.php' ?>
                     <button type="submit" class="btn">Rechercher</button>
                 </div>
 
-                <!-- le contenu de la liste sera à changer avec du php pour avoir la liste des classes auquels il a accès -->
-                <!-- le nb de li sera en fonction de la hauteur de l'écran -->
+                
                 <ul>
                     <?php
 
                     foreach ($listChapters as $chapter) { ?>
                     
                         <li class="btn"><a
-                                    href="chapter.php?id-chapter=<?= $chapter['id'] ?>"><?= $chapter['title'] ?></a>
+                                    href="chapter-edition.php?id-chapter=<?= $chapter['id'] ?>?exercise-num=1"><?= $chapter['title'] ?></a>
                         </li>
                     <?php }
                     ?>
