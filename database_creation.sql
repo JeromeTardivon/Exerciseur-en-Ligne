@@ -42,6 +42,7 @@ CREATE TABLE exercise(
   id uuid PRIMARY KEY DEFAULT SYS_GUID(),
   random BOOLEAN NOT NULL DEFAULT false,
   coef INT DEFAULT 1,
+  grade INT DEFAULT 0,
   content TEXT NOT NULL,
   type INT NOT NULL,
   id_chapter uuid NOT NULL,
