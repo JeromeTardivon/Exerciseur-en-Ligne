@@ -247,4 +247,22 @@ class Database
             }
         }
     }
+
+    public function getExercisesNumberFromChapter($chapterId): int
+    {
+        $statement = $this->getDb()->prepare("SELECT COUNT(id) as nb FROM exercise WHERE id_chapter = :chapterId");
+        $statement->execute(['chapterId' => $chapterId]);
+        $result = $statement->fetch();
+        return (int)$result['nb'];
+    }
+
+    public function chapterBelongsToTeacher($chapterId, $teacherId): bool
+    {
+        $statement = $this->getDb()->prepare("SELECT * FROM owns WHERE id_chapter = :chapterId AND id_user = :teacherId");
+        $statement->execute(['chapterId' => $chapterId, 'teacherId' => $teacherId]);
+        $result = $statement->fetch();
+        return $result !== false;
+    }
+
+
 }

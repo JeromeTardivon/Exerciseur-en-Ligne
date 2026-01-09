@@ -85,7 +85,7 @@ include 'modules/include.php' ?>
                     foreach ($listChapters as $chapter) { ?>
                     
                         <li class="btn"><a
-                                    href="chapter-edition.php?id-chapter=<?= $chapter['id'] ?>?exercise-num=1"><?= $chapter['title'] ?></a>
+                                    href="chapter-edition.php?id-chapter=<?= $chapter['id'] ?>&exercise-num=1"><?= $chapter['title'] ?></a>
                         </li>
                     <?php }
                     ?>
