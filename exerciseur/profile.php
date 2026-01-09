@@ -46,12 +46,7 @@ include 'modules/include.php'; ?>
                     </li>
                     <li>
                         <p>
-                            <strong>Identifiant : </strong>
-
-                            <?= $_SESSION['user']['mail'] ?>
-                        </p>
-                    </li>
-                    <li><p>
+                            <strong>Statut : </strong>
                             <?php
 
                             if ($_SESSION['user']['type'] == "student") {
@@ -61,7 +56,22 @@ include 'modules/include.php'; ?>
                             }
 
                             ?>
-                        </p></li>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <strong>Identifiant : </strong>
+
+                            <?= $_SESSION['user']['schoolId'] ?>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <strong>Adresse mail : </strong>
+
+                            <?= $_SESSION['user']['mail'] ?>
+                        </p>
+                    </li>
                 </ul>
 
 
