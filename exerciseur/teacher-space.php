@@ -48,7 +48,7 @@ include 'modules/include.php' ?>
                 <h2>Gérer mes classes</h2>
 
                 <div class="search">
-                    <input class="btn" type="search" id="class-search" name="class-search" placeholder="Rechercher classe">
+                    <label for="class-search"></label><input class="btn" type="search" id="class-search" name="class-search" placeholder="Rechercher classe">
                     <button type="submit" class="btn">Rechercher</button>
                 </div>
 
@@ -74,7 +74,7 @@ include 'modules/include.php' ?>
                 <h2>Gérer mes chapitres</h2>
 
                 <div class="search">
-                    <input class="btn" type="search" id="chapter-search" name="chapter-search" placeholder="Rechercher chapitre">
+                    <label for="chapter-search"></label><input class="btn" type="search" id="chapter-search" name="chapter-search" placeholder="Rechercher chapitre">
                     <button type="submit" class="btn">Rechercher</button>
                 </div>
 
@@ -101,7 +101,7 @@ include 'modules/include.php' ?>
                 <h2>Gérer mes sujets</h2>
 
                 <div class="search">
-                    <input class="btn" type="search" id="subject-search" name="subject-search" placeholder="Rechercher sujet">
+                    <label for="subject-search"></label><input class="btn" type="search" id="subject-search" name="subject-search" placeholder="Rechercher sujet">
                     <button type="submit" class="btn">Rechercher</button>
                 </div>
 
