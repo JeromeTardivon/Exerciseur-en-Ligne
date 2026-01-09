@@ -15,6 +15,7 @@ if (!isset($_SESSION["user"])) {
 
 $_POST['content']='';
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
     <?php include 'modules/include.php' ?>
@@ -89,10 +90,9 @@ $_POST['content']='';
                 <fieldset>
                     <legend>Création de la section</legend>
 
-                    <ul>
+                    <p id="total-grade-display">Note totale : ?</p>
 
-                    
-                        
+                    <ul>
 
                         <li><h3>Modules par défaut</h3></li>
                         <li>
@@ -161,6 +161,5 @@ $_POST['content']='';
 
         <script type="text/javascript" src="js/math-symbol.js"></script>
         <script type=text/javascript src="js/modular-section.js"></script>
-        
     </body>
 </html>
