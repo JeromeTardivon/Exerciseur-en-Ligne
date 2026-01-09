@@ -98,6 +98,8 @@ document.addEventListener('DOMContentLoaded', function(){
         });
 
         let totalGradeDisplay = document.getElementById("total-grade-display");
+        let gradeInput = document.getElementById("total-grade"); // made to be send to the processing script
+        gradeInput.value = totalGrade;
         totalGradeDisplay.textContent = "Note totale : " + Math.round(totalGrade * 100) / 100;
     }
 
