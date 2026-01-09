@@ -50,7 +50,6 @@ $classes = $db->getClasses($_SESSION["user"]["id"]);
                         <option value="32">Première</option>
                         <option value="33">Terminale</option>
                         <option value="40">Etudes Supérieures</option>
-
                     </select>
                 </li>
 
@@ -60,15 +59,12 @@ $classes = $db->getClasses($_SESSION["user"]["id"]);
                         temps</label></li>
                 <li>
                     <div id="timelimit-box"> <!-- hide everything in this span if checkbox not checked -->
-                        <label for="timelimit-seconds">Secondes</label>
-                        <input id="timelimit-seconds" name="timelimit_seconds" type="number" min="0" max="59" step="1"
-                               value="0">
-                        <label for="timelimit-minutes">Minutes</label>
-                        <input id="timelimit-minutes" name="timelimit_minutes" type="number" min="0" max="59" step="1"
-                               value="30">
                         <label for="timelimit-hours" class="visually-hidden">Heures</label>
-                        <input id="timelimit-hours" name="timelimit_hours" type="number" min="0" max="2048" step="1"
-                               value="0">
+                        <input id="timelimit-hours" name="timelimit_hours" type="number" min="0" max="2048" step="1" value="0">
+                        <label for="timelimit-minutes" >Minutes</label>
+                        <input id="timelimit-minutes" name="timelimit_minutes" type="number" min="0" max="59" step="1" value="30">
+                        <label for="timelimit-seconds" >Secondes</label>
+                        <input id="timelimit-seconds" name="timelimit_seconds" type="number" min="0" max="59" step="1" value="0">
                     </div>
                 </li>
                 <li><h3>Classe</h3></li>
