@@ -20,7 +20,7 @@ if (!isset($_SESSION["user"])) {
             <main id="main-profile">
                 <aside>
                     <!-- image placeholder mettre la pdp actuelle en défaut avec php/db-->
-                    <img src="exercisor3000.png" alt="photo de profil">
+                    <img src="img/profile-pic.jpg" alt="photo de profil">
 
                     <label for="image">Changer de photo de profil</label>
                     <input id="image" type="file" name="image" multiple="false" accept="image/png, image/jpeg">

@@ -59,12 +59,10 @@ include 'modules/include.php'; ?>
                             } else {
                                 echo "Enseignant";
                             }
-
                             ?>
                         </p></li>
                 </ul>
-
-
+                <a class="btn" href="account-management.php">Modifier</a>
             </div>
         </div>
 
