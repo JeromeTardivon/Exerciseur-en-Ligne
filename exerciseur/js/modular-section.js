@@ -480,7 +480,11 @@ document.addEventListener('DOMContentLoaded', function(){
                     choices.push({ text: txt ? txt.value : '', checked: !!(cb && cb.checked), grade: grade.value});
                 });
                 data.push({ type: 'mcq', question: question, choices: choices });
-            } else if (type.startsWith('title') || type === 'text' || type === 'truefalse' || type === 'openquestion' || type === 'numericalquestion') {
+            } else if (type.startsWith('title') || type === 'text') {
+                const valueInput = wrapper.querySelector('input, textarea');
+                const grade = wrapper.querySelector(`input[type="number"]`);
+                data.push({ type: type, value: valueInput ? valueInput.value : '' });
+            } else if (type === 'truefalse' || type === 'openquestion' || type === 'numericalquestion') {
                 const valueInput = wrapper.querySelector('input, textarea');
                 const grade = wrapper.querySelector(`input[type="number"]`);
                 data.push({ type: type, value: valueInput ? valueInput.value : '', grade: grade.value });
