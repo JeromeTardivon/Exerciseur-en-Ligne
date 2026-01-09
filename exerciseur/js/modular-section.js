@@ -86,9 +86,29 @@ document.addEventListener('DOMContentLoaded', function(){
         return remove;
     }
 
+    function calculateTotalGrade() {
+        let totalGrade = 0;
+
+        const gradeElements = document.querySelectorAll("#inputs input[type='number']");
+        gradeElements.forEach((input) => {
+            const grade = parseFloat(input.value);
+            if (!isNaN(grade)) {
+                totalGrade += grade;
+            }
+        });
+
+        let totalGradeDisplay = document.getElementById("total-grade-display");
+        let gradeInput = document.getElementById("total-grade"); // made to be send to the processing script
+        gradeInput.value = totalGrade;
+        totalGradeDisplay.textContent = "Note totale : " + Math.round(totalGrade * 100) / 100;
+    }
+
     function addGradeField(wrapper, id, name, text, min=0, max=67000, step=0.01, defaultv=0) {
         const spinner = createSpinner(id, name, min, max, step, defaultv);
         const label = createLabel(text, id);
+
+        spinner.addEventListener("change", calculateTotalGrade);
+
         wrapper.appendChild(label);
         wrapper.appendChild(spinner);
     }

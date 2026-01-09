@@ -15,11 +15,11 @@ if (!isset($_SESSION["user"])) {
 
 $_POST['content']='';
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
     <?php include 'modules/include.php' ?>
     
-
     <body>
         <!-- nav -->
         <?php include 'modules/header.php' ?>
@@ -89,10 +89,12 @@ $_POST['content']='';
                 <fieldset>
                     <legend>Création de la section</legend>
 
-                    <ul>
-
                     
-                        
+                    <ul>
+                        <li>
+                            <label for="total-grade" id="total-grade-display">Note totale : ?</label>
+                            <input id="total-grade" type="text" name="total-grade" hidden>
+                        </li>
 
                         <li><h3>Modules par défaut</h3></li>
                         <li>
@@ -100,16 +102,11 @@ $_POST['content']='';
                             <input id="section-title" type="text" name="section-title">
                         </li>
 
-
                         <li><h3>Modules dynamiques</h3></li>
                         
-
                         <li>
                             <div id="inputs"></div>
                         </li>
-
-                        
-
                     </ul>   
                     
                 </fieldset>
@@ -117,9 +114,7 @@ $_POST['content']='';
                 <button type="submit" id="save-section">Enregistrer la section et continuer</button>
                 <button type="submit" id="save-section-end">Enregistrer la section et terminer le chapitre</button>
 
-
                 </form>
-            
 
             <aside id="chapter-creation-aside-2">
                <h2>Modules</h2>
@@ -161,6 +156,5 @@ $_POST['content']='';
 
         <script type="text/javascript" src="js/math-symbol.js"></script>
         <script type=text/javascript src="js/modular-section.js"></script>
-        
     </body>
 </html>
