@@ -13,13 +13,13 @@ if (!isset($_SESSION["user"])) {
 }
 
 
-
+$_POST['content']='';
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
     <?php include 'modules/include.php' ?>
     
-
     <body>
         <!-- nav -->
         <?php include 'modules/header.php' ?>
@@ -49,7 +49,7 @@ if (!isset($_SESSION["user"])) {
                         <li>
                             <span> 
                                 <label for="weight">Coefficient (nécéssaire même si non notée, pour les statistiques):</label>
-                                <input id="weight" name="weight" type="number" min="0" max="100" step="1" default="0">
+                                <input id="weight" name="weight" type="number" min="0" max="100" step="1" value= "0">
                             </span>
                         </li>
 
@@ -58,7 +58,7 @@ if (!isset($_SESSION["user"])) {
                         <li>
                             <span> 
                                 <label for="time">Limite de temps (en minutes, 0 pour illimité):</label>
-                                <input id="time" name="time" type="number" min="0" max="2048" step="1" default="0">
+                                <input id="time" name="time" type="number" min="0" max="2048" step="1" value="0">
                             </span>
                         </li>
 
@@ -67,7 +67,7 @@ if (!isset($_SESSION["user"])) {
                         <li> <input id="tries" type="checkbox" name="tries"><label for="tries">Limiter le nombre d'essais ? </label>
                             <span> <!-- only show this span if 'tries' checkbox checked -->
                                 <label for="tries-number">Nombre d'essais autorisés:</label>
-                                <input id="tries-number" name="tries_number" type="number" min="1" max="100" step="1" default="1">
+                                <input id="tries-number" name="tries_number" type="number" min="1" max="100" step="1" value="1">
                             </span>
                     
                         </li>
@@ -75,7 +75,7 @@ if (!isset($_SESSION["user"])) {
                         <li><h3>Options de réponses</h3></li>
 
                         <li> 
-                            <input id="ansdef" type="checkbox" name="ansdef"><label for="ansdef">Réponses définitives? (pas de modification possible après avoir quité la page ou validé la réponse)</label>
+                            <input id="ansdef" type="checkbox" name="ansdef" value =><label for="ansdef">Réponses définitives? (pas de modification possible après avoir quité la page ou validé la réponse)</label>
                              <!-- only show this input if 'ansdef' checkbox checked -->
                             <input id="showans" type="checkbox" name="showans"><label for="showans">Montrer la réponse après la validation</label>
                         </li>
@@ -89,10 +89,12 @@ if (!isset($_SESSION["user"])) {
                 <fieldset>
                     <legend>Création de la section</legend>
 
-                    <ul>
-
                     
-                        
+                    <ul>
+                        <li>
+                            <label for="total-grade" id="total-grade-display">Note totale : ?</label>
+                            <input id="total-grade" type="text" name="total-grade" hidden>
+                        </li>
 
                         <li><h3>Modules par défaut</h3></li>
                         <li>
@@ -100,26 +102,23 @@ if (!isset($_SESSION["user"])) {
                             <input id="section-title" type="text" name="section-title">
                         </li>
 
-
                         <li><h3>Modules dynamiques</h3></li>
                         
-
                         <li>
                             <div id="inputs"></div>
                         </li>
-
-                        
-
                     </ul>   
                     
                 </fieldset>
+                <fieldset>
+                    <legend>Aperçu de l'exercice (point de vue d'un élève)</legend>
+                    <div id="previews"></div>
+                </fieldset>
 
-                <button type="submit">Enregistrer la section et continuer</button>
-                <button type="submit" formaction="index.php">Enregistrer la section et terminer le chapitre</button>
-
+                <button type="submit" id="save-section">Enregistrer la section et continuer</button>
+                <button type="submit" id="save-section-end">Enregistrer la section et terminer le chapitre</button>
 
                 </form>
-            
 
             <aside id="chapter-creation-aside-2">
                <h2>Modules</h2>
@@ -161,6 +160,5 @@ if (!isset($_SESSION["user"])) {
 
         <script type="text/javascript" src="js/math-symbol.js"></script>
         <script type=text/javascript src="js/modular-section.js"></script>
-        
     </body>
 </html>

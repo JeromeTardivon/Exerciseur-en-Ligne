@@ -2,6 +2,11 @@
 
 document.addEventListener('DOMContentLoaded', function(){
     const container = document.getElementById('inputs');
+    const previewContainer = document.getElementById('previews');
+
+    document.getElementById('section-title').addEventListener('input', loadPreview);
+    document.getElementById('section-title').addEventListener('click', loadPreview);
+
     
     const addTextBtn = document.getElementById('add-text');
     const addTitle1Btn = document.getElementById('add-title-1');
@@ -15,13 +20,32 @@ document.addEventListener('DOMContentLoaded', function(){
     const addMultipleChoiceBtn = document.getElementById('add-multiple-choice');
     const addHintBtn = document.getElementById('add-hint');
 
+
+    function updateHintBtnState(){
+        if(document.getElementById('tries')&&document.getElementById('tries').checked==true&&(document.getElementById('tries-number')&&document.getElementById('tries-number').value<2)){
+
+            addHintBtn.setAttribute('disabled','true');
+        }else{
+            addHintBtn.removeAttribute('disabled');
+            
+        }
+    }
+
+    document.getElementById('tries-number').addEventListener('input', updateHintBtnState);
+    document.getElementById('tries-number').addEventListener('click', updateHintBtnState);
+    document.getElementById('tries').addEventListener('input', updateHintBtnState);
+    document.getElementById('tries').addEventListener('click', updateHintBtnState);
+
+    const saveBtn = document.getElementById('save-section');
+    const saveEndBtn = document.getElementById('save-section-end');
+
     const form = document.getElementById('dynamic-form');
     const output = document.getElementById('output');
 
-    //curr id, +1 after element creation
+    
     let index = 0;
     
-    // when true we suspend saving to localStorage (used during restore)
+    
     let suspendSave = false;
 
 
@@ -59,6 +83,8 @@ document.addEventListener('DOMContentLoaded', function(){
             p.innerHTML = input.value;
             reloadMathJax(p)
         });
+        input.addEventListener("click", loadPreview);
+        input.addEventListener("input", loadPreview);
         
         p.innerHTML = input.value;
         reloadMathJax(p);
@@ -79,9 +105,39 @@ document.addEventListener('DOMContentLoaded', function(){
             wrapper.remove();
             renumber();
             saveState();
+            loadPreview();
         });
+        
+        
 
         return remove;
+    }
+
+    function calculateTotalGrade() {
+        let totalGrade = 0;
+
+        const gradeElements = document.querySelectorAll("#inputs input[type='number']");
+        gradeElements.forEach((input) => {
+            const grade = parseFloat(input.value);
+            if (!isNaN(grade)) {
+                totalGrade += grade;
+            }
+        });
+
+        let totalGradeDisplay = document.getElementById("total-grade-display");
+        let gradeInput = document.getElementById("total-grade"); // made to be send to the processing script
+        gradeInput.value = totalGrade;
+        totalGradeDisplay.textContent = "Note totale : " + Math.round(totalGrade * 100) / 100;
+    }
+
+    function addGradeField(wrapper, id, name, text, min=0, max=67000, step=0.01, defaultv=0) {
+        const spinner = createSpinner(id, name, min, max, step, defaultv);
+        const label = createLabel(text, id);
+
+        spinner.addEventListener("change", calculateTotalGrade);
+
+        wrapper.appendChild(label);
+        wrapper.appendChild(spinner);
     }
 
     function createTextarea(id, placeholder, defaultv, name){
@@ -98,6 +154,9 @@ document.addEventListener('DOMContentLoaded', function(){
             reloadMathJax(p);
         });
 
+        textarea.addEventListener("click", loadPreview);
+        textarea.addEventListener("input", loadPreview);
+
         textarea.placeholder = placeholder;
         // set current value (use value so it's readable via .value)
         textarea.value = defaultv || '';
@@ -107,7 +166,6 @@ document.addEventListener('DOMContentLoaded', function(){
         textarea.cols = 50;
         p.innerHTML = textarea.value;
         reloadMathJax(p);
-        
         
         const wrapper = document.createElement('div');
         wrapper.className = 'preview';
@@ -140,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function(){
     }
     
 
-    //Add new textfield and remove button
+    
     function addTextField(defaultv = "") {
         const wrapper = createWrapper('text');
         const id = `modules_${index}_value`;
@@ -200,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     
-    function createMCQChoice(defaultText = '', checked = false) {
+    function createMCQChoice(defaultText = '', checked = false, gradeValue = 0) {
         const choice = document.createElement('div');
         choice.className = 'mcq-choice';
 
@@ -214,19 +272,22 @@ document.addEventListener('DOMContentLoaded', function(){
         text.className = 'mcq-choice-text';
         text.placeholder = 'Choix';
         text.value = defaultText || '';
+        text.addEventListener('input', loadPreview);
+        text.addEventListener('click', loadPreview);
 
         const remove = document.createElement('button');
         remove.type = 'button';
         remove.textContent = 'Supprimer le choix';
         remove.addEventListener('click', () => {
             choice.remove();
-            // bubble up renumber/save
             renumber();
+            loadPreview();
             if (!suspendSave) saveState();
         });
 
         choice.appendChild(cb);
         choice.appendChild(text);
+        addGradeField(choice, `mcq_choice_${index}_grade`, `mcq_choice_${index}_grade`, 'Barème du choix : ', 0, 67000, 0.01, gradeValue);
         choice.appendChild(remove);
         return choice;
     }
@@ -244,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function(){
         
         const choices = (data && Array.isArray(data.choices)) ? data.choices : [{text:'', checked:false},{text:'', checked:false}];
         choices.forEach(c => {
-            const ch = createMCQChoice(c.text || '', !!c.checked);
+            const ch = createMCQChoice(c.text || '', !!c.checked, c.grade || 0);
             choicesContainer.appendChild(ch);
         });
 
@@ -254,6 +315,7 @@ document.addEventListener('DOMContentLoaded', function(){
         addChoiceBtn.addEventListener('click', () => {
             const ch = createMCQChoice();
             choicesContainer.appendChild(ch);
+            loadPreview();
             renumber();
             if (!suspendSave) saveState();
         });
@@ -274,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 
-    function addTrueFalseField(defaultv = "") {
+    function addTrueFalseField(defaultv = "", defaultGrade = 0) {
         const wrapper = createWrapper('truefalse');
         const id = `modules_${index}_value`;
         //name usable server side (modules[0][value], modules[1][value], ...)
@@ -284,17 +346,19 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.appendChild(label);
         wrapper.appendChild(input);
         wrapper.appendChild(remove);
+        addGradeField(wrapper, `truefalse_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', 0, 67000, 0.01, defaultGrade);
         container.appendChild(wrapper);
         index++;
         if (!suspendSave) saveState();
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
+        
     }
 
     
 
-    function addOpenQuestionField(defaultv = "") {
+    function addOpenQuestionField(defaultv = "", defaultGrade = 0) {
         const wrapper = createWrapper('openquestion');
         const id = `modules_${index}_value`;
         //name usable server side (modules[0][value], modules[1][value], ...)
@@ -304,15 +368,17 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.appendChild(label);
         wrapper.appendChild(input);
         wrapper.appendChild(remove);
+        addGradeField(wrapper, `openquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', 0, 67000, 0.01, defaultGrade);
         container.appendChild(wrapper);
         index++;
         if (!suspendSave) saveState();
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
+        
     }
 
-    function addNumericalQuestionField(defaultv = "") {
+    function addNumericalQuestionField(defaultv = "", defaultGrade = 0) {
         const wrapper = createWrapper('numericalquestion');
         const id = `modules_${index}_value`;
         //name usable server side (modules[0][value], modules[1][value], ...)
@@ -322,12 +388,14 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.appendChild(label);
         wrapper.appendChild(input);
         wrapper.appendChild(remove);
+        addGradeField(wrapper, `numericalquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', 0, 67000, 0.01, defaultGrade);
         container.appendChild(wrapper);
         index++;
         if (!suspendSave) saveState();
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
+
     }
 
     //Redo the id of inputs to keep modules[0], modules[1], ...
@@ -391,7 +459,8 @@ document.addEventListener('DOMContentLoaded', function(){
         index = modules.length;
     }
     //saves the state of modules to keep them after page refresh
-    function saveState() {
+    function saveState(fullSave=true) {
+        
         const modules = container.querySelectorAll('.module');
         const data = [];
         modules.forEach(wrapper => {
@@ -407,23 +476,54 @@ document.addEventListener('DOMContentLoaded', function(){
                 wrapper.querySelectorAll('.mcq-choice').forEach(ch => {
                     const txt = ch.querySelector('.mcq-choice-text');
                     const cb = ch.querySelector('.mcq-choice-checked');
-                    choices.push({ text: txt ? txt.value : '', checked: !!(cb && cb.checked) });
+                    const grade = ch.querySelector(`input[type="number"]`);
+                    choices.push({ text: txt ? txt.value : '', checked: !!(cb && cb.checked), grade: grade.value});
                 });
                 data.push({ type: 'mcq', question: question, choices: choices });
-            } else if (type.startsWith('title') || type === 'text' || type === 'truefalse' || type === 'openquestion' || type === 'numericalquestion') {
+            } else if (type.startsWith('title') || type === 'text') {
                 const valueInput = wrapper.querySelector('input, textarea');
+                const grade = wrapper.querySelector(`input[type="number"]`);
                 data.push({ type: type, value: valueInput ? valueInput.value : '' });
+            } else if (type === 'truefalse' || type === 'openquestion' || type === 'numericalquestion') {
+                const valueInput = wrapper.querySelector('input, textarea');
+                const grade = wrapper.querySelector(`input[type="number"]`);
+                data.push({ type: type, value: valueInput ? valueInput.value : '', grade: grade.value });
             } else {
                 // fallback: try to grab a value
                 const valueInput = wrapper.querySelector('input, textarea');
                 data.push({ type: type, value: valueInput ? valueInput.value : '' });
             }
         });
+
+        
         try {
             localStorage.setItem('dynamicModules', JSON.stringify(data));
+            if(fullSave){   
+                //creates hidden input to send data from localstorage to server
+                let payload = null;
+                try { payload = localStorage.getItem('dynamicModules'); } catch(e) { payload = null; }
+                if (!payload) payload = JSON.stringify(data);
+
+                if (form) {
+                    let hidden = form.querySelector('input[name="content"]');
+                    if (!hidden) {
+                        hidden = document.createElement('input');
+                        hidden.type = 'hidden';
+                        hidden.name = 'content';
+                        hidden.id = 'content';
+                        form.appendChild(hidden);
+                    }
+                    hidden.value = payload;
+                    
+                    
+                } else {
+                    console.warn('saveState(true) called but form element not found; cannot attach content input');
+                }
+            }
         } catch (e) {
             console.warn('localStorage unavailable:', e);
         }
+        
     }
     //loads the saved state of modules including their content
     function loadState() {
@@ -451,16 +551,13 @@ document.addEventListener('DOMContentLoaded', function(){
                     addMultipleChoiceField(item);
 
                 } else if (item.type === 'truefalse') {
-                    addTrueFalseField(item.value || '');
+                    addTrueFalseField(item.value || '', item.grade || 0);
 
                 } else if (item.type === 'openquestion') {
-                    addOpenQuestionField(item.value || '');
+                    addOpenQuestionField(item.value || '', item.grade || 0);
 
                 } else if (item.type === 'numericalquestion') {
-                    addNumericalQuestionField(item.value || '');
-
-                } else if (item.type === 'div') {
-                    // ignore placeholder divs
+                    addNumericalQuestionField(item.value || '', item.grade || 0);
 
                 } else {
                     console.warn('Unsupported module type during load:', item.type);
@@ -479,6 +576,140 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     }
 
+    function loadPreview(){
+        saveState(false);
+        previewContainer.innerHTML = '';
+        const wrapper = document.createElement('div');
+        const sectionTitle = document.createElement('h1');
+        sectionTitle.textContent = document.getElementById('section-title').value || 'Titre de la section';
+        reloadMathJax(sectionTitle);
+        wrapper.appendChild(sectionTitle);
+        
+
+        try {
+            const raw = localStorage.getItem('dynamicModules');
+            if (!raw) return;
+            const data = JSON.parse(raw);
+            if (!Array.isArray(data)) return;
+            
+            data.forEach(item => {
+
+                if(item.type === 'text'){
+                    wrapper.appendChild(document.createElement('div')).innerHTML = item.value || '';
+                    reloadMathJax(wrapper);
+
+                } else if (typeof item.type === 'string' && item.type.startsWith('title')) {
+                    const size = parseInt(item.type.slice(5)) || 5;
+                    const titleElem = document.createElement('h' + size);
+                    titleElem.innerHTML = item.value || '';
+                    titleElem.dataset.type = item.type || 'title'.concat(size);
+                    reloadMathJax(titleElem);
+                    wrapper.appendChild(titleElem);
+
+                } else if (item.type === 'mcq') {
+                    const mcqElem = document.createElement('div');
+                    mcqElem.innerHTML = item.question || '';
+                    reloadMathJax(mcqElem);
+                    let iterator = '0';
+                    for (const choice of item.choices || []) {
+                        const choiceDiv = document.createElement('div');
+                        const cb = document.createElement('input');
+                        cb.type = 'checkbox';
+                        cb.setAttribute('id', 'mcqpreview_'.concat(iterator));
+                        iterator++;
+
+                        const label = document.createElement('label');
+                        label.textContent = choice.text || '';
+                        label.setAttribute('for', cb.id);
+                        
+
+                        choiceDiv.appendChild(cb);
+                        choiceDiv.appendChild(label);
+                        mcqElem.appendChild(choiceDiv);
+                    }
+                    wrapper.appendChild(mcqElem);
+
+                } else if (item.type === 'truefalse') {
+                    const trueFalseElem = document.createElement('div');
+                    const q = document.createElement('p');
+                    q.innerHTML = item.value || '';
+                    reloadMathJax(q);
+                    trueFalseElem.appendChild(q);
+
+                    const trueradio = document.createElement('input');
+                    trueradio.type = 'radio';
+                    trueradio.name = 'truefalseanswer';
+
+                    const trueLabel = document.createElement('label');
+                    trueLabel.setAttribute('for', 'trueradio');
+                    trueLabel.textContent = 'Vrai';
+                
+                    trueFalseElem.appendChild(trueradio);
+                    trueFalseElem.appendChild(trueLabel);
+
+                    const falseradio = document.createElement('input');
+                    falseradio.type = 'radio';
+                    falseradio.name = 'truefalseanswer';
+                    
+                    const falseLabel = document.createElement('label');
+                    falseLabel.setAttribute('for', 'falseradio');
+                    falseLabel.textContent = 'Faux';
+
+
+                    trueFalseElem.appendChild(falseradio);
+                    trueFalseElem.appendChild(falseLabel);
+
+                    wrapper.appendChild(trueFalseElem);
+
+                } else if (item.type === 'openquestion') {
+                    const openElem = document.createElement('div');
+                    openElem.innerHTML = item.value || '';
+                    reloadMathJax(openElem);
+                    const answerInput = document.createElement('textarea');
+                    answerInput.setAttribute('name', 'openanswerpreview');
+                    answerInput.setAttribute('placeholder', 'Votre réponse ici');
+                    answerInput.setAttribute('id', 'openanswerpreview');
+                    wrapper.appendChild(openElem);
+                    wrapper.appendChild(answerInput);
+
+                } else if (item.type === 'numericalquestion') {
+                    numericalElem = document.createElement('div');
+                    numericalElem.innerHTML = item.value || '';
+                    reloadMathJax(numericalElem);
+                    const justifinput = document.createElement('textarea');
+                    justifinput.setAttribute('name', 'justifpreview');
+                    justifinput.setAttribute('placeholder', 'Justification (si demandée)');
+                    justifinput.setAttribute('id', 'justifpreview');
+                    const answerInput = document.createElement('input');
+                    answerInput.type = 'number';
+                    answerInput.setAttribute('name', 'numericalanswerpreview');
+                    answerInput.setAttribute('placeholder', 'Votre réponse ici');
+                    answerInput.setAttribute('id', 'numericalanswerpreview');
+                    answerInput.setAttribute('step', '0.001');
+                    wrapper.appendChild(numericalElem);
+                    wrapper.appendChild(justifinput);
+                    wrapper.appendChild(answerInput);
+
+                } else if(item.type === 'hint'){
+                    // hints are not shown in preview
+                } else {
+                    console.warn('Unsupported module type during load:', item.type);
+                }
+                
+                
+                
+            }
+
+        );
+            previewContainer.appendChild(wrapper);
+            
+            
+        }catch (e) {
+            console.warn('Failed to load saved modules:', e);
+        }
+        
+    }
+
     addTextBtn.addEventListener('click', ()=> addTextField());
     addTitle5Btn.addEventListener('click', ()=> addTitleField('', 5));
     addTitle4Btn.addEventListener('click', ()=> addTitleField('', 4));
@@ -490,5 +721,28 @@ document.addEventListener('DOMContentLoaded', function(){
     addNumericalQuestionBtn.addEventListener('click', ()=> addNumericalQuestionField());
     addMultipleChoiceBtn.addEventListener('click', ()=> addMultipleChoiceField());
     addHintBtn.addEventListener('click', ()=> addHintField());
+    saveBtn.addEventListener('click', (e)=> {
+        // ensure no redirect flag is submitted for the normal save (continue on section)
+        if (form) {
+            const r = form.querySelector('input[name="redirect"]');
+            if (r) r.parentNode.removeChild(r);
+        }
+        saveState(true);
+    });
+
+    saveEndBtn.addEventListener('click', (e)=> {
+        // set a hidden redirect flag so server will redirect to index after saving
+        if (form) {
+            let r = form.querySelector('input[name="redirect"]');
+            if (!r) {
+                r = document.createElement('input');
+                r.type = 'hidden';
+                r.name = 'redirect';
+                form.appendChild(r);
+            }
+            r.value = 'index';
+        }
+        saveState(true);
+    });
     loadState();
 });

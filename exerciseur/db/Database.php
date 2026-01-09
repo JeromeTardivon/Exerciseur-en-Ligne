@@ -45,7 +45,7 @@ class Database
         return $this->db;
     }
 
-    function getClasses($teacherId): array
+    public function getClasses($teacherId): array
     {
         $listClasses = array();
         $statement = $this->getDb()->prepare("SELECT * FROM inclass WHERE id_user LIKE '$teacherId'");
@@ -56,35 +56,35 @@ class Database
         }
         return $listClasses;
     }
-    function getClass($idClass)
+    public function getClass($idClass)
     {
         $statement = $this->getDb()->prepare("SELECT * FROM class WHERE id = :id");
         $statement->execute(['id' => $idClass]);
         return $statement->fetch();
     }
 
-    function getStudents(): array
+    public function getStudents(): array
     {
         $statement = $this->getDb()->prepare("SELECT * FROM users");
         $statement->execute();
         return $statement->fetchAll();
     }
 
-    function getUser($userId)
+    public function getUser($userId)
     {
         $statement = $this->getDb()->prepare("SELECT * FROM users WHERE id = :id");
         $statement->execute(['id' => $userId]);
         return $statement->fetch();
     }
 
-    function getResponsableFromClass($classId)
+    public function getResponsableFromClass($classId)
     {
         $statement = $this->getDb()->prepare("SELECT * FROM inclass WHERE id_class = '$classId' AND responsible LIKE 1");
         $statement->execute();
         return $this->getUser($statement->fetch()['id_user']);
     }
 
-    function addStudentsToClassDB($listIdStudents, $classId): void
+    public function addStudentsToClassDB($listIdStudents, $classId): void
     {
         foreach ($listIdStudents as $student) {
             $statement = $this->getDb()->prepare("SELECT COUNT(id_user) as nb FROM inclass WHERE id_user = '$student' AND id_class = '$classId'");
@@ -97,7 +97,7 @@ class Database
         }
     }
 
-    function addStudentToClassByCode($studentId, $code): void
+    public function addStudentToClassByCode($studentId, $code): void
     {
         $statement = $this->getDb()->prepare("SELECT id_associated FROM codes_class WHERE code = '$code' AND num_usage > 0");
         $statement->execute();
@@ -111,25 +111,25 @@ class Database
         }
     }
 
-    function getStudentsFromClass($classId): array
+    public function getStudentsFromClass($classId): array
     {
         $statement = $this->getDb()->prepare("SELECT * FROM inclass WHERE id_class = '$classId' AND responsible LIKE 0");
         $statement->execute();
         return $statement->fetchAll();
     }
-    function deleteStudentFromClassDB($classId, $studentId): void
+    public function deleteStudentFromClassDB($classId, $studentId): void
     {
         $statement = $this->getDb()->prepare("DELETE FROM inclass WHERE id_class = '$classId' AND id_user = '$studentId'");
         $statement->execute();
     }
 
-    function updateClass($classId, $name, $description): void
+    public function updateClass($classId, $name, $description): void
     {
         $statement = $this->getDb()->prepare("UPDATE class SET description = '$description', name = '$name' WHERE id = '$classId'");
         $statement->execute();
     }
 
-    function generateCode($idAssociated, $nUses): string
+    public function generateCode($idAssociated, $nUses): string
     {
         $code = bin2hex(random_bytes(5));
         $statement = $this->getDb()->prepare("SELECT * FROM codes_class WHERE code = '$code'");
@@ -146,35 +146,43 @@ class Database
     }
 
 
-    function getClassCodes($classId): array
+    public function getClassCodes($classId): array
     {
         $statement = $this->getDb()->prepare("SELECT code, num_usage FROM codes_class WHERE id_associated = '$classId' AND num_usage > 0");
         $statement->execute();
         return $statement->fetchAll();
     }
 
-    function getGrades($id): array
+    public function getGrades($id): array
     {
         $command = $this->getDb()->prepare("SELECT e.id, c.title, r.grade, r.created_at FROM result r JOIN exercise e ON r.id_exercise = e.id JOIN chapter c ON r.id_subject = c.id WHERE r.id_user = :user");
         $command->execute(["user" => $id]);
         return $command->fetchAll();
     }
 
-    function getChaptersClass($idClass): array
+    public function getChaptersClass($idClass): array
     {
         $statement = $this->getDb()->prepare("SELECT * FROM chapter WHERE class = '$idClass'");
         $statement->execute();
         return $statement->fetchAll();
     }
 
+    function getChapter($idChapter)
+    {
+        $statement = $this->getDb()->prepare("SELECT * FROM chapter WHERE id = :id");
+        $statement->execute(['id' => $idChapter]);
+        return $statement->fetch();
+    }
+
     function getChaptersTeacher($idTeacher): array
     {
         $listChapters = [];
-        $listClasses = $this->getClasses($idTeacher);
-        foreach ($listClasses as $class) {
-            foreach ($this->getChaptersClass($class['id']) as $chapter) {
-                $listChapters[] = $chapter;
-            }
+        $statement = $this->getDb()->prepare("SELECT id_chapter FROM owns WHERE id_user='$idTeacher'");
+        $statement->execute();
+
+        $listidChapters=$statement->fetchAll();
+        foreach ($listidChapters as $idChapter) {
+            $listChapters[] = $this->getChapter($idChapter['id_chapter']);
         }
         return $listChapters;
     }
@@ -193,9 +201,11 @@ class Database
         $listClasses = array();
         $statement = $this->getDb()->prepare("SELECT * FROM inclass i JOIN class c ON i.id_class = c.id
                                              WHERE id_user LIKE '$teacherId' AND c.name LIKE concat('%', :search, '%')");
+
         $statement->execute([
             "search" => $search
         ]);
+        
         $classes = $statement->fetchAll();
         foreach ($classes as $class) {
             $listClasses[] = $this->getClass($class['id_class']);
@@ -204,16 +214,15 @@ class Database
     }
 
     public function chapterSearchFromTeacher($teacherId, $search) {
-        $statement = $this->getDb()->prepare("SELECT * FROM inclass i JOIN chapter c ON i.id_class = c.class
-                                             WHERE id_user LIKE '$teacherId' AND
-                                             c.title LIKE concat('%', :search, '%')");
+        $statement = $this->getDb()->prepare("SELECT * FROM owns o JOIN chapter c ON o.id_chapter = c.id
+                                             WHERE o.id_user LIKE '$teacherId' AND c.title LIKE concat('%', :search, '%')");
         $statement->execute([
             "search" => $search
         ]);
         return $statement->fetchAll();
     }
 
-    public  function createUser($lastname, $name, $email, $password, $type, $userSchoolId, $teacherCode): void
+    public function createUser($lastname, $name, $email, $password, $type, $userSchoolId, $teacherCode): void
     {
         $statement = $this->getDb()->prepare("SELECT mail FROM users s WHERE s.mail LIKE :email");
         $statement->execute(['email' => $email]);

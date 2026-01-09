@@ -7,7 +7,7 @@ body {
     --font-larger: 50px;
     --font-large: 40px;
     --radius: 15px;
-
+    
     display: flex;
     flex-direction: column;
     margin: 0;
@@ -38,30 +38,30 @@ textarea {
     min-width: 100%;
 }
 
-div[data-type="title1"] p {
+*[data-type="title1"]  {
     font-size: var(--font-largest);
     font-weight: bold;
     text-decoration: underline;
 }
 
-div[data-type="title2"] p {
+*[data-type="title2"]  {
     font-size: var(--font-larger);
     font-weight: bold;
     text-decoration: underline;
 }
 
-div[data-type="title3"] p {
+*[data-type="title3"]  {
     font-size: var(--font-large);
     font-weight: bold;
     font-style: italic;
 }
 
-div[data-type="title4"] p {
+*[data-type="title4"]  {
     font-size: var(--font-large);
     font-weight: normal;
 }
 
-div[data-type="title5"] p {
+*[data-type="title5"]  {
     font-size: var(--font-large);
     font-weight: normal;
     font-style: italic;

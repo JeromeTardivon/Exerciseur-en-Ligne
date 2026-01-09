@@ -17,16 +17,16 @@ if (isset($_SESSION["code-generated"])) {
 }
 $db = Database::getInstance();
 
-if (isset($_GET["class-search"]) && $_GET["class-search"] != "") {
+if (isset($_GET["class-search"])) {
     $listClasses = $db->classSearchFromTeacher($_SESSION['user']['id'], $_GET["class-search"]);
 } else {
-    $listClasses = $db->getClasses($_SESSION['user']['id']);
+    $listClasses = $db->classSearchFromTeacher($_SESSION['user']['id'], "");
 }
 
-if (isset($_GET["chapter-search"]) && $_GET["chapter-search"] != "") {
+if (isset($_GET["chapter-search"])) {
     $listChapters = $db->chapterSearchFromTeacher($_SESSION['user']['id'], $_GET["chapter-search"]);
 } else {
-    $listChapters = $db->getChaptersTeacher($_SESSION['user']['id']);
+    $listChapters = $db->chapterSearchFromTeacher($_SESSION['user']['id'], "");
 }
 ?>
 
@@ -78,14 +78,14 @@ include 'modules/include.php' ?>
                     <button type="submit" class="btn">Rechercher</button>
                 </div>
 
-                <!-- le contenu de la liste sera à changer avec du php pour avoir la liste des classes auquels il a accès -->
-                <!-- le nb de li sera en fonction de la hauteur de l'écran -->
+                
                 <ul>
                     <?php
 
                     foreach ($listChapters as $chapter) { ?>
+                    
                         <li class="btn"><a
-                                    href="chapter.php?id-chapter=<?= $chapter['id'] ?>"><?= $chapter['title'] ?></a>
+                                    href="chapter-edition.php?id-chapter=<?= $chapter['id'] ?>?exercise-num=1"><?= $chapter['title'] ?></a>
                         </li>
                     <?php }
                     ?>
