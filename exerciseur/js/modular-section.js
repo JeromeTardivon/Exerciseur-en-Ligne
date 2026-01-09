@@ -2,6 +2,11 @@
 
 document.addEventListener('DOMContentLoaded', function(){
     const container = document.getElementById('inputs');
+    const previewContainer = document.getElementById('previews');
+
+    document.getElementById('section-title').addEventListener('input', loadPreview);
+    document.getElementById('section-title').addEventListener('click', loadPreview);
+
     
     const addTextBtn = document.getElementById('add-text');
     const addTitle1Btn = document.getElementById('add-title-1');
@@ -14,16 +19,33 @@ document.addEventListener('DOMContentLoaded', function(){
     const addNumericalQuestionBtn = document.getElementById('add-numerical-question');
     const addMultipleChoiceBtn = document.getElementById('add-multiple-choice');
     const addHintBtn = document.getElementById('add-hint');
+
+
+    function updateHintBtnState(){
+        if(document.getElementById('tries')&&document.getElementById('tries').checked==true&&(document.getElementById('tries-number')&&document.getElementById('tries-number').value<2)){
+
+            addHintBtn.setAttribute('disabled','true');
+        }else{
+            addHintBtn.removeAttribute('disabled');
+            
+        }
+    }
+
+    document.getElementById('tries-number').addEventListener('input', updateHintBtnState);
+    document.getElementById('tries-number').addEventListener('click', updateHintBtnState);
+    document.getElementById('tries').addEventListener('input', updateHintBtnState);
+    document.getElementById('tries').addEventListener('click', updateHintBtnState);
+
     const saveBtn = document.getElementById('save-section');
     const saveEndBtn = document.getElementById('save-section-end');
 
     const form = document.getElementById('dynamic-form');
     const output = document.getElementById('output');
 
-    //curr id, +1 after element creation
+    
     let index = 0;
     
-    // when true we suspend saving to localStorage (used during restore)
+    
     let suspendSave = false;
 
 
@@ -61,6 +83,8 @@ document.addEventListener('DOMContentLoaded', function(){
             p.innerHTML = input.value;
             reloadMathJax(p)
         });
+        input.addEventListener("click", loadPreview);
+        input.addEventListener("input", loadPreview);
         
         p.innerHTML = input.value;
         reloadMathJax(p);
@@ -81,7 +105,10 @@ document.addEventListener('DOMContentLoaded', function(){
             wrapper.remove();
             renumber();
             saveState();
+            loadPreview();
         });
+        
+        
 
         return remove;
     }
@@ -127,6 +154,9 @@ document.addEventListener('DOMContentLoaded', function(){
             reloadMathJax(p);
         });
 
+        textarea.addEventListener("click", loadPreview);
+        textarea.addEventListener("input", loadPreview);
+
         textarea.placeholder = placeholder;
         // set current value (use value so it's readable via .value)
         textarea.value = defaultv || '';
@@ -168,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function(){
     }
     
 
-    //Add new textfield and remove button
+    
     function addTextField(defaultv = "") {
         const wrapper = createWrapper('text');
         const id = `modules_${index}_value`;
@@ -242,14 +272,16 @@ document.addEventListener('DOMContentLoaded', function(){
         text.className = 'mcq-choice-text';
         text.placeholder = 'Choix';
         text.value = defaultText || '';
+        text.addEventListener('input', loadPreview);
+        text.addEventListener('click', loadPreview);
 
         const remove = document.createElement('button');
         remove.type = 'button';
         remove.textContent = 'Supprimer le choix';
         remove.addEventListener('click', () => {
             choice.remove();
-            // bubble up renumber/save
             renumber();
+            loadPreview();
             if (!suspendSave) saveState();
         });
 
@@ -283,6 +315,7 @@ document.addEventListener('DOMContentLoaded', function(){
         addChoiceBtn.addEventListener('click', () => {
             const ch = createMCQChoice();
             choicesContainer.appendChild(ch);
+            loadPreview();
             renumber();
             if (!suspendSave) saveState();
         });
@@ -522,9 +555,6 @@ document.addEventListener('DOMContentLoaded', function(){
                 } else if (item.type === 'numericalquestion') {
                     addNumericalQuestionField(item.value || '', item.grade || 0);
 
-                } else if (item.type === 'div') {
-                    // ignore placeholder divs
-
                 } else {
                     console.warn('Unsupported module type during load:', item.type);
                 }
@@ -540,6 +570,139 @@ document.addEventListener('DOMContentLoaded', function(){
         }catch (e) {
             console.warn('Failed to load saved modules:', e);
         }
+    }
+
+    function loadPreview(){
+        saveState(false);
+        previewContainer.innerHTML = '';
+        const wrapper = document.createElement('div');
+        const sectionTitle = document.createElement('h1');
+        sectionTitle.textContent = document.getElementById('section-title').value || 'Titre de la section';
+        reloadMathJax(sectionTitle);
+        wrapper.appendChild(sectionTitle);
+        
+
+        try {
+            const raw = localStorage.getItem('dynamicModules');
+            if (!raw) return;
+            const data = JSON.parse(raw);
+            if (!Array.isArray(data)) return;
+            
+            data.forEach(item => {
+
+                if(item.type === 'text'){
+                    wrapper.appendChild(document.createElement('div')).innerHTML = item.value || '';
+
+                } else if (typeof item.type === 'string' && item.type.startsWith('title')) {
+                    const size = parseInt(item.type.slice(5)) || 5;
+                    const titleElem = document.createElement('h' + size);
+                    titleElem.innerHTML = item.value || '';
+                    titleElem.dataset.type = item.type || 'title'.concat(size);
+                    reloadMathJax(titleElem);
+                    wrapper.appendChild(titleElem);
+
+                } else if (item.type === 'mcq') {
+                    const mcqElem = document.createElement('div');
+                    mcqElem.innerHTML = item.question || '';
+                    reloadMathJax(mcqElem);
+                    let iterator = '0';
+                    for (const choice of item.choices || []) {
+                        const choiceDiv = document.createElement('div');
+                        const cb = document.createElement('input');
+                        cb.type = 'checkbox';
+                        cb.setAttribute('id', 'mcqpreview_'.concat(iterator));
+                        iterator++;
+
+                        const label = document.createElement('label');
+                        label.textContent = choice.text || '';
+                        label.setAttribute('for', cb.id);
+                        
+
+                        choiceDiv.appendChild(cb);
+                        choiceDiv.appendChild(label);
+                        mcqElem.appendChild(choiceDiv);
+                    }
+                    wrapper.appendChild(mcqElem);
+
+                } else if (item.type === 'truefalse') {
+                    const trueFalseElem = document.createElement('div');
+                    const q = document.createElement('p');
+                    q.innerHTML = item.value || '';
+                    reloadMathJax(q);
+                    trueFalseElem.appendChild(q);
+
+                    const trueradio = document.createElement('input');
+                    trueradio.type = 'radio';
+                    trueradio.name = 'truefalseanswer';
+
+                    const trueLabel = document.createElement('label');
+                    trueLabel.setAttribute('for', 'trueradio');
+                    trueLabel.textContent = 'Vrai';
+                
+                    trueFalseElem.appendChild(trueradio);
+                    trueFalseElem.appendChild(trueLabel);
+
+                    const falseradio = document.createElement('input');
+                    falseradio.type = 'radio';
+                    falseradio.name = 'truefalseanswer';
+                    
+                    const falseLabel = document.createElement('label');
+                    falseLabel.setAttribute('for', 'falseradio');
+                    falseLabel.textContent = 'Faux';
+
+
+                    trueFalseElem.appendChild(falseradio);
+                    trueFalseElem.appendChild(falseLabel);
+
+                    wrapper.appendChild(trueFalseElem);
+
+                } else if (item.type === 'openquestion') {
+                    const openElem = document.createElement('div');
+                    openElem.innerHTML = item.value || '';
+                    reloadMathJax(openElem);
+                    const answerInput = document.createElement('textarea');
+                    answerInput.setAttribute('name', 'openanswerpreview');
+                    answerInput.setAttribute('placeholder', 'Votre réponse ici');
+                    answerInput.setAttribute('id', 'openanswerpreview');
+                    wrapper.appendChild(openElem);
+                    wrapper.appendChild(answerInput);
+
+                } else if (item.type === 'numericalquestion') {
+                    numericalElem = document.createElement('div');
+                    numericalElem.innerHTML = item.value || '';
+                    reloadMathJax(numericalElem);
+                    const justifinput = document.createElement('textarea');
+                    justifinput.setAttribute('name', 'justifpreview');
+                    justifinput.setAttribute('placeholder', 'Justification (si demandée)');
+                    justifinput.setAttribute('id', 'justifpreview');
+                    const answerInput = document.createElement('input');
+                    answerInput.type = 'number';
+                    answerInput.setAttribute('name', 'numericalanswerpreview');
+                    answerInput.setAttribute('placeholder', 'Votre réponse ici');
+                    answerInput.setAttribute('id', 'numericalanswerpreview');
+                    answerInput.setAttribute('step', '0.001');
+                    wrapper.appendChild(numericalElem);
+                    wrapper.appendChild(justifinput);
+                    wrapper.appendChild(answerInput);
+
+                }else if(item.type === 'hint'){
+                    // hints are not shown in preview
+                } else {
+                    console.warn('Unsupported module type during load:', item.type);
+                }
+                
+                
+                
+            }
+
+        );
+            previewContainer.appendChild(wrapper);
+            
+            
+        }catch (e) {
+            console.warn('Failed to load saved modules:', e);
+        }
+        
     }
 
     addTextBtn.addEventListener('click', ()=> addTextField());

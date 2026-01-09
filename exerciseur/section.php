@@ -110,6 +110,10 @@ $_POST['content']='';
                     </ul>   
                     
                 </fieldset>
+                <fieldset>
+                    <legend>Aperçu de l'exercice (point de vue d'un élève)</legend>
+                    <div id="previews"></div>
+                </fieldset>
 
                 <button type="submit" id="save-section">Enregistrer la section et continuer</button>
                 <button type="submit" id="save-section-end">Enregistrer la section et terminer le chapitre</button>
