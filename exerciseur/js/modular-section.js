@@ -596,6 +596,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 if(item.type === 'text'){
                     wrapper.appendChild(document.createElement('div')).innerHTML = item.value || '';
+                    reloadMathJax(wrapper);
 
                 } else if (typeof item.type === 'string' && item.type.startsWith('title')) {
                     const size = parseInt(item.type.slice(5)) || 5;
@@ -689,7 +690,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     wrapper.appendChild(justifinput);
                     wrapper.appendChild(answerInput);
 
-                }else if(item.type === 'hint'){
+                } else if(item.type === 'hint'){
                     // hints are not shown in preview
                 } else {
                     console.warn('Unsupported module type during load:', item.type);
