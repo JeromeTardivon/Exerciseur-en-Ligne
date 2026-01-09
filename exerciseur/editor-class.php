@@ -56,8 +56,8 @@ if (isset($_GET["student-search"]) && $_GET["student-search"] != "") {
     </ul>
     <h2>Ajouter étudiants</h2>
     <form action="/editor-class.php" method="get">
-        <input type="search" id="student-search" name="student-search">
-        <input type="text" value="<?= $_GET['id-class'] ?>" name="id-class" id="id-class" hidden>
+        <label for="student-search"></label><input type="search" id="student-search" name="student-search">
+        <label for="id-class"></label><input type="text" value="<?= $_GET['id-class'] ?>" name="id-class" id="id-class" hidden>
         <button type="submit" class="btn">Rechercher étudiant</button>
     </form>
     <ul>
