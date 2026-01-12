@@ -17,10 +17,10 @@ if (isset($_SESSION["code-generated"])) {
 }
 $db = Database::getInstance();
 
-$classSearch = isset($_GET["class-search"]) ?  $_GET["class-search"] : "";
+$classSearch = $_GET["class-search"] ?? "";
 $listClasses = $db->classSearchFromTeacher($_SESSION['user']['id'], $classSearch);
 
-$chapterSearch = isset($_GET["chapter-search"]) ? $_GET["chapter-search"] : "";
+$chapterSearch = $_GET["chapter-search"] ?? "";
 $listChapters = $db->chapterSearchFromTeacher($_SESSION['user']['id'], $chapterSearch);
 
 ?>
