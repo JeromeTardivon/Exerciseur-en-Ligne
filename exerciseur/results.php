@@ -1,5 +1,5 @@
 <?php
-session_start();
+include_once __DIR__ . '/config/config.php';
 ?>
 
 <!DOCTYPE html>
@@ -55,12 +55,16 @@ session_start();
             <form action="formchapter.php" method="post">
                 <fieldset>
                     <legend>Rechercher un exercice par mot clé</legend>
-                    <input type="search" name="search_keyword" placeholder="Recherche mot-clé">
+                    <label>
+                        <input type="search" name="search_keyword" placeholder="Recherche mot-clé">
+                    </label>
                 </fieldset>
 
                 <fieldset>
                     <legend>Rechercher un exercice par code</legend>
-                    <input type="search" name="search_code" placeholder="Recherche code">
+                    <label>
+                        <input type="search" name="search_code" placeholder="Recherche code">
+                    </label>
                 </fieldset>
             </form>
         </aside>

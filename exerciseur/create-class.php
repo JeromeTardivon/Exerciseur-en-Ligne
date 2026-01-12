@@ -1,5 +1,12 @@
 <?php
-session_start();
+include_once __DIR__ . '/config/config.php';
+if (!isset($_SESSION["user"])) {
+    header('Location: /login.php');
+    exit();
+} else if ($_SESSION["user"]["type"] != "teacher" && $_SESSION["user"]["type"] != "admin") {
+    header('Location: /login.php');
+    exit();
+}
 ?>
 
 <!DOCTYPE html>

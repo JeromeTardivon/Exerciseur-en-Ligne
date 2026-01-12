@@ -17,17 +17,12 @@ if (isset($_SESSION["code-generated"])) {
 }
 $db = Database::getInstance();
 
-if (isset($_GET["class-search"])) {
-    $listClasses = $db->classSearchFromTeacher($_SESSION['user']['id'], $_GET["class-search"]);
-} else {
-    $listClasses = $db->classSearchFromTeacher($_SESSION['user']['id'], "");
-}
+$classSearch = $_GET["class-search"] ?? "";
+$listClasses = $db->classSearchFromTeacher($_SESSION['user']['id'], $classSearch);
 
-if (isset($_GET["chapter-search"])) {
-    $listChapters = $db->chapterSearchFromTeacher($_SESSION['user']['id'], $_GET["chapter-search"]);
-} else {
-    $listChapters = $db->chapterSearchFromTeacher($_SESSION['user']['id'], "");
-}
+$chapterSearch = $_GET["chapter-search"] ?? "";
+$listChapters = $db->chapterSearchFromTeacher($_SESSION['user']['id'], $chapterSearch);
+
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +43,7 @@ include 'modules/include.php' ?>
                 <h2>Gérer mes classes</h2>
 
                 <div class="search">
-                    <input class="btn" type="search" id="class-search" name="class-search" placeholder="Rechercher classe">
+                    <label for="class-search"></label><input class="btn" type="search" id="class-search" name="class-search" placeholder="Rechercher classe" value="<?=$classSearch ?>">
                     <button type="submit" class="btn">Rechercher</button>
                 </div>
 
@@ -74,7 +69,7 @@ include 'modules/include.php' ?>
                 <h2>Gérer mes chapitres</h2>
 
                 <div class="search">
-                    <input class="btn" type="search" id="chapter-search" name="chapter-search" placeholder="Rechercher chapitre">
+                    <label for="chapter-search"></label><input class="btn" type="search" id="chapter-search" name="chapter-search" placeholder="Rechercher chapitre" value="<?=$chapterSearch ?>">
                     <button type="submit" class="btn">Rechercher</button>
                 </div>
 
@@ -85,7 +80,7 @@ include 'modules/include.php' ?>
                     foreach ($listChapters as $chapter) { ?>
                     
                         <li class="btn"><a
-                                    href="chapter-edition.php?id-chapter=<?= $chapter['id'] ?>?exercise-num=1"><?= $chapter['title'] ?></a>
+                                    href="chapter-edition.php?id-chapter=<?= $chapter['id'] ?>&exercise-num=1"><?= $chapter['title'] ?></a>
                         </li>
                     <?php }
                     ?>
@@ -94,34 +89,13 @@ include 'modules/include.php' ?>
 
             <h2 class="btn"><a href="chapter-creation.php">Créer chapitres</a></h2>
         </div>
-
-        <div>
-            <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div -->
-            <div>
-                <h2>Gérer mes sujets</h2>
-
-                <div class="search">
-                    <input class="btn" type="search" id="subject-search" name="subject-search" placeholder="Rechercher sujet">
-                    <button type="submit" class="btn">Rechercher</button>
-                </div>
-
-                <!-- le contenu de la liste sera à changer avec du php pour avoir la liste des classes auquels il a accès -->
-                <!-- le nb de li sera en fonction de la hauteur de l'écran -->
-                <ul>
-                    <li class="btn"><a href="">Sujet 1</a></li>
-                    <li class="btn"><a href="">Sujet 2</a></li>
-                </ul>
-            </div>
-
-            <h2 class="btn"><a href="">Créer sujet</a></h2>
-        </div>
     </form>
     <div <?= $_SESSION["user"]["type"] == "admin" ? "" : "hidden" ?>>
         <form method="post" action="/processing-forms/processing-creation-code-teacher.php">
             <input class="btn" type="submit" value="Créer code pour professeur" name="create-code">
         </form>
         <div <?= empty($code) ? "hidden" : "" ?>>
-            <p>Code créé --> <?= $code ?></p>
+            <p>Code créé <?= $code ?></p>
         </div>
 
     </div>

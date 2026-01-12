@@ -1,5 +1,5 @@
 <?php
-session_start();
+include_once __DIR__ . '/config/config.php';
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +26,7 @@ include 'modules/include.php' ?>
         <input class="btn" type="submit">
     </form>
     <div>
-        <a  class="btn" href="signup.php">Creer compte</a>
+        <a  class="btn" href="signup.php">Créer compte</a>
     </div>
 </main>
 

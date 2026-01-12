@@ -54,7 +54,6 @@ include 'modules/include.php'; ?>
                             } else {
                                 echo "Enseignant";
                             }
-
                             ?>
                         </p>
                     </li>
@@ -73,8 +72,6 @@ include 'modules/include.php'; ?>
                         </p>
                     </li>
                 </ul>
-
-
             </div>
         </div>
 

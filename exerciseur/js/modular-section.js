@@ -47,6 +47,11 @@ document.addEventListener('DOMContentLoaded', function(){
     
     
     let suspendSave = false;
+    
+    
+    
+
+    
 
 
     function createWrapper(type){
@@ -480,7 +485,11 @@ document.addEventListener('DOMContentLoaded', function(){
                     choices.push({ text: txt ? txt.value : '', checked: !!(cb && cb.checked), grade: grade.value});
                 });
                 data.push({ type: 'mcq', question: question, choices: choices });
-            } else if (type.startsWith('title') || type === 'text' || type === 'truefalse' || type === 'openquestion' || type === 'numericalquestion') {
+            } else if (type.startsWith('title') || type === 'text') {
+                const valueInput = wrapper.querySelector('input, textarea');
+                const grade = wrapper.querySelector(`input[type="number"]`);
+                data.push({ type: type, value: valueInput ? valueInput.value : '' });
+            } else if (type === 'truefalse' || type === 'openquestion' || type === 'numericalquestion') {
                 const valueInput = wrapper.querySelector('input, textarea');
                 const grade = wrapper.querySelector(`input[type="number"]`);
                 data.push({ type: type, value: valueInput ? valueInput.value : '', grade: grade.value });
@@ -592,6 +601,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 if(item.type === 'text'){
                     wrapper.appendChild(document.createElement('div')).innerHTML = item.value || '';
+                    reloadMathJax(wrapper);
 
                 } else if (typeof item.type === 'string' && item.type.startsWith('title')) {
                     const size = parseInt(item.type.slice(5)) || 5;
@@ -685,7 +695,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     wrapper.appendChild(justifinput);
                     wrapper.appendChild(answerInput);
 
-                }else if(item.type === 'hint'){
+                } else if(item.type === 'hint'){
                     // hints are not shown in preview
                 } else {
                     console.warn('Unsupported module type during load:', item.type);

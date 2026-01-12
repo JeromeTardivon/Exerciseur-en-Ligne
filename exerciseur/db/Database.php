@@ -247,4 +247,95 @@ class Database
             }
         }
     }
+
+    public function getExercisesNumberFromChapter($chapterId): int
+    {
+        $statement = $this->getDb()->prepare("SELECT COUNT(id) as nb FROM exercise WHERE id_chapter = :chapterId");
+        $statement->execute(['chapterId' => $chapterId]);
+        $result = $statement->fetch();
+        return (int)$result['nb'];
+    }
+
+    public function chapterBelongsToTeacher($chapterId, $teacherId): bool
+    {
+        $statement = $this->getDb()->prepare("SELECT * FROM owns WHERE id_chapter = :chapterId AND id_user = :teacherId");
+        $statement->execute(['chapterId' => $chapterId, 'teacherId' => $teacherId]);
+        $result = $statement->fetch();
+        return $result !== false;
+    }
+
+
+    public function getExerciseContent($chapterId, $exerciseNum): string
+    {
+        $statement = $this->getDb()->prepare("SELECT content FROM exercise WHERE id_chapter = :chapterId ORDER BY id ASC");
+        $offset = $exerciseNum - 1;
+        $statement->bindParam(':chapterId', $chapterId);
+        
+        $statement->execute();
+        for ($i = 0; $i < $offset-1; $i++) {
+            
+            $statement->fetch();
+        }
+        $result = $statement->fetch();
+        
+        
+        return $result['content'];
+    }
+
+    public function searchClassByTitleDesc($word): array
+
+
+    {
+
+
+        $command = $this->getDb()->prepare("SELECT name, id FROM class WHERE name LIKE concat('%', :title, '%')");
+
+
+        $command->execute([
+
+
+            "title" => $word
+
+
+        ]);
+
+
+        return $command->fetchAll();
+
+
+    }
+
+
+
+
+    public  function searchChapitreByTitleDesc($word): array
+
+
+    {
+
+
+        $command = $this->getDb()->prepare("SELECT title, description, id FROM chapter WHERE 
+
+
+                                (title LIKE concat('%', :title, '%') OR description LIKE concat('%', :title, '%')) AND visible = TRUE ");
+
+
+        $command->execute([
+
+
+            "title" => $word
+
+
+        ]);
+
+
+        return $command->fetchAll();
+
+
+    }
+
+    
+
+
+
 }
