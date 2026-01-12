@@ -14,11 +14,7 @@ $teacher = $db->getResponsableFromClass($class['id']);
 $activesClassCodes = $db->getClassCodes($class['id']);
 $listChapters = $db->getChaptersClass($class['id']);
 
-if (isset($_GET["student-search"]) && $_GET["student-search"] != "") {
-    $listAllStudents = $db->studentSearchFromClass($class["id"], $_GET["student-search"]);
-} else {
-    $listAllStudents = $db->getStudents();
-}
+$listAllStudents = $db->studentSearch($_GET["student-search"] ?? "", $class["id"]);
 ?>
 
 <!DOCTYPE html>
