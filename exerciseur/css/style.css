@@ -541,11 +541,11 @@ input[type="search"] {
     margin: 0;
 }
 
-#main-contact a {
+#main-contact a, #main-about a{
     color: var(--main-color);
 }
 
-#main-contact a:visited {
+#main-contact a:visited, #main-about a:visited {
     color:rgba(141, 63, 18, 0.801);
 }
 

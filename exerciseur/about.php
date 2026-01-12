@@ -18,6 +18,7 @@ include_once __DIR__ . '/config/config.php';
             
             <p>
                 Ce site web a été réalisé dans le cadre d'un projet étudiant de 2eme année de BUT Informatique, à l'IUT Lyon 1 de Bourg-en-Bresse. <br>
+                La police d'écriture utilisée est <a target="_blank" href="https://luciole-vision.com/">Luciole</a>, une police spécialement créée pour les personnes malvoyantes.
             </p>
         </main>
 
