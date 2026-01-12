@@ -38,18 +38,24 @@ CREATE TABLE `chapter` (
   PRIMARY KEY (`id`)
 )
 
-CREATE TABLE exercise(
-  id uuid PRIMARY KEY DEFAULT SYS_GUID(),
-  random BOOLEAN NOT NULL DEFAULT false,
-  coef INT DEFAULT 1,
-  grade FLOAT DEFAULT 0,
-  content TEXT NOT NULL,
-  type INT NOT NULL,
-  id_chapter uuid NOT NULL,
-  created_at timestamp NOT NULL DEFAULT now(),
-  updated_at timestamp NOT NULL DEFAULT now(),
-  CONSTRAINT FK_exercise__chapter FOREIGN KEY (id_chapter) REFERENCES chapter(id)
-);
+CREATE TABLE `exercise` (
+  `id` uuid NOT NULL DEFAULT sys_guid(),
+  `title` varchar(100) DEFAULT NULL,
+  `random` tinyint(1) NOT NULL DEFAULT 0,
+  `coef` int(11) DEFAULT 1,
+  `timesec` int(11) DEFAULT NULL,
+  `tries` varchar(100) DEFAULT NULL,
+  `content` text NOT NULL DEFAULT '',
+  `type` int(11) NOT NULL DEFAULT 0,
+  `ansdef` tinyint(1) NOT NULL DEFAULT 0,
+  `id_chapter` uuid NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `grade` float DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_exercise__chapter` (`id_chapter`),
+  CONSTRAINT `FK_exercise__chapter` FOREIGN KEY (`id_chapter`) REFERENCES `chapter` (`id`)
+)
 
 CREATE TABLE inclass(
   id_user uuid NOT NULL,
