@@ -10,7 +10,7 @@ $_TITLE = "Éditeur Classe";
 
 $class = $db->getClass($_GET['id-class']);
 $listStudents = $db->getStudentsFromClass($class['id']);
-$teacher = $db->getResponsableFromClass($class['id']);
+$teachers = $db->getResponsableFromClass($class['id']);
 $activesClassCodes = $db->getClassCodes($class['id']);
 $listChapters = $db->getChaptersClass($class['id']);
 
@@ -30,7 +30,8 @@ $listAllTeachers = $db->teacherSearch($teacherSearch, $class["id"]);
 
 <main id="main-editor-class">
     <h1><?= $class['name'] ?></h1>
-    <h3>Responsable: <?= $teacher['name'] . ' ' . $teacher['surname'] ?></h3>
+    <h2>Responsable(s):</h2>
+    <?php foreach ($teachers as $teacher) {echo "<h3>".$teacher['name'] . ' ' . $teacher['surname']."</h3>";} ?>
     <form action="/processing-forms/processing-form-class-edition.php" method="post">
         <fieldset>
             <label for="nameClass">Nom de la class:</label>
@@ -54,7 +55,7 @@ $listAllTeachers = $db->teacherSearch($teacherSearch, $class["id"]);
         ?>
     </ul>
 
-    <!-- Etudiants -->
+    <!-- Students -->
 
     <h2>Ajouter étudiants</h2>
     <form action="/editor-class.php" method="get">
