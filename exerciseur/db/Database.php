@@ -77,11 +77,15 @@ class Database
         return $statement->fetch();
     }
 
-    public function getResponsableFromClass($classId)
+    public function getResponsableFromClass($classId): array
     {
+        $teachers = [];
         $statement = $this->getDb()->prepare("SELECT * FROM inclass WHERE id_class = '$classId' AND responsible LIKE 1");
         $statement->execute();
-        return $this->getUser($statement->fetch()['id_user']);
+        foreach ($statement->fetchAll() as $teacher) {
+            $teachers[]= $this->getUser($teacher['id_user']);
+        }
+        return $teachers;
     }
 
     public function addStudentsToClassDB($listIdStudents, $classId): void
@@ -117,9 +121,9 @@ class Database
         $statement->execute();
         return $statement->fetchAll();
     }
-    public function deleteStudentFromClassDB($classId, $studentId): void
+    public function deleteFromClass($classId, $id): void
     {
-        $statement = $this->getDb()->prepare("DELETE FROM inclass WHERE id_class = '$classId' AND id_user = '$studentId'");
+        $statement = $this->getDb()->prepare("DELETE FROM inclass WHERE id_class = '$classId' AND id_user = '$id'");
         $statement->execute();
     }
 
@@ -346,8 +350,19 @@ class Database
 
     }
 
-    
-
-
-
+    public function addResponsible($idTeacher, $idClass): void
+    {
+        $statement = $this->getDb()->prepare("SELECT id_user FROM inclass WHERE id_user LIKE :user AND id_class LIKE :class");
+        $statement->execute(['user' => $idTeacher, 'class' => $idClass]);
+        $user = $statement->fetch();
+        if ($user) {
+            $this->getDb()->beginTransaction();
+            $statement = $this->getDb()->prepare("UPDATE inclass SET responsible = 1 WHERE id_user LIKE :user AND id_class LIKE :class");
+            $statement->execute(['user' => $idTeacher, 'class' => $idClass]);
+            $this->getDb()->commit();
+        }else{
+            $statement =  $this->getDb()->prepare("INSERT INTO inclass (id_user, id_class, responsible) VALUES (:user, :class, 1)");
+            $statement->execute(['user' => $idTeacher, 'class' => $idClass]);
+        }
+    }
 }

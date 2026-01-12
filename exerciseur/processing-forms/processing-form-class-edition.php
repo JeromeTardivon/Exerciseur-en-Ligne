@@ -10,7 +10,7 @@ if (!empty($_POST['name']) && !empty($_POST['desc'])) {
     exit();
 }
 if (isset($_POST['add-student'])) {
-    if (!studentInList($_SESSION['studentsToAdd'], $_POST['add-student'])) {
+    if (!isInList($_SESSION['studentsToAdd'], $_POST['add-student'])) {
         $_SESSION['studentsToAdd'][] = $_POST['add-student'];
     }
 } elseif (isset($_POST['delete-student'])) {
@@ -19,7 +19,7 @@ if (isset($_POST['add-student'])) {
     $db->addStudentsToClassDB($_SESSION['studentsToAdd'], $class);
     $_SESSION['studentsToAdd'] = array();
 } elseif (isset($_POST['delete-student-db'])) {
-    $db->deleteStudentFromClassDB($class, $_POST['delete-student-db']);
+    $db->deleteFromClass($class, $_POST['delete-student-db']);
 
 } elseif (isset($_POST['className']) || isset($_POST['description'])) {
     $name = $_POST['className'];
@@ -29,7 +29,12 @@ if (isset($_POST['add-student'])) {
 
 } elseif (isset($_POST['generate-code-class'])) {
     $db->generateCode($class, $_POST['number-usages-code']);
-} else {
+}elseif (isset($_POST['add-teacher'])){
+    $db->addResponsible($_POST['add-teacher'], $class);
+}elseif (isset($_POST['delete-teacher'])){
+    $db->deleteFromClass($class, $_POST['delete-teacher']);
+}
+else {
     $_SESSION['studentsToAdd'] = array();
 }
 
