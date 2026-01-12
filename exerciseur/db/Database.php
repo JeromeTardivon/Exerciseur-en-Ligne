@@ -121,9 +121,9 @@ class Database
         $statement->execute();
         return $statement->fetchAll();
     }
-    public function deleteStudentFromClassDB($classId, $studentId): void
+    public function deleteFromClass($classId, $id): void
     {
-        $statement = $this->getDb()->prepare("DELETE FROM inclass WHERE id_class = '$classId' AND id_user = '$studentId'");
+        $statement = $this->getDb()->prepare("DELETE FROM inclass WHERE id_class = '$classId' AND id_user = '$id'");
         $statement->execute();
     }
 
@@ -365,6 +365,4 @@ class Database
             $statement->execute(['user' => $idTeacher, 'class' => $idClass]);
         }
     }
-
-
 }

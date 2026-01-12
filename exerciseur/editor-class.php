@@ -55,35 +55,6 @@ $listAllTeachers = $db->teacherSearch($teacherSearch, $class["id"]);
         ?>
     </ul>
 
-    <!-- Students -->
-
-    <h2>Ajouter étudiants</h2>
-    <form action="/editor-class.php" method="get">
-        <label for="student-search"></label><input type="search" id="student-search" name="student-search" value="<?= $studentSearch ?>">
-        <label for="id-class"></label><input type="text" value="<?= $_GET['id-class'] ?>" name="id-class" id="id-class" hidden>
-        <button type="submit" class="btn">Rechercher étudiant</button>
-    </form>
-    <ul>
-        <?php
-        $cpt = 0;
-        foreach ($listAllStudents as $student) {
-            if ($cpt > 5) break;
-            $cpt += 1;
-            ?>
-            <li class="">
-                <div>
-                    <a href="profile.php?id-profil=<?= $student['id'] ?>"><?= $student['name'] ?></a>
-                    <form action="/processing-forms/processing-form-class-edition.php" method="post">
-                        <input type="hidden" name="add-student" value="<?= $student['id'] ?>">
-                        <input type="hidden" name="class" value="<?= $class['id'] ?>">
-                        <input class="btn" type="submit" value="Ajouter">
-                    </form>
-                </div>
-            </li>
-        <?php }
-        ?>
-    </ul>
-
     <!-- Responsables -->
 
     <h2>Ajouter Responsables</h2>
@@ -104,6 +75,51 @@ $listAllTeachers = $db->teacherSearch($teacherSearch, $class["id"]);
                     <a href="profile.php?id-profil=<?= $teacher['id'] ?>"><?= $teacher['name'] ?></a>
                     <form action="/processing-forms/processing-form-class-edition.php" method="post">
                         <input type="hidden" name="add-teacher" value="<?= $teacher['id'] ?>">
+                        <input type="hidden" name="class" value="<?= $class['id'] ?>">
+                        <input class="btn" type="submit" value="Ajouter">
+                    </form>
+                </div>
+            </li>
+        <?php }
+        ?>
+    </ul>
+
+    <h2 <?= empty($teachers) ? "hidden" : "" ?>>Liste des Responsables inscrits</h2>
+    <ul>
+        <?php
+        foreach ($teachers as $teacher) { ?>
+            <li class="">
+                <div>
+                    <a href="profile.php?id-profil=<?= $teacher['id'] ?>"><?= Database::getInstance()->getUser($teacher['id'])['name'] ?></a>
+                    <form action="/processing-forms/processing-form-class-edition.php" method="post">
+                        <input type="hidden" name="delete-teacher" value="<?= $teacher['id'] ?>">
+                        <input type="hidden" name="class" value="<?= $class['id'] ?>">
+                        <input class="btn" type="submit" value="Supprimer">
+                    </form>
+                </div>
+            </li>
+        <?php } ?>
+    </ul>
+    <!-- Students -->
+
+    <h2>Ajouter étudiants</h2>
+    <form action="/editor-class.php" method="get">
+        <label for="student-search"></label><input type="search" id="student-search" name="student-search" value="<?= $studentSearch ?>">
+        <label for="id-class"></label><input type="text" value="<?= $_GET['id-class'] ?>" name="id-class" id="id-class" hidden>
+        <button type="submit" class="btn">Rechercher étudiant</button>
+    </form>
+    <ul>
+        <?php
+        $cpt = 0;
+        foreach ($listAllStudents as $student) {
+            if ($cpt > 5) break;
+            $cpt += 1;
+            ?>
+            <li class="">
+                <div>
+                    <a href="profile.php?id-profil=<?= $student['id'] ?>"><?= $student['name'] ?></a>
+                    <form action="/processing-forms/processing-form-class-edition.php" method="post">
+                        <input type="hidden" name="add-student" value="<?= $student['id'] ?>">
                         <input type="hidden" name="class" value="<?= $class['id'] ?>">
                         <input class="btn" type="submit" value="Ajouter">
                     </form>
