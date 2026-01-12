@@ -41,10 +41,6 @@ include 'modules/include.php'; ?>
                 </h2>
                 <ul>
                     <li>
-                        <p><strong> statut : </strong></p>
-                        <img src="" alt="symbole statut">
-                    </li>
-                    <li>
                         <p>
                             <strong>Statut : </strong>
                             <?php
