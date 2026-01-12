@@ -58,7 +58,7 @@ $listAllTeachers = $db->teacherSearch($teacherSearch, $class["id"]);
 
     <h2>Ajouter étudiants</h2>
     <form action="/editor-class.php" method="get">
-        <label for="student-search"></label><input type="search" id="student-search" name="student-search">
+        <label for="student-search"></label><input type="search" id="student-search" name="student-search" value="<?= $studentSearch ?>">
         <label for="id-class"></label><input type="text" value="<?= $_GET['id-class'] ?>" name="id-class" id="id-class" hidden>
         <button type="submit" class="btn">Rechercher étudiant</button>
     </form>
@@ -87,7 +87,7 @@ $listAllTeachers = $db->teacherSearch($teacherSearch, $class["id"]);
 
     <h2>Ajouter Responsables</h2>
     <form action="/editor-class.php" method="get">
-        <label for="teacher-search"></label><input type="search" id="teacher-search" name="teacher-search">
+        <label for="teacher-search"></label><input type="search" id="teacher-search" name="teacher-search" value="<?= $teacherSearch ?>">
         <label for="id-class"></label><input type="text" value="<?= $_GET['id-class'] ?>" name="id-class" id="id-class" hidden>
         <button type="submit" class="btn">Rechercher responsable</button>
     </form>
