@@ -264,5 +264,22 @@ class Database
         return $result !== false;
     }
 
+    public function getExerciseContent($chapterId, $exerciseNum): string
+    {
+        $statement = $this->getDb()->prepare("SELECT content FROM exercise WHERE id_chapter = :chapterId ORDER BY id ASC");
+        $offset = $exerciseNum - 1;
+        $statement->bindParam(':chapterId', $chapterId);
+        
+        $statement->execute();
+        for ($i = 0; $i < $offset-1; $i++) {
+            
+            $statement->fetch();
+        }
+        $result = $statement->fetch();
+        
+        
+        return $result['content'];
+    }
+
 
 }
