@@ -29,7 +29,10 @@ if (isset($_POST['add-student'])) {
 
 } elseif (isset($_POST['generate-code-class'])) {
     $db->generateCode($class, $_POST['number-usages-code']);
-} else {
+}elseif (isset($_POST['add-teacher'])){
+    $db->addResponsible($_POST['add-teacher'], $class);
+}
+else {
     $_SESSION['studentsToAdd'] = array();
 }
 

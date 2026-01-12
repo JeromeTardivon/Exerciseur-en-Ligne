@@ -350,8 +350,21 @@ class Database
 
     }
 
-    
-
+    public function addResponsible($idTeacher, $idClass): void
+    {
+        $statement = $this->getDb()->prepare("SELECT id_user FROM inclass WHERE id_user LIKE :user AND id_class LIKE :class");
+        $statement->execute(['user' => $idTeacher, 'class' => $idClass]);
+        $user = $statement->fetch();
+        if ($user) {
+            $this->getDb()->beginTransaction();
+            $statement = $this->getDb()->prepare("UPDATE inclass SET responsible = 1 WHERE id_user LIKE :user AND id_class LIKE :class");
+            $statement->execute(['user' => $idTeacher, 'class' => $idClass]);
+            $this->getDb()->commit();
+        }else{
+            $statement =  $this->getDb()->prepare("INSERT INTO inclass (id_user, id_class, responsible) VALUES (:user, :class, 1)");
+            $statement->execute(['user' => $idTeacher, 'class' => $idClass]);
+        }
+    }
 
 
 }
