@@ -58,7 +58,7 @@ $listChapters = $db->getChaptersClass($class['id']);
         <h2>Generation de codes d'invitation à la classe</h2>
         <form action="/processing-forms/processing-form-class-edition.php" method="post">
             <label>Nombre d'usages:
-                <input type="number" name="number-usages-code" value="1" min="1">
+                <input type="number" name="number-usages-code" value="1" min="1" max="67000" step="1">
             </label>
             <input type="hidden" name="class" value="<?= $class['id'] ?>">
             <input type="submit" name="generate-code-class">
