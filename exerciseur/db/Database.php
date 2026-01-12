@@ -264,5 +264,22 @@ class Database
         return $result !== false;
     }
 
+    public function searchClassByTitleDesc($word): array
+    {
+        $command = $this->getDb()->prepare("SELECT name, id FROM class WHERE name LIKE concat('%', :title, '%')");
+        $command->execute([
+            "title" => $word
+        ]);
+        return $command->fetchAll();
+    }
 
+    public  function searchChapitreByTitleDesc($word): array
+    {
+        $command = $this->getDb()->prepare("SELECT title, description, id FROM chapter WHERE 
+                                (title LIKE concat('%', :title, '%') OR description LIKE concat('%', :title, '%')) AND visible = TRUE ");
+        $command->execute([
+            "title" => $word
+        ]);
+        return $command->fetchAll();
+    }
 }
