@@ -94,34 +94,13 @@ include 'modules/include.php' ?>
 
             <h2 class="btn"><a href="chapter-creation.php">Créer chapitres</a></h2>
         </div>
-
-        <div>
-            <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div -->
-            <div>
-                <h2>Gérer mes sujets</h2>
-
-                <div class="search">
-                    <label for="subject-search"></label><input class="btn" type="search" id="subject-search" name="subject-search" placeholder="Rechercher sujet">
-                    <button type="submit" class="btn">Rechercher</button>
-                </div>
-
-                <!-- le contenu de la liste sera à changer avec du php pour avoir la liste des classes auquels il a accès -->
-                <!-- le nb de li sera en fonction de la hauteur de l'écran -->
-                <ul>
-                    <li class="btn"><a href="">Sujet 1</a></li>
-                    <li class="btn"><a href="">Sujet 2</a></li>
-                </ul>
-            </div>
-
-            <h2 class="btn"><a href="">Créer sujet</a></h2>
-        </div>
     </form>
     <div <?= $_SESSION["user"]["type"] == "admin" ? "" : "hidden" ?>>
         <form method="post" action="/processing-forms/processing-creation-code-teacher.php">
             <input class="btn" type="submit" value="Créer code pour professeur" name="create-code">
         </form>
         <div <?= empty($code) ? "hidden" : "" ?>>
-            <p>Code créé --> <?= $code ?></p>
+            <p>Code créé <?= $code ?></p>
         </div>
 
     </div>

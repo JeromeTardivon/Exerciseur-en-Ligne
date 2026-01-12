@@ -288,6 +288,7 @@ input[type="search"] {
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
+    height: 50em;
 }
 
 .teacher-space > form > div {
@@ -313,7 +314,7 @@ input[type="search"] {
 .teacher-space ul {
     padding: 0;
     margin-top: 5%;
-    max-height: 75%;
+    height: 70%;
     overflow-y: auto;
 }
 
