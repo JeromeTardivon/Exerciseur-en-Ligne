@@ -10,20 +10,14 @@ $_TITLE = "Éditeur Classe";
 
 $class = $db->getClass($_GET['id-class']);
 $listStudents = $db->getStudentsFromClass($class['id']);
-$teachers = $db->getResponsableFromClass($class['id']);
+$teacher = $db->getResponsableFromClass($class['id']);
 $activesClassCodes = $db->getClassCodes($class['id']);
 $listChapters = $db->getChaptersClass($class['id']);
 
-if (isset($_GET["student-search"]) && $_GET["student-search"] != "") {
-    $listAllStudents = $db->studentSearchFromClass($class["id"], $_GET["student-search"]);
-} else {
-    $listAllStudents = $db->getStudents();
-}
-if (isset($_GET["responsable-search"]) && $_GET["responsable-search"] != "") {
-    $listAllTeachers = $db->studentSearchFromClass($class["id"], $_GET["student-search"]);
-} else {
-    $listAllTeachers = $db->getStudents();
-}
+$studentSearch = $_GET["student-search"] ?? "";
+$teacherSearch = $_GET["teacher-search"] ?? "";
+$listAllStudents = $db->studentSearch($studentSearch, $class["id"]);
+$listAllTeachers = $db->teacherSearch($teacherSearch, $class["id"]);
 ?>
 
 <!DOCTYPE html>
@@ -36,8 +30,7 @@ if (isset($_GET["responsable-search"]) && $_GET["responsable-search"] != "") {
 
 <main id="main-editor-class">
     <h1><?= $class['name'] ?></h1>
-    <h2>Responsable(s):</h2>
-    <?php foreach ($teachers as $teacher) {echo "<h3>".$teacher['name'] . ' ' . $teacher['surname']."</h3>";} ?>
+    <h3>Responsable: <?= $teacher['name'] . ' ' . $teacher['surname'] ?></h3>
     <form action="/processing-forms/processing-form-class-edition.php" method="post">
         <fieldset>
             <label for="nameClass">Nom de la class:</label>
@@ -60,9 +53,12 @@ if (isset($_GET["responsable-search"]) && $_GET["responsable-search"] != "") {
         <?php }
         ?>
     </ul>
+
+    <!-- Etudiants -->
+
     <h2>Ajouter étudiants</h2>
     <form action="/editor-class.php" method="get">
-        <label for="student-search"></label><input type="search" id="student-search" name="student-search">
+        <label for="student-search"></label><input type="search" id="student-search" name="student-search" value="<?= $studentSearch ?>">
         <label for="id-class"></label><input type="text" value="<?= $_GET['id-class'] ?>" name="id-class" id="id-class" hidden>
         <button type="submit" class="btn">Rechercher étudiant</button>
     </form>
@@ -78,6 +74,35 @@ if (isset($_GET["responsable-search"]) && $_GET["responsable-search"] != "") {
                     <a href="profile.php?id-profil=<?= $student['id'] ?>"><?= $student['name'] ?></a>
                     <form action="/processing-forms/processing-form-class-edition.php" method="post">
                         <input type="hidden" name="add-student" value="<?= $student['id'] ?>">
+                        <input type="hidden" name="class" value="<?= $class['id'] ?>">
+                        <input class="btn" type="submit" value="Ajouter">
+                    </form>
+                </div>
+            </li>
+        <?php }
+        ?>
+    </ul>
+
+    <!-- Responsables -->
+
+    <h2>Ajouter Responsables</h2>
+    <form action="/editor-class.php" method="get">
+        <label for="teacher-search"></label><input type="search" id="teacher-search" name="teacher-search" value="<?= $teacherSearch ?>">
+        <label for="id-class"></label><input type="text" value="<?= $_GET['id-class'] ?>" name="id-class" id="id-class" hidden>
+        <button type="submit" class="btn">Rechercher responsable</button>
+    </form>
+    <ul>
+        <?php
+        $cpt = 0;
+        foreach ($listAllTeachers as $teacher) {
+            if ($cpt > 5) break;
+            $cpt += 1;
+            ?>
+            <li class="">
+                <div>
+                    <a href="profile.php?id-profil=<?= $teacher['id'] ?>"><?= $teacher['name'] ?></a>
+                    <form action="/processing-forms/processing-form-class-edition.php" method="post">
+                        <input type="hidden" name="add-teacher" value="<?= $teacher['id'] ?>">
                         <input type="hidden" name="class" value="<?= $class['id'] ?>">
                         <input class="btn" type="submit" value="Ajouter">
                     </form>
