@@ -264,6 +264,7 @@ class Database
         return $result !== false;
     }
 
+
     public function getExerciseContent($chapterId, $exerciseNum): string
     {
         $statement = $this->getDb()->prepare("SELECT content FROM exercise WHERE id_chapter = :chapterId ORDER BY id ASC");
@@ -280,6 +281,7 @@ class Database
         
         return $result['content'];
     }
+
 
 
 }
