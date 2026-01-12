@@ -17,17 +17,12 @@ if (isset($_SESSION["code-generated"])) {
 }
 $db = Database::getInstance();
 
-if (isset($_GET["class-search"])) {
-    $listClasses = $db->classSearchFromTeacher($_SESSION['user']['id'], $_GET["class-search"]);
-} else {
-    $listClasses = $db->classSearchFromTeacher($_SESSION['user']['id'], "");
-}
+$classSearch = isset($_GET["class-search"]) ?  $_GET["class-search"] : "";
+$listClasses = $db->classSearchFromTeacher($_SESSION['user']['id'], $classSearch);
 
-if (isset($_GET["chapter-search"])) {
-    $listChapters = $db->chapterSearchFromTeacher($_SESSION['user']['id'], $_GET["chapter-search"]);
-} else {
-    $listChapters = $db->chapterSearchFromTeacher($_SESSION['user']['id'], "");
-}
+$chapterSearch = isset($_GET["chapter-search"]) ? $_GET["chapter-search"] : "";
+$listChapters = $db->chapterSearchFromTeacher($_SESSION['user']['id'], $chapterSearch);
+
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +43,7 @@ include 'modules/include.php' ?>
                 <h2>Gérer mes classes</h2>
 
                 <div class="search">
-                    <label for="class-search"></label><input class="btn" type="search" id="class-search" name="class-search" placeholder="Rechercher classe">
+                    <label for="class-search"></label><input class="btn" type="search" id="class-search" name="class-search" placeholder="Rechercher classe" value="<?=$classSearch ?>">
                     <button type="submit" class="btn">Rechercher</button>
                 </div>
 
@@ -74,7 +69,7 @@ include 'modules/include.php' ?>
                 <h2>Gérer mes chapitres</h2>
 
                 <div class="search">
-                    <label for="chapter-search"></label><input class="btn" type="search" id="chapter-search" name="chapter-search" placeholder="Rechercher chapitre">
+                    <label for="chapter-search"></label><input class="btn" type="search" id="chapter-search" name="chapter-search" placeholder="Rechercher chapitre" value="<?=$chapterSearch ?>">
                     <button type="submit" class="btn">Rechercher</button>
                 </div>
 
