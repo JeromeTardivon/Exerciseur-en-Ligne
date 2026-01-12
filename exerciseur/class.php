@@ -9,9 +9,12 @@ $db = Database::getInstance();
 $_TITLE = "Éditeur Classe";
 $class = $db->getClass($_GET['id-class']);
 $listStudents = $db->getStudentsFromClass($class['id']);
-$teacher = $db->getResponsableFromClass($class['id']);
+$teachers = $db->getResponsableFromClass($class['id']);
 $activesClassCodes = $db->getClassCodes($class['id']);
 $listChapters = $db->getChaptersClass($class['id']);
+foreach ($teachers as $teacher) {
+    $teachersIds[] = $teacher['id'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,10 +27,11 @@ $listChapters = $db->getChaptersClass($class['id']);
 
 <main id="main-editor-class">
     <h1><?= $class['name'] ?></h1>
-    <h2>Responsable: <?= $teacher['name'] . ' ' . $teacher['surname'] ?></h2>
+    <h2>Responsable(s): </h2>
+    <?php foreach ($teachers as $teacher) {echo "<h3>".$teacher['name'] . ' ' . $teacher['surname']."</h3>";} ?>
     <p><?= $class['description'] ?></p>
     <?php
-    if ($_SESSION['user']['type'] == "teacher") {
+    if ($_SESSION['user']['type'] == "teacher" && in_array($_SESSION['user']['id'], $teachersIds,true)) {
         ?>
         <a class="btn" href="editor-class.php?id-class=<?= $class['id'] ?>">Modifier</a>
     <?php } ?>
@@ -54,7 +58,7 @@ $listChapters = $db->getChaptersClass($class['id']);
         <?php } ?>
     </ul>
 
-    <div <?=$_SESSION['user']['type'] == "teacher" ?  "" : "hidden" ?>>
+    <div <?=($_SESSION['user']['type'] == "teacher" && in_array($_SESSION['user']['id'], $teachersIds,true)) ?  "" : "hidden" ?>>
         <h2>Generation de codes d'invitation à la classe</h2>
         <form action="/processing-forms/processing-form-class-edition.php" method="post">
             <label>Nombre d'usages:

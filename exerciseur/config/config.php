@@ -4,15 +4,15 @@ session_set_cookie_params(86400);
 session_start();
 
 /**
- * @param $listIdStudents
- * @param $studentId
+ * @param $listIds
+ * @param $id
  * @return bool
  * it searches if the id of the student is in the list of ids of students
  */
-function studentInList($listIdStudents, $studentId): bool
+function isInList($listIds, $id): bool
 {
-    foreach ($listIdStudents as $student) {
-        if ($student == $studentId) {
+    foreach ($listIds as $object) {
+        if ($object == $id) {
             return true;
         }
     }

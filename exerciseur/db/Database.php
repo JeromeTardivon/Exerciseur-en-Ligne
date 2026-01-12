@@ -77,11 +77,15 @@ class Database
         return $statement->fetch();
     }
 
-    public function getResponsableFromClass($classId)
+    public function getResponsableFromClass($classId): array
     {
+        $teachers = [];
         $statement = $this->getDb()->prepare("SELECT * FROM inclass WHERE id_class = '$classId' AND responsible LIKE 1");
         $statement->execute();
-        return $this->getUser($statement->fetch()['id_user']);
+        foreach ($statement->fetchAll() as $teacher) {
+            $teachers[]= $this->getUser($teacher['id_user']);
+        }
+        return $teachers;
     }
 
     public function addStudentsToClassDB($listIdStudents, $classId): void

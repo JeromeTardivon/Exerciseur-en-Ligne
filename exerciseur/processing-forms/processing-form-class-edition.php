@@ -10,7 +10,7 @@ if (!empty($_POST['name']) && !empty($_POST['desc'])) {
     exit();
 }
 if (isset($_POST['add-student'])) {
-    if (!studentInList($_SESSION['studentsToAdd'], $_POST['add-student'])) {
+    if (!isInList($_SESSION['studentsToAdd'], $_POST['add-student'])) {
         $_SESSION['studentsToAdd'][] = $_POST['add-student'];
     }
 } elseif (isset($_POST['delete-student'])) {
