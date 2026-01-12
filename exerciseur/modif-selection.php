@@ -1,0 +1,58 @@
+<?php 
+include_once __DIR__ . '/config/config.php';
+include_once __DIR__ . '/db/db-connection.php';
+include_once __DIR__ . '/db/Database.php';
+use db\Database;
+$db = Database::getInstance();
+if (!isset($_SESSION["user"])) {
+    header('Location: /index.php');
+    exit();
+} else if ($_SESSION["user"]["type"] != "teacher" && $_SESSION["user"]["type"] != "admin") {
+    header('Location: /index.php');
+    exit();
+}else if (!isset($_GET['id-chapter'])) {
+    header('Location: /index.php');
+    exit();
+}else if($db->chapterBelongsToTeacher($_GET['id-chapter'],$_SESSION['user']['id'])==false) {
+    header('Location: /index.php');
+    exit();
+}
+?>
+
+
+
+
+<!DOCTYPE html>
+<html lang="fr">
+    <?php include 'modules/include.php' ?>
+    
+    <body>
+        <!-- nav -->
+        <?php include 'modules/header.php' ?>
+
+        <main id="chapter-creation">     
+
+                    <ul>   
+                        <li><h3>Choisir un Exercice à modifier</h3></li>
+                        
+                        <?php 
+                        
+                        for ($i = 1; $i <= $db->getExercisesNumberFromChapter($_GET['id-chapter']); $i++) {
+                            
+                            echo "<li><a href='chapter-edition.php?id-chapter=" . $_GET['id-chapter'] . "&exercise-num=" . $i ."'>Exercice " . $i . "</a></li>";
+                        }
+                        ?>
+                    </ul>
+            
+        </main>
+
+        <!-- footer -->
+        <?php include 'modules/footer.php' ?> 
+
+        
+        
+        
+
+        
+    </body>
+</html>

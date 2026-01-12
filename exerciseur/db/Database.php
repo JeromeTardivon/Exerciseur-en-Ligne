@@ -265,73 +265,48 @@ class Database
     }
 
 
-    public function getExerciseContent($chapterId, $exerciseNum): string
+    public function getExerciseIdFromNum($chapterId, $exerciseNum): string
     {
-        $statement = $this->getDb()->prepare("SELECT content FROM exercise WHERE id_chapter = :chapterId ORDER BY id ASC");
+        $statement = $this->getDb()->prepare("SELECT id FROM exercise WHERE id_chapter = :chapterId ORDER BY id ASC");
         $offset = $exerciseNum - 1;
         $statement->bindParam(':chapterId', $chapterId);
         
         $statement->execute();
         for ($i = 0; $i < $offset-1; $i++) {
-            
             $statement->fetch();
         }
         $result = $statement->fetch();
         
         
+        return $result['id'];
+    }
+
+    public function getExerciseContent($exerciseId): string
+    {
+        $statement = $this->getDb()->prepare("SELECT content FROM exercise WHERE id = :exerciseId");
+        $statement->execute(['exerciseId' => $exerciseId]);
+        $result = $statement->fetch();
         return $result['content'];
     }
 
     public function searchClassByTitleDesc($word): array
 
-
     {
-
-
         $command = $this->getDb()->prepare("SELECT name, id FROM class WHERE name LIKE concat('%', :title, '%')");
-
-
         $command->execute([
-
-
             "title" => $word
-
-
         ]);
-
-
         return $command->fetchAll();
-
-
     }
-
-
-
-
     public  function searchChapitreByTitleDesc($word): array
-
-
     {
+    $command = $this->getDb()->prepare("SELECT title, description, id FROM chapter WHERE 
 
-
-        $command = $this->getDb()->prepare("SELECT title, description, id FROM chapter WHERE 
-
-
-                                (title LIKE concat('%', :title, '%') OR description LIKE concat('%', :title, '%')) AND visible = TRUE ");
-
-
+        (title LIKE concat('%', :title, '%') OR description LIKE concat('%', :title, '%')) AND visible = TRUE ");
         $command->execute([
-
-
             "title" => $word
-
-
         ]);
-
-
         return $command->fetchAll();
-
-
     }
 
     
