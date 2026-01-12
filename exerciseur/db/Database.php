@@ -275,7 +275,7 @@ class Database
 
     public  function searchChapitreByTitleDesc($word): array
     {
-        $command = $this->getDb()->prepare("SELECT title, description FROM chapter WHERE 
+        $command = $this->getDb()->prepare("SELECT title, description, id FROM chapter WHERE 
                                 (title LIKE concat('%', :title, '%') OR description LIKE concat('%', :title, '%')) AND visible = TRUE ");
         $command->execute([
             "title" => $word

@@ -34,7 +34,7 @@ include '../modules/include.php' ?>
     <h2>Résultats</h2>
     <?php if (count($res) == 0) { echo "<p>il n'y a aucun chapitre avec '$search'</p>";} ?>
     <ol>
-        <?php foreach ($res as $r) { echo "<li>" . $r['title'] . " ; " . $r['description'] . "</li>"; } ?>
+        <?php foreach ($res as $r) { echo "<li><a href='../chapter-edition.php?id-chapter=" . $r['id'] . "&exercise-num=1'>" . $r['title'] . " ; " . $r['description'] . "</a></li>"; } ?>
     </ol>
 </main>
 
