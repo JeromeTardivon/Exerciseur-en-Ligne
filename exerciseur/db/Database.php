@@ -198,6 +198,17 @@ class Database
         return $statement->fetchAll();
     }
 
+    public function teacherSearch($search, $exemptClass) {
+        $statement = $this->getDb()->prepare("SELECT * FROM users u JOIN inclass i ON u.id = i.id_user
+                                             WHERE u.name LIKE concat('%', :search, '%') AND
+                                             i.id_class <> :exemptClass AND u.type <> 'student'");
+        $statement->execute([
+            "search" => $search,
+            "exemptClass" => $exemptClass
+        ]);
+        return $statement->fetchAll();
+    }
+
     public function classSearchFromTeacher($teacherId, $search) {
         $listClasses = array();
         $statement = $this->getDb()->prepare("SELECT * FROM inclass i JOIN class c ON i.id_class = c.id
