@@ -35,7 +35,7 @@ include 'modules/include.php' ?>
 
 <?php include 'modules/header.php' ?>
 
-<main class="teacher-space">
+<main id="teacher-space">
     <form action="teacher-space.php" method="get">
         <div>
             <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div -->
@@ -53,14 +53,14 @@ include 'modules/include.php' ?>
                     <?php
 
                     foreach ($listClasses as $class) { ?>
-                        <li class="btn"><a
+                        <li><a class="btn"
                                     href="class.php?id-class=<?= $class['id'] ?>"><?= $class['name'] ?></a></li>
                     <?php }
                     ?>
                 </ul>
             </div>
 
-            <h2 class="btn"><a href="create-class.php">Créer classes</a></h2>
+            <h2><a class="btn" href="create-class.php">Créer classes</a></h2>
         </div>
 
         <div>
@@ -79,7 +79,7 @@ include 'modules/include.php' ?>
 
                     foreach ($listChapters as $chapter) { ?>
                     
-                        <li class="btn"><a
+                        <li><a class="btn"
                                     href="modif-selection.php?id-chapter=<?= $chapter['id'] ?>"><?= $chapter['title'] ?></a>
                         </li>
                     <?php }
@@ -87,7 +87,7 @@ include 'modules/include.php' ?>
                 </ul>
             </div>
 
-            <h2 class="btn"><a href="chapter-creation.php">Créer chapitres</a></h2>
+            <h2><a class="btn" href="chapter-creation.php">Créer chapitres</a></h2>
         </div>
     </form>
     <div <?= $_SESSION["user"]["type"] == "admin" ? "" : "hidden" ?>>
