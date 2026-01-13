@@ -48,10 +48,11 @@ CREATE TABLE `exercise` (
   `content` text NOT NULL DEFAULT '',
   `type` int(11) NOT NULL DEFAULT 0,
   `ansdef` tinyint(1) NOT NULL DEFAULT 0,
+  `showans` tinyint(1) DEFAULT NULL,
+  `grade` float DEFAULT NULL,
   `id_chapter` uuid NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `grade` float DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_exercise__chapter` (`id_chapter`),
   CONSTRAINT `FK_exercise__chapter` FOREIGN KEY (`id_chapter`) REFERENCES `chapter` (`id`)
