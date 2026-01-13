@@ -483,7 +483,8 @@ input[type="search"] {
 }
 
 #symbols > div > * {
-    width: 10%;
+    width: calc(100% / 6);
+    aspect-ratio: 1 / 1;
     font-size: x-large;
 }
 
