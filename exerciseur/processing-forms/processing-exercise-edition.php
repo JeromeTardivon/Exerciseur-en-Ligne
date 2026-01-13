@@ -23,12 +23,12 @@ if (!isset($_SESSION["user"])) {
     exit();
 }
 
-if (isset($_POST['content'])/*&&isset($_POST['weight']) && isset($_POST['time']) && isset($_SESSION['user']) && $_SESSION['user']['type'] === 'teacher'*/){
-    /*$weight = $_POST['weight'];
-    $time = $_POST['time'];
-    $ansdef = isset($_POST['ansdef']) && $_POST['ansdef']=="on" ? 1 : 0;
+if (isset($_POST['content'])&&isset($_POST['section-title'])&&isset($_POST['weight']) /*&& isset($_POST['time']) && isset($_SESSION['user']) && $_SESSION['user']['type'] === 'teacher'*/){
+    $weight = $_POST['weight'];
+    /*$ansdef = isset($_POST['ansdef']) && $_POST['ansdef']=="on" ? 1 : 0;
     $showans = isset($_POST['showans']) && $_POST['showans'] == "on" ? 2 : $ansdef;*/
     $content = $_POST['content'];
+    $title = $_POST['section-title'];
     /*$grade = 0;
     if (isset($_POST["total-grade"])) {
         $grade =(float) $_POST["total-grade"];
@@ -43,15 +43,16 @@ if (isset($_POST['content'])/*&&isset($_POST['weight']) && isset($_POST['time'])
     }*/
     $idExercise = $dbi->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num']);
 
-    $stmt = $db->prepare("UPDATE exercise SET content = :content WHERE id = :id_exercise");  
+    $stmt = $db->prepare("UPDATE exercise SET content = :content, title = :title, coef=:coef WHERE id = :id_exercise");  
 
     $stmt->execute([
-        /*':coef' => $weight,
-        ':timesec' => $time *60,
+        ':coef' => $weight,
+        /*':timesec' => $time *60,
         ':tries' => $tries_number,
         ':ansdef' => $ansdef,
         ':id_chapter' => $chapter_id,*/
         ':content' => $content,
+        ':title' => $title,
         //':grade' => $grade,
         ':id_exercise' => $idExercise
     ]);

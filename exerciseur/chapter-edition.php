@@ -34,22 +34,10 @@ if (!empty($content)) {
     $decoded = json_decode($content, true);
     
 }
+$idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num']);
 ?>
 
-<script>
-    var payload = <?php echo $decoded !== null ? json_encode($decoded, JSON_UNESCAPED_UNICODE) : 'null'; ?>;
-    
-     //setting localstorage with exercise content so we dont need another function than "loadState()"
-     if (payload !== null) {
-        try { 
-            localStorage.setItem('dynamicModules', JSON.stringify(payload)); } catch(e) { console && console.warn && console.warn('Failed to set dynamicModules', e); 
-            $_SESSION['clear_local_storage'] = false;
-        }
-        
-        } else {
-          try { localStorage.removeItem('dynamicModules'); } catch(e) {}
-     }
-</script>
+
 
 
 
@@ -95,8 +83,12 @@ if (!empty($content)) {
 
                         <li>
                             <span> 
-                                <label for="time">Limite de temps (en minutes, 0 pour illimité):</label>
-                                <input id="time" name="time" type="number" min="0" max="2048" step="1" value="0">
+                                <label for="timelimit-hours" class="visually-hidden">Heures</label>
+                                <input id="timelimit-hours" name="timelimit_hours" type="number" min="0" max="2048" step="1" value="0">
+                                <label for="timelimit-minutes" >Minutes</label>
+                                <input id="timelimit-minutes" name="timelimit_minutes" type="number" min="0" max="59" step="1" value="30">
+                                <label for="timelimit-seconds" >Secondes</label>
+                                <input id="timelimit-seconds" name="timelimit_seconds" type="number" min="0" max="59" step="1" value="0">
                             </span>
                         </li>
 
@@ -198,5 +190,26 @@ if (!empty($content)) {
 
         <script type="text/javascript" src="js/math-symbol.js"></script>
         <script type=text/javascript src="js/modular-section.js"></script>
+        <script>
+
+            //Sets up all the needed data and parameters
+            document.getElementById("section-title").value="<?php echo $db->getTitleExercise($idExercise); ?>";
+            document.getElementById("weight").value="<?php echo $db->getExerciseCoefficient($idExercise); ?>";
+            //document.getElementById("time").value="<?php echo $db->getExerciseTimeLimit($idExercise); ?>";
+            
+            var payload = <?php echo $decoded !== null ? json_encode($decoded, JSON_UNESCAPED_UNICODE) : 'null'; ?>;
+            
+            //setting localstorage with exercise content so we dont need another function than "loadState()"
+            if (payload !== null) {
+                try { 
+                    localStorage.setItem('dynamicModules', JSON.stringify(payload)); } catch(e) { console && console.warn && console.warn('Failed to set dynamicModules', e); 
+                    $_SESSION['clear_local_storage'] = false;
+                }
+                
+                } else {
+                try { localStorage.removeItem('dynamicModules'); } catch(e) {}
+            }
+            
+        </script>
     </body>
 </html>

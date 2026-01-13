@@ -41,6 +41,7 @@ if (!isset($_SESSION["user"])) {
                         
                     }
                 ?>
+                <li><a class='btn' href="section.php">Ajouter un exercice</a></li>
             </ul>
             <a href="teacher-space.php" class="btn">Annuler</a>
             
@@ -50,4 +51,7 @@ if (!isset($_SESSION["user"])) {
         <?php include 'modules/footer.php' ?> 
 
     </body>
+    <script> //reseting localstorage in case the 'go back button (<-) has been pressed from chapter edition 
+        localStorage.removeItem('dynamicModules');
+    </script>
 </html>
