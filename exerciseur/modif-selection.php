@@ -20,8 +20,6 @@ if (!isset($_SESSION["user"])) {
 ?>
 
 
-
-
 <!DOCTYPE html>
 <html lang="fr">
     <?php include 'modules/include.php' ?>
@@ -32,27 +30,24 @@ if (!isset($_SESSION["user"])) {
 
         <main id="chapter-creation">     
 
-                    <ul>   
-                        <li><h3>Choisir un Exercice à modifier</h3></li>
+            <ul>   
+                <li><h3>Choisir un Exercice à modifier</h3></li>
                         
-                        <?php 
+                <?php 
                         
-                        for ($i = 1; $i <= $db->getExercisesNumberFromChapter($_GET['id-chapter']); $i++) {
+                    for ($i = 1; $i <= $db->getExercisesNumberFromChapter($_GET['id-chapter']); $i++) {
                             
-                            echo "<li><a href='chapter-edition.php?id-chapter=" . $_GET['id-chapter'] . "&exercise-num=" . $i ."'>Exercice " . $i ." : ". $db->getTitleExercise($db->getExerciseIdFromNum($_GET['id-chapter'], $i))."</a></li>";
-                        }
-                        ?>
-                    </ul>
+                        echo "<li><a href='chapter-edition.php?id-chapter=" . $_GET['id-chapter'] . "&exercise-num=" . $i ."'>Exercice " . $i ." : ". $db->getTitleExercise($db->getExerciseIdFromNum($_GET['id-chapter'], $i))."</a></li>";
+                        
+                    }
+                ?>
+            </ul>
+            <a href="teacher-space.php" class="btn">Annuler</a>
             
         </main>
 
         <!-- footer -->
         <?php include 'modules/footer.php' ?> 
 
-        
-        
-        
-
-        
     </body>
 </html>
