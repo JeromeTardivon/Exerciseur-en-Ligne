@@ -17,6 +17,7 @@ if (!isset($_SESSION["user"])) {
     header('Location: /index.php');
     exit();
 }
+$_SESSION['current_chapter_id'] = $_GET['id-chapter'];
 ?>
 
 
