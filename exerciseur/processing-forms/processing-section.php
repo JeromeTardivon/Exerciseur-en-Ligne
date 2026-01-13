@@ -4,7 +4,7 @@ include_once __DIR__ . '/../db/db-connection.php';
 
 if (isset($_POST['content'])&&isset($_POST['weight']) && isset($_POST['timelimit_hours']) && isset($_POST['timelimit_minutes']) && isset($_POST['timelimit_seconds']) && isset($_SESSION['user'])&&isset($_POST['section-title']) && $_SESSION['user']['type'] === 'teacher'){
     $weight = $_POST['weight'];
-    $time = (int)$_POST['timelimit_hours']*3600 + (int)$_POST['timelimit_minutes']*60 + (int)$_POST['timelimit_seconds'];
+    $time = $_POST['timelimit_seconds'] + $_POST['timelimit_minutes'] * 60 + $_POST['timelimit_hours'] * 3600;
     $ansdef = isset($_POST['ansdef']) && $_POST['ansdef']=="on" ? 1 : 0;
     $showans = isset($_POST['showans']) && $_POST['showans'] == "on" ? 2 : $ansdef;
     $content = $_POST['content'];
@@ -27,7 +27,7 @@ if (isset($_POST['content'])&&isset($_POST['weight']) && isset($_POST['timelimit
     $stmt->execute([
         ':coef' => $weight,
         ':title' => $title,
-        ':timesec' => $time *60,
+        ':timesec' => $time,
         ':tries' => $tries_number,
         ':ansdef' => $ansdef,
         ':id_chapter' => $chapter_id,

@@ -195,7 +195,7 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
             //Sets up all the needed data and parameters
             document.getElementById("section-title").value="<?php echo $db->getTitleExercise($idExercise); ?>";
             document.getElementById("weight").value="<?php echo $db->getExerciseCoefficient($idExercise); ?>";
-            //document.getElementById("time").value="<?php echo $db->getExerciseTimeLimit($idExercise); ?>";
+            let time ="<?php echo $db->getExerciseTimeLimit($idExercise); ?>";
             
             var payload = <?php echo $decoded !== null ? json_encode($decoded, JSON_UNESCAPED_UNICODE) : 'null'; ?>;
             
