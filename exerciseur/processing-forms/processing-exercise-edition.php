@@ -41,6 +41,7 @@ if (isset($_POST['content'])/*&&isset($_POST['weight']) && isset($_POST['time'])
     } else {
         $tries_number = null;
     }*/
+    $idExercise = $dbi->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num']);
 
     $stmt = $db->prepare("UPDATE exercise SET content = :content WHERE id = :id_exercise");  
 
@@ -52,7 +53,11 @@ if (isset($_POST['content'])/*&&isset($_POST['weight']) && isset($_POST['time'])
         ':id_chapter' => $chapter_id,*/
         ':content' => $content,
         //':grade' => $grade,
-        ':id_exercise' => $dbi->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'])
+        ':id_exercise' => $idExercise
+    ]);
+    $stmt = $db->prepare("UPDATE exercise SET updated_at = CURRENT_TIMESTAMP WHERE id = :id_exercise");  
+    $stmt->execute([
+        ':id_exercise' => $idExercise
     ]);
     
 } else {
@@ -63,7 +68,7 @@ if (isset($_POST['content'])/*&&isset($_POST['weight']) && isset($_POST['time'])
 //used to reset the local storage between sections
 $_SESSION['clear_local_storage'] = false;
 
-header('Location: /teacher-space.php');
+header('Location: /modif-selection.php?id-chapter=' . $_GET['id-chapter'] . '&exercise-num=' . $_GET['exercise-num']);
 exit();
 ?>
 
