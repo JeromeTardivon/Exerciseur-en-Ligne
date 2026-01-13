@@ -39,7 +39,7 @@ if (!isset($_SESSION["user"])) {
                         
                         for ($i = 1; $i <= $db->getExercisesNumberFromChapter($_GET['id-chapter']); $i++) {
                             
-                            echo "<li><a href='chapter-edition.php?id-chapter=" . $_GET['id-chapter'] . "&exercise-num=" . $i ."'>Exercice " . $i . "</a></li>";
+                            echo "<li><a href='chapter-edition.php?id-chapter=" . $_GET['id-chapter'] . "&exercise-num=" . $i ."'>Exercice " . $i ." : ". $db->getTitleExercise($db->getExerciseIdFromNum($_GET['id-chapter'], $i))."</a></li>";
                         }
                         ?>
                     </ul>

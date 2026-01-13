@@ -309,6 +309,15 @@ class Database
         return $command->fetchAll();
     }
 
+
+    public function getTitleExercise($exerciseId): string
+    {
+        $statement = $this->getDb()->prepare("SELECT title FROM exercise WHERE id = :exerciseId");
+        $statement->execute(['exerciseId' => $exerciseId]);
+        $result = $statement->fetch();
+        return $result['title'];
+    }
+
     
 
 
