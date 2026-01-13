@@ -654,6 +654,17 @@ input[type="search"] {
     display: flex;
     flex-direction: column;
 }
+#main-create-class{
+    margin: 5%;
+    border: 3px solid black;
+    border-radius: var(--radius);
+    padding-block: 2%;
+    padding-inline: 5%;
+    background-color: var(--main-color);
+}
+#main-create-class > form > fieldset{
+    border: 0 none;
+}
 
 #class-description {
     margin: 5%;
