@@ -35,7 +35,7 @@ include 'modules/include.php' ?>
 
 <?php include 'modules/header.php' ?>
 
-<main class="teacher-space">
+<main id="teacher-space">
     <form action="teacher-space.php" method="get">
         <div>
             <!-- sert pour le carré de couleur dans le wireframing, comme ça le bouton "créer classe" reste dans le div -->
@@ -53,7 +53,7 @@ include 'modules/include.php' ?>
                     <?php
 
                     foreach ($listClasses as $class) { ?>
-                        <li class="btn"><a
+                        <li><a class="btn"
                                     href="class.php?id-class=<?= $class['id'] ?>"><?= $class['name'] ?></a></li>
                     <?php }
                     ?>
@@ -79,7 +79,7 @@ include 'modules/include.php' ?>
 
                     foreach ($listChapters as $chapter) { ?>
                     
-                        <li class="btn"><a
+                        <li><a class="btn"
                                     href="modif-selection.php?id-chapter=<?= $chapter['id'] ?>"><?= $chapter['title'] ?></a>
                         </li>
                     <?php }
