@@ -586,16 +586,27 @@ input[type="search"] {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 1% 0%;
 }
 
-#modif-selection > * {
+#modif-selection .btn {
+    padding: 1%;
+}
+
+#modif-selection > ul {
     width: 70%;
-    height: 40em;
-    padding-top: 1%;
+    height: fit-content;
+    padding: 1% 0%;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: var(--secondary-color);
+    border-radius: var(--radius);
+}
+
+#modif-selection > a {
+    background-color: red;
+    border: 2px solid var(--dark-blue-color);
     border-radius: var(--radius);
 }
 
@@ -612,10 +623,6 @@ input[type="search"] {
     border: 2px solid var(--dark-blue-color);
     background-color: var(--main-color);
     border-radius: var(--radius);
-}
-
-#modif-selection .btn {
-    padding: 1%;
 }
 
 textarea{
