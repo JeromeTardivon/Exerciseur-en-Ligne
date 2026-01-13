@@ -12,7 +12,7 @@ $listStudents = $db->getStudentsFromClass($class['id']);
 $teachers = $db->getResponsableFromClass($class['id']);
 $activesClassCodes = $db->getClassCodes($class['id']);
 $listChapters = $db->getChaptersClass($class['id']);
-$teachersIds = [];
+$teachersIds = array();
 foreach ($teachers as $teacher) {
     $teachersIds[] = $teacher['id'];
 }
@@ -36,8 +36,8 @@ foreach ($teachers as $teacher) {
             <h2>Responsable(s) </h2>
             <?php foreach ($teachers as $teacher) {echo "<h3>".$teacher['name'] . ' ' . $teacher['surname']."</h3>";} ?>
         </div>
-        <div id="class-students">
-            <h2 <?= empty($listStudents) ? "hidden" : "" ?>>Liste des étudiants inscrite</h2>
+        <div id="class-students" <?= empty($listStudents) ? "hidden" : "" ?>>
+            <h2>Liste des étudiants inscrite</h2>
             <ul>
                 <?php
                 foreach ($listStudents as $student) { ?>

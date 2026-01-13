@@ -655,6 +655,54 @@ input[type="search"] {
     flex-direction: column;
 }
 
+#class-description {
+    margin: 5%;
+    border: 3px solid black;
+    border-radius: var(--radius);
+    padding-block: 2%;
+    padding-inline: 5%;
+    background-color: var(--main-color);
+}
+#class-description > form > fieldset{
+    border: 0 none;
+}
+#class-description > form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.class-adding {
+    margin: 1%;
+    border: 3px solid black;
+    border-radius: var(--radius);
+    padding-block: 2%;
+    padding-inline: 5%;
+    background-color: var(--main-color);
+}
+.class-adding > form{
+    display: flex;
+    flex-direction: row;
+    gap: 1%;
+}
+.class-adding > ul{
+    margin: 5%;
+}
+.class-adding > ul > li{
+    margin: 5%;
+}
+
+.class-adding > ul > li > div{
+    display: flex;
+    flex-direction: row ;
+    gap: 5%;
+}
+#class-delete-students{
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+}
+
 textarea{
     resize: vertical;
 }
