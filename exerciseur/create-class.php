@@ -22,15 +22,16 @@ if (!isset($_SESSION["user"])) {
             <form action="/processing-forms/processing-form-class-creation.php" method="post">
                 <fieldset>
                     <legend>Création de classe</legend>
-
-                    <label for="nameClass">Entrez ici le nom de la classe</label>
-                    <input id="nameClass" type="text" name="name">
-
-                    <label for="desc">Entrez ici une description de la classe</label>
-                    <textarea id="desc" name="desc" rows="10" cols="50"></textarea>
+                    <div>
+                        <label for="nameClass">Entrez ici le nom de la classe</label>
+                        <input id="nameClass" type="text" name="name">
+                    </div>
+                    <div>
+                        <label for="desc">Entrez ici une description de la classe</label>
+                        <textarea id="desc" name="desc" rows="10" cols="50"></textarea>
+                    </div>
                 </fieldset>
                 <input class="btn" type="submit">
-                <input class="btn" type="reset">
             </form>
         </main>
 
