@@ -23,21 +23,32 @@ if (!isset($_SESSION["user"])) {
 
 
 
-$content = $db->getExerciseContent($_GET['id-chapter'],$_GET['exercise-num']);
+$content = $db->getExerciseContent($db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num']));
 
 $_POST['content'] = $content;
 
 $decoded = null;
-//decoding in case needed later
+
 if (!empty($content)) {
+    
     $decoded = json_decode($content, true);
+    
 }
 ?>
 
 <script>
-    var payload = <?php echo $decoded; ?>;
-    //setting localstorage with exercise content so we dont need another function than "loadState()"
-    localStorage.setItem('dynamicModules', JSON.stringify(payload));
+    var payload = <?php echo $decoded !== null ? json_encode($decoded, JSON_UNESCAPED_UNICODE) : 'null'; ?>;
+    
+     //setting localstorage with exercise content so we dont need another function than "loadState()"
+     if (payload !== null) {
+        try { 
+            localStorage.setItem('dynamicModules', JSON.stringify(payload)); } catch(e) { console && console.warn && console.warn('Failed to set dynamicModules', e); 
+            $_SESSION['clear_local_storage'] = false;
+        }
+        
+        } else {
+          try { localStorage.removeItem('dynamicModules'); } catch(e) {}
+     }
 </script>
 
 
@@ -66,7 +77,7 @@ if (!empty($content)) {
             </aside>
 
 
-            <form action="processing-forms/processing-section.php" method="post" id ="dynamic-form">
+            <form action="processing-forms/processing-exercise-edition.php?id-chapter=<?php echo $_GET['id-chapter']; ?>&exercise-num=<?php echo $_GET['exercise-num']; ?>" method="post" id ="dynamic-form">
 
                 <fieldset>
                     <legend>Paramètres de la section</legend>   
@@ -142,8 +153,8 @@ if (!empty($content)) {
                     <div id="previews"></div>
                 </fieldset>
 
-                <button type="submit" id="save-section">Enregistrer la section et continuer</button>
-                <button type="submit" id="save-section-end">Enregistrer la section et terminer le chapitre</button>
+                <button type="submit" id="accept-changes">Enregistrer les modifications</button>
+                <button type="submit" id="cancel-changes">Annuler les modifications</button>
 
                 </form>
 

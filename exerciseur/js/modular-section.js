@@ -36,8 +36,50 @@ document.addEventListener('DOMContentLoaded', function(){
     document.getElementById('tries').addEventListener('input', updateHintBtnState);
     document.getElementById('tries').addEventListener('click', updateHintBtnState);
 
-    const saveBtn = document.getElementById('save-section');
-    const saveEndBtn = document.getElementById('save-section-end');
+
+    if(document.getElementById('save-section')&&document.getElementById('save-section-end')){
+
+        const saveBtn = document.getElementById('save-section');
+        const saveEndBtn = document.getElementById('save-section-end');
+
+        saveBtn.addEventListener('click', (e)=> {
+            // ensure no redirect flag is submitted for the normal save (continue on section)
+            if (form) {
+                const r = form.querySelector('input[name="redirect"]');
+                if (r) r.parentNode.removeChild(r);
+            }
+            saveState(true);
+        });
+
+        saveEndBtn.addEventListener('click', (e)=> {
+            // set a hidden redirect flag so server will redirect to index after saving
+            if (form) {
+                let r = form.querySelector('input[name="redirect"]');
+                if (!r) {
+                    r = document.createElement('input');
+                    r.type = 'hidden';
+                    r.name = 'redirect';
+                    form.appendChild(r);
+                }
+                r.value = 'index';
+            }
+            saveState(true);
+        });
+    }else if(document.getElementById('accept-changes')&&document.getElementById('cancel-changes')){
+        const acceptBtn = document.getElementById('accept-changes');
+        const cancelBtn = document.getElementById('cancel-changes');
+
+        cancelBtn.addEventListener('click', (e)=> {
+            e.preventDefault();
+            if (confirm("Êtes-vous sûr de vouloir annuler les modifications ?")) {
+                window.location.href = '/teacher-space.php';
+            }
+        });
+
+        acceptBtn.addEventListener('click', (e)=> {
+            saveState(true);
+        });
+    }
 
     const form = document.getElementById('dynamic-form');
     const output = document.getElementById('output');
@@ -726,28 +768,7 @@ document.addEventListener('DOMContentLoaded', function(){
     addNumericalQuestionBtn.addEventListener('click', ()=> addNumericalQuestionField());
     addMultipleChoiceBtn.addEventListener('click', ()=> addMultipleChoiceField());
     addHintBtn.addEventListener('click', ()=> addHintField());
-    saveBtn.addEventListener('click', (e)=> {
-        // ensure no redirect flag is submitted for the normal save (continue on section)
-        if (form) {
-            const r = form.querySelector('input[name="redirect"]');
-            if (r) r.parentNode.removeChild(r);
-        }
-        saveState(true);
-    });
 
-    saveEndBtn.addEventListener('click', (e)=> {
-        // set a hidden redirect flag so server will redirect to index after saving
-        if (form) {
-            let r = form.querySelector('input[name="redirect"]');
-            if (!r) {
-                r = document.createElement('input');
-                r.type = 'hidden';
-                r.name = 'redirect';
-                form.appendChild(r);
-            }
-            r.value = 'index';
-        }
-        saveState(true);
-    });
+    
     loadState();
 });

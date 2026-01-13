@@ -2,12 +2,13 @@
 include_once __DIR__ . '/../config/config.php';
 include_once __DIR__ . '/../db/db-connection.php';
 
-if (isset($_POST['content'])&&isset($_POST['weight']) && isset($_POST['time']) && isset($_SESSION['user']) && $_SESSION['user']['type'] === 'teacher'){
+if (isset($_POST['content'])&&isset($_POST['weight']) && isset($_POST['time']) && isset($_SESSION['user'])&&isset($_POST['section-title']) && $_SESSION['user']['type'] === 'teacher'){
     $weight = $_POST['weight'];
     $time = $_POST['time'];
     $ansdef = isset($_POST['ansdef']) && $_POST['ansdef']=="on" ? 1 : 0;
     $showans = isset($_POST['showans']) && $_POST['showans'] == "on" ? 2 : $ansdef;
     $content = $_POST['content'];
+    $title = $_POST['section-title']??'';
     $grade = 0;
     if (isset($_POST["total-grade"])) {
         $grade =(float) $_POST["total-grade"];
@@ -21,10 +22,11 @@ if (isset($_POST['content'])&&isset($_POST['weight']) && isset($_POST['time']) &
         $tries_number = null;
     }
 
-    $stmt = $db->prepare("INSERT INTO exercise (coef, timesec, tries, ansdef, id_chapter, content, grade) VALUES (:coef, :timesec, :tries, :ansdef, :id_chapter, :content, :grade)");  
+    $stmt = $db->prepare("INSERT INTO exercise (coef,title,timesec, tries, ansdef, id_chapter, content, grade) VALUES (:coef, :title, :timesec, :tries, :ansdef, :id_chapter, :content, :grade)");  
 
     $stmt->execute([
         ':coef' => $weight,
+        ':title' => $title,
         ':timesec' => $time *60,
         ':tries' => $tries_number,
         ':ansdef' => $ansdef,
