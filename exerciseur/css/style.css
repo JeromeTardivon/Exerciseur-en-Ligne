@@ -582,6 +582,42 @@ input[type="search"] {
     flex-direction: column;
 }
 
+#modif-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#modif-selection > * {
+    width: 70%;
+    height: 40em;
+    padding-top: 1%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--secondary-color);
+    border-radius: var(--radius);
+}
+
+#modif-selection ul > * {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1%;
+    min-width: 100%;
+}
+
+#modif-selection ul h3 {
+    padding: 2% 10%;
+    border: 2px solid var(--dark-blue-color);
+    background-color: var(--main-color);
+    border-radius: var(--radius);
+}
+
+#modif-selection .btn {
+    padding: 1%;
+}
+
 textarea{
     resize: vertical;
 }
