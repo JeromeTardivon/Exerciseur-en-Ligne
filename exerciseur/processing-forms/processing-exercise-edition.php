@@ -23,10 +23,12 @@ if (!isset($_SESSION["user"])) {
     exit();
 }
 
-if (isset($_POST['content'])&&isset($_POST['section-title'])&&isset($_POST['weight']) /*&& isset($_POST['time']) && isset($_SESSION['user']) && $_SESSION['user']['type'] === 'teacher'*/){
+if (isset($_POST['content'])&&isset($_POST['section-title'])&&isset($_POST['weight'])  && isset($_SESSION['user']) && $_SESSION['user']['type'] === 'teacher'){
     $weight = $_POST['weight'];
-    /*$ansdef = isset($_POST['ansdef']) && $_POST['ansdef']=="on" ? 1 : 0;
-    $showans = isset($_POST['showans']) && $_POST['showans'] == "on" ? 2 : $ansdef;*/
+    $ansdef = isset($_POST['ansdef']) && $_POST['ansdef']=="on" ? 1 : 0;
+
+    $showans = isset($_POST['showans']) && $_POST['showans'] == "on" && $ansdef == 1 ? 1 : 0;
+
     $content = $_POST['content'];
     $title = $_POST['section-title'];
     $time = $_POST['timelimit_seconds'] + $_POST['timelimit_minutes'] * 60 + $_POST['timelimit_hours'] * 3600;
@@ -35,27 +37,28 @@ if (isset($_POST['content'])&&isset($_POST['section-title'])&&isset($_POST['weig
         $grade =(float) $_POST["total-grade"];
     }
     
-    /*
+    
 
     if(isset($_POST['tries']) && $_POST['tries'] == "on" && isset($_POST['tries_number'])) {
         $tries_number = $_POST['tries_number'];
     } else {
         $tries_number = null;
-    }*/
+    }
     $idExercise = $dbi->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num']);
 
-    $stmt = $db->prepare("UPDATE exercise SET content = :content, title = :title, coef=:coef, timesec=:timesec WHERE id = :id_exercise");  
+    $stmt = $db->prepare("UPDATE exercise SET content = :content, title = :title, coef=:coef, timesec=:timesec, tries=:tries, ansdef=:ansdef, showans=:showans WHERE id = :id_exercise");  
 
     $stmt->execute([
         ':coef' => $weight,
         ':timesec' => $time ,
-        /*':tries' => $tries_number,
+        ':tries' => $tries_number,
         ':ansdef' => $ansdef,
-        ':id_chapter' => $chapter_id,*/
         ':content' => $content,
         ':title' => $title,
+        ':showans' => $showans,
         //':grade' => $grade,
         ':id_exercise' => $idExercise
+
     ]);
     $stmt = $db->prepare("UPDATE exercise SET updated_at = CURRENT_TIMESTAMP WHERE id = :id_exercise");  
     $stmt->execute([
