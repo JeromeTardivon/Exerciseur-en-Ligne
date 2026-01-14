@@ -57,8 +57,12 @@ $_POST['content']='';
 
                         <li>
                             <span> 
-                                <label for="time">Limite de temps (en minutes, 0 pour illimité):</label>
-                                <input id="time" name="time" type="number" min="0" max="2048" step="1" value="0">
+                                <label for="timelimit-hours" class="visually-hidden">Heures</label>
+                                <input id="timelimit-hours" name="timelimit_hours" type="number" min="0" max="2048" step="1" value="0">
+                                <label for="timelimit-minutes" >Minutes</label>
+                                <input id="timelimit-minutes" name="timelimit_minutes" type="number" min="0" max="59" step="1" value="30">
+                                <label for="timelimit-seconds" >Secondes</label>
+                                <input id="timelimit-seconds" name="timelimit_seconds" type="number" min="0" max="59" step="1" value="0">
                             </span>
                         </li>
 

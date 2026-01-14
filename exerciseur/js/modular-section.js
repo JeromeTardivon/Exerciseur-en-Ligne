@@ -74,10 +74,12 @@ document.addEventListener('DOMContentLoaded', function(){
             if (confirm("Êtes-vous sûr de vouloir annuler les modifications ?")) {
                 window.location.href = '/teacher-space.php';
             }
+            localStorage.removeItem('dynamicModules');
         });
 
         acceptBtn.addEventListener('click', (e)=> {
             saveState(true);
+            localStorage.removeItem('dynamicModules');
         });
     }
 

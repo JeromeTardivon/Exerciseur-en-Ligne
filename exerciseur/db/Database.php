@@ -289,7 +289,7 @@ class Database
         $statement->execute(
             ['chapterId' => $chapterId]
         );
-        
+
         for ($i = 0; $i < $offset; $i++) {
 
             $result = $statement->fetch();
@@ -352,5 +352,20 @@ class Database
             $statement =  $this->getDb()->prepare("INSERT INTO inclass (id_user, id_class, responsible) VALUES (:user, :class, 1)");
             $statement->execute(['user' => $idTeacher, 'class' => $idClass]);
         }
+    }
+    public function getExerciseCoefficient($exerciseId): float
+    {
+        $statement = $this->getDb()->prepare("SELECT coef FROM exercise WHERE id = :exerciseId");
+        $statement->execute(['exerciseId' => $exerciseId]);
+        $result = $statement->fetch();
+        return (float)$result['coef'];
+    }
+
+    public function getExerciseTimeLimit($exerciseId): int
+    {
+        $statement = $this->getDb()->prepare("SELECT timesec FROM exercise WHERE id = :exerciseId");
+        $statement->execute(['exerciseId' => $exerciseId]);
+        $result = $statement->fetch();
+        return (int)$result['timesec'];
     }
 }
