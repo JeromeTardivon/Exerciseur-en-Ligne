@@ -236,6 +236,42 @@ aside img {
     border-radius: 100%;
 }
 
+#login{
+    margin: 5%;
+    border: 3px solid black;
+    border-radius: var(--radius);
+    padding-block: 2%;
+    padding-inline: 5%;
+    background-color: var(--main-color);
+}
+
+#login > form > fieldset{
+    border: 0 none;
+}
+
+#signup{
+    margin: 5%;
+    border: 3px solid black;
+    border-radius: var(--radius);
+    padding-block: 2%;
+    padding-inline: 5%;
+    background-color: var(--main-color);
+}
+
+#signup > form > fieldset{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0 none;
+}
+#signup > form > fieldset > fieldset{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    border: 0 none;
+
+}
+
 #profile {
     display: flex;
     flex-direction: row;

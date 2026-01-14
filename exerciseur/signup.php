@@ -12,10 +12,10 @@ include 'modules/include.php' ?>
 <!-- nav -->
 <?php include 'modules/header.php' ?>
 
-<main>
+<main id="signup">
     <form action="/processing-forms/processing-form-signup.php" method="post">
+        <h3>Inscription</h3>
         <fieldset>
-            <legend>Inscription</legend>
             <fieldset>
                 <legend>Statut</legend>
                 <input type="radio" id="statusTeacher" name="status" value="teacher"/><label for="statusTeacher">Enseignant(e)</label>
@@ -24,25 +24,25 @@ include 'modules/include.php' ?>
             </fieldset>
             <fieldset>
                 <legend>Identité</legend>
-                <label for="lastname">NOM</label>
-                <input id="lastname" type="text" name="lastname">
+                <label for="lastname">NOM *</label>
+                <input id="lastname" type="text" name="lastname" required>
 
-                <label for="surname">Prénom</label>
-                <input id="surname" type="text" name="surname">
+                <label for="surname">Prénom *</label>
+                <input id="surname" type="text" name="surname" required>
 
-                <label for="email">adresse mail</label>
-                <input id="email" type="email" name="email">
+                <label for="email">adresse mail *</label>
+                <input id="email" type="email" name="email" required>
 
-                <label for="password">Mot de passe</label>
-                <input id="password" type="password" name="password">
+                <label for="password">Mot de passe *</label>
+                <input id="password" type="password" name="password" required>
 
                 <label for="userSchoolId">Numero universitaire</label>
                 <input id="userSchoolId" type="text" name="userSchoolId">
 
-                <label id="labelTeacherCode" for="teacherCode">Code de creation</label>
+                <label id="labelTeacherCode" for="teacherCode">Code de creation *</label>
                 <input id="teacherCode" type="text" name="teacherCode">
             </fieldset>
-            <input type="submit" value="Valider">
+            <input class="btn" type="submit" value="Valider">
         </fieldset>
     </form>
     <script src="js/controlCreationUser.js"></script>
