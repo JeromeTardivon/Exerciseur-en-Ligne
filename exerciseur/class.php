@@ -63,16 +63,16 @@ foreach ($teachers as $teacher) {
             ?>
         </ul>
     </div>
-    <h2>Generation de codes d'invitation à la classe</h2>
-    <div id="class-codes" <?=($_SESSION['user']['type'] == "teacher" && in_array($_SESSION['user']['id'], $teachersIds,true)) ?  "" : "hidden" ?>>
-        <form action="/processing-forms/processing-form-class-edition.php" method="post">
+    <h2 <?=(isset($_SESSION['user']) && $_SESSION['user']['type'] == "teacher" && in_array($_SESSION['user']['id'], $teachersIds,true)) ?  "" : "hidden" ?>>Generation de codes d'invitation à la classe</h2>
+    <div id="class-codes" <?=(isset($_SESSION['user']) && $_SESSION['user']['type'] == "teacher" && in_array($_SESSION['user']['id'], $teachersIds,true)) ?  "" : "style = display:none" ?>>
+        <form action="/processing-forms/processing-form-class-edition.php" method="post" <?=(isset($_SESSION['user']) && $_SESSION['user']['type'] == "teacher" && in_array($_SESSION['user']['id'], $teachersIds,true)) ?  "" : 'hidden' ?>>
             <label for="number-usages-code">Nombre d'usages:</label>
             <input  id="number-usages-code" type="number" name="number-usages-code" value="1" min="1" max="67000" step="1">
             <input type="hidden" name="class" value="<?= $class['id'] ?>">
             <input type="submit" name="generate-code-class" value="Créer code">
         </form>
-        <div>
-            <h4>Codes Actifs</h4>
+        <div <?=(isset($_SESSION['user']) && $_SESSION['user']['type'] == "teacher" && in_array($_SESSION['user']['id'], $teachersIds,true)) ?  "" : "hidden" ?>>
+            <h4 <?=(isset($_SESSION['user']) && $_SESSION['user']['type'] == "teacher" && in_array($_SESSION['user']['id'], $teachersIds,true)) ?  "" : "hidden" ?>>Codes Actifs</h4>
             <ul>
                 <?php
                 foreach ($activesClassCodes as $code) { ?>
@@ -86,7 +86,7 @@ foreach ($teachers as $teacher) {
             </ul>
         </div>
     </div>
-    <div>
+    <div <?=(isset($_SESSION['user']) && $_SESSION['user']['type'] == "teacher" && in_array($_SESSION['user']['id'], $teachersIds,true)) ?  "" : "hidden" ?>>
         <?php
         if ($_SESSION['user']['type'] == "teacher" && in_array($_SESSION['user']['id'], $teachersIds,true)) {
             ?>
