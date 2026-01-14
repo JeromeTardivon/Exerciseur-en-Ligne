@@ -368,4 +368,26 @@ class Database
         $result = $statement->fetch();
         return (int)$result['timesec'];
     }
+
+    public function getExerciseTriesLimit($exerciseId): ?int
+    {
+        $statement = $this->getDb()->prepare("SELECT tries FROM exercise WHERE id = :exerciseId");
+        $statement->execute(['exerciseId' => $exerciseId]);
+        $result = $statement->fetch();
+        return $result['tries'] !== null ? (int)$result['tries'] : null;
+    }
+    public function getExerciseAnsDef($exerciseId): int
+    {
+        $statement = $this->getDb()->prepare("SELECT ansdef FROM exercise WHERE id = :exerciseId");
+        $statement->execute(['exerciseId' => $exerciseId]);
+        $result = $statement->fetch();
+        return (int)$result['ansdef'];
+    }
+    public function getExerciseShowAns($exerciseId): int
+    {
+        $statement = $this->getDb()->prepare("SELECT showans FROM exercise WHERE id = :exerciseId");
+        $statement->execute(['exerciseId' => $exerciseId]);
+        $result = $statement->fetch();
+        return (int)$result['showans'];
+    }
 }

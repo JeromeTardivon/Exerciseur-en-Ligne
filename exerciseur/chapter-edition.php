@@ -105,7 +105,7 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
                         <li><h3>Options de réponses</h3></li>
 
                         <li> 
-                            <input id="ansdef" type="checkbox" name="ansdef" value =><label for="ansdef">Réponses définitives? (pas de modification possible après avoir quité la page ou validé la réponse)</label>
+                            <input id="ansdef" type="checkbox" name="ansdef"><label for="ansdef">Réponses définitives? (pas de modification possible après avoir quité la page ou validé la réponse)</label>
                              <!-- only show this input if 'ansdef' checkbox checked -->
                             <input id="showans" type="checkbox" name="showans"><label for="showans">Montrer la réponse après la validation</label>
                         </li>
@@ -196,7 +196,23 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
             document.getElementById("section-title").value="<?php echo $db->getTitleExercise($idExercise); ?>";
             document.getElementById("weight").value="<?php echo $db->getExerciseCoefficient($idExercise); ?>";
             let time ="<?php echo $db->getExerciseTimeLimit($idExercise); ?>";
+            document.getElementById("timelimit-hours").value = Math.floor(time / 3600);
+            document.getElementById("timelimit-minutes").value = Math.floor((time % 3600) / 60);
+            document.getElementById("timelimit-seconds").value = time % 60;
+
+            let triesLimit = "<?php echo $db->getExerciseTriesLimit($idExercise); ?>";
             
+            document.getElementById("tries").checked = (triesLimit != ''); ;
+            document.getElementById("tries-number").value = triesLimit!== null ? triesLimit : '1'; ;
+            
+            let ansdef = "<?php echo $db->getExerciseAnsDef($idExercise); ?>";
+            console.log (ansdef);
+            document.getElementById("ansdef").checked = (ansdef == 1 ); ;
+
+            let showans = "<?php echo $db->getExerciseShowAns($idExercise); ?>";
+            console.log(showans);
+            document.getElementById("showans").checked = (showans == 1 && ansdef == 1); ;
+
             var payload = <?php echo $decoded !== null ? json_encode($decoded, JSON_UNESCAPED_UNICODE) : 'null'; ?>;
             
             //setting localstorage with exercise content so we dont need another function than "loadState()"

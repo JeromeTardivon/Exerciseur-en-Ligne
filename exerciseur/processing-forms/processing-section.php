@@ -22,7 +22,7 @@ if (isset($_POST['content'])&&isset($_POST['weight']) && isset($_POST['timelimit
         $tries_number = null;
     }
 
-    $stmt = $db->prepare("INSERT INTO exercise (coef,title,timesec, tries, ansdef, id_chapter, content, grade) VALUES (:coef, :title, :timesec, :tries, :ansdef, :id_chapter, :content, :grade)");  
+    $stmt = $db->prepare("INSERT INTO exercise (coef,title,timesec, tries, ansdef, id_chapter, content, showans, grade) VALUES (:coef, :title, :timesec, :tries, :ansdef, :id_chapter, :content, :showans, :grade)");  
 
     $stmt->execute([
         ':coef' => $weight,
@@ -32,7 +32,8 @@ if (isset($_POST['content'])&&isset($_POST['weight']) && isset($_POST['timelimit
         ':ansdef' => $ansdef,
         ':id_chapter' => $chapter_id,
         ':content' => $content,
-        ':grade' => $grade
+        ':grade' => $grade,
+        ':showans' => $showans
     ]);
     
 } else {
