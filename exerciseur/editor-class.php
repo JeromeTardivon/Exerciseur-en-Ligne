@@ -16,8 +16,8 @@ $listChapters = $db->getChaptersClass($class['id']);
 
 $studentSearch = $_GET["student-search"] ?? "";
 $teacherSearch = $_GET["teacher-search"] ?? "";
-$listAllStudents = $db->studentSearch($studentSearch, $class["id"]);
-$listAllTeachers = $db->teacherSearch($teacherSearch, $class["id"]);
+$listAllStudents = isset($_GET["student-search"]) ? $db->studentSearch($studentSearch, $class["id"]) : array();
+$listAllTeachers = isset($_GET["teacher-search"]) ? $db->teacherSearch($teacherSearch, $class["id"]) : array();
 ?>
 
 <!DOCTYPE html>
@@ -76,10 +76,7 @@ $listAllTeachers = $db->teacherSearch($teacherSearch, $class["id"]);
         </form>
         <ul>
             <?php
-            $cpt = 0;
             foreach ($listAllTeachers as $teacher) {
-                if ($cpt > 5) break;
-                $cpt += 1;
                 ?>
                 <li>
                     <div>
@@ -123,10 +120,7 @@ $listAllTeachers = $db->teacherSearch($teacherSearch, $class["id"]);
         </form>
         <ul>
             <?php
-            $cpt = 0;
             foreach ($listAllStudents as $student) {
-                if ($cpt > 5) break;
-                $cpt += 1;
                 ?>
                 <li class="">
                     <div>
