@@ -192,9 +192,9 @@ class Database
     }
 
     public function studentSearch($search, $exemptClass) {
-        $statement = $this->getDb()->prepare("SELECT * FROM users u JOIN inclass i ON u.id = i.id_user
-                                             WHERE u.name LIKE concat('%', :search, '%') AND
-                                             i.id_class <> :exemptClass");
+        $statement = $this->getDb()->prepare("SELECT * FROM users u
+                                             WHERE (u.name LIKE concat('%', :search, '%') OR u.surname LIKE concat('%', :search, '%'))
+                                             ORDER BY u.name ASC ");
         $statement->execute([
             "search" => $search,
             "exemptClass" => $exemptClass
@@ -203,12 +203,11 @@ class Database
     }
 
     public function teacherSearch($search, $exemptClass) {
-        $statement = $this->getDb()->prepare("SELECT * FROM users u JOIN inclass i ON u.id = i.id_user
-                                             WHERE u.name LIKE concat('%', :search, '%') AND
-                                             i.id_class <> :exemptClass AND u.type <> 'student'");
+        $statement = $this->getDb()->prepare("SELECT * FROM users u
+                                             WHERE (u.name LIKE concat('%', :search, '%') OR u.surname LIKE concat('%', :search, '%')) AND u.type NOT LIKE 'student'
+                                             ORDER BY u.name ASC");
         $statement->execute([
-            "search" => $search,
-            "exemptClass" => $exemptClass
+            "search" => $search
         ]);
         return $statement->fetchAll();
     }
@@ -322,7 +321,7 @@ class Database
     {
     $command = $this->getDb()->prepare("SELECT title, description, id FROM chapter WHERE 
 
-        (title LIKE concat('%', :title, '%') OR description LIKE concat('%', :title, '%')) AND visible = TRUE ");
+        (title LIKE concat('%', :title, '%') OR description LIKE concat('%', :title, '%')) AND visible = TRUE");
         $command->execute([
             "title" => $word
         ]);

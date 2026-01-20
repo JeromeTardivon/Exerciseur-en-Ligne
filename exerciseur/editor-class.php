@@ -80,7 +80,7 @@ $listAllTeachers = isset($_GET["teacher-search"]) ? $db->teacherSearch($teacherS
                 ?>
                 <li>
                     <div>
-                        <a href="profile.php?id-profil=<?= $teacher['id'] ?>"><?= $teacher['name'] ?></a>
+                        <a href="profile.php?id-profil=<?= $teacher['id'] ?>"><?= $teacher['name'] . " " . $teacher['surname'] ?></a>
                         <form action="/processing-forms/processing-form-class-edition.php" method="post">
                             <input type="hidden" name="add-teacher" value="<?= $teacher['id'] ?>">
                             <input type="hidden" name="class" value="<?= $class['id'] ?>">
@@ -124,7 +124,7 @@ $listAllTeachers = isset($_GET["teacher-search"]) ? $db->teacherSearch($teacherS
                 ?>
                 <li class="">
                     <div>
-                        <a href="profile.php?id-profil=<?= $student['id'] ?>"><?= $student['name'] ?></a>
+                        <a href="profile.php?id-profil=<?= $student['id'] ?>"><?= $student['name'] . " " . $student['surname'] ?></a>
                         <form action="/processing-forms/processing-form-class-edition.php" method="post">
                             <input type="hidden" name="add-student" value="<?= $student['id'] ?>">
                             <input type="hidden" name="class" value="<?= $class['id'] ?>">
