@@ -32,6 +32,7 @@ CREATE TABLE `chapter` (
   `secondstimelimit` int(11) DEFAULT NULL,
   `corrend` int(11) DEFAULT 0,
   `tries` int(11) DEFAULT 0,
+  `weight` int(11) DEFAULT NULL,
   `class` uuid DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
