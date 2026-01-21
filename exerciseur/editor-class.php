@@ -16,8 +16,8 @@ $listChapters = $db->getChaptersClass($class['id']);
 
 $studentSearch = $_GET["student-search"] ?? "";
 $teacherSearch = $_GET["teacher-search"] ?? "";
-$listAllStudents = $db->studentSearch($studentSearch, $class["id"]);
-$listAllTeachers = $db->teacherSearch($teacherSearch, $class["id"]);
+$listAllStudents = isset($_GET["student-search"]) ? $db->studentSearch($studentSearch, $class["id"]) : array();
+$listAllTeachers = isset($_GET["teacher-search"]) ? $db->teacherSearch($teacherSearch, $class["id"]) : array();
 ?>
 
 <!DOCTYPE html>
@@ -76,14 +76,11 @@ $listAllTeachers = $db->teacherSearch($teacherSearch, $class["id"]);
         </form>
         <ul>
             <?php
-            $cpt = 0;
             foreach ($listAllTeachers as $teacher) {
-                if ($cpt > 5) break;
-                $cpt += 1;
                 ?>
                 <li>
                     <div>
-                        <a href="profile.php?id-profil=<?= $teacher['id'] ?>"><?= $teacher['name'] ?></a>
+                        <a href="profile.php?id-profil=<?= $teacher['id'] ?>"><?= $teacher['name'] . " " . $teacher['surname'] ?></a>
                         <form action="/processing-forms/processing-form-class-edition.php" method="post">
                             <input type="hidden" name="add-teacher" value="<?= $teacher['id'] ?>">
                             <input type="hidden" name="class" value="<?= $class['id'] ?>">
@@ -123,14 +120,11 @@ $listAllTeachers = $db->teacherSearch($teacherSearch, $class["id"]);
         </form>
         <ul>
             <?php
-            $cpt = 0;
             foreach ($listAllStudents as $student) {
-                if ($cpt > 5) break;
-                $cpt += 1;
                 ?>
                 <li class="">
                     <div>
-                        <a href="profile.php?id-profil=<?= $student['id'] ?>"><?= $student['name'] ?></a>
+                        <a href="profile.php?id-profil=<?= $student['id'] ?>"><?= $student['name'] . " " . $student['surname'] ?></a>
                         <form action="/processing-forms/processing-form-class-edition.php" method="post">
                             <input type="hidden" name="add-student" value="<?= $student['id'] ?>">
                             <input type="hidden" name="class" value="<?= $class['id'] ?>">
