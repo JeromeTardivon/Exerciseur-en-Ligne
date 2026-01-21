@@ -192,9 +192,12 @@ class Database
     }
 
     public function studentSearch($search, $exemptClass) {
-        $statement = $this->getDb()->prepare("SELECT * FROM users u
+        $statement = $this->getDb()->prepare("(SELECT u.id, u.name, u.surname, u.mail, u.type, u.schoolId FROM users u
                                              WHERE (u.name LIKE concat('%', :search, '%') OR u.surname LIKE concat('%', :search, '%'))
-                                             ORDER BY u.name ASC ");
+                                             EXCEPT
+                                             SELECT u.id, u.name, u.surname, u.mail, u.type, u.schoolId FROM users u JOIN inclass i ON u.id = i.id_user
+                                             WHERE i.id_class = :exemptClass)
+                                             ORDER BY surname ASC");
         $statement->execute([
             "search" => $search,
             "exemptClass" => $exemptClass
@@ -203,11 +206,14 @@ class Database
     }
 
     public function teacherSearch($search, $exemptClass) {
-        $statement = $this->getDb()->prepare("SELECT * FROM users u
+        $statement = $this->getDb()->prepare("(SELECT u.id, u.name, u.surname, u.mail, u.type, u.schoolId FROM users u
                                              WHERE (u.name LIKE concat('%', :search, '%') OR u.surname LIKE concat('%', :search, '%')) AND u.type NOT LIKE 'student'
-                                             ORDER BY u.name ASC");
+                                             EXCEPT
+                                             SELECT u.id, u.name, u.surname, u.mail, u.type, u.schoolId FROM users u JOIN inclass i ON u.id = i.id_user
+                                             WHERE i.id_class = :exemptClass AND u.type NOT LIKE 'student')
+                                             ORDER BY surname ASC");
         $statement->execute([
-            "search" => $search
+            "exemptClass" => $exemptClass
         ]);
         return $statement->fetchAll();
     }
