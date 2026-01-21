@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function(){
         totalGradeDisplay.textContent = "Note totale : " + Math.round(totalGrade * 100) / 100;
     }
 
-    function addGradeField(wrapper, id, name, text, min=0, max=67000, step=0.01, defaultv=0) {
+    function addGradeField(wrapper, id, name, text, defaultv=0, min=-67000, max=67000, step=0.01) {
         const spinner = createSpinner(id, name, min, max, step, defaultv);
         const label = createLabel(text, id);
 
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
         choice.appendChild(cb);
         choice.appendChild(text);
-        addGradeField(choice, `mcq_choice_${index}_grade`, `mcq_choice_${index}_grade`, 'Barème du choix : ', 0, 67000, 0.01, gradeValue);
+        addGradeField(choice, `mcq_choice_${index}_grade`, `mcq_choice_${index}_grade`, 'Barème du choix : ', gradeValue);
         choice.appendChild(remove);
         return choice;
     }
@@ -395,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.appendChild(label);
         wrapper.appendChild(input);
         wrapper.appendChild(remove);
-        addGradeField(wrapper, `truefalse_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', 0, 67000, 0.01, defaultGrade);
+        addGradeField(wrapper, `truefalse_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', defaultGrade, 0);
         container.appendChild(wrapper);
         index++;
         if (!suspendSave) saveState();
@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.appendChild(label);
         wrapper.appendChild(input);
         wrapper.appendChild(remove);
-        addGradeField(wrapper, `openquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', 0, 67000, 0.01, defaultGrade);
+        addGradeField(wrapper, `openquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', defaultGrade, 0);
         container.appendChild(wrapper);
         index++;
         if (!suspendSave) saveState();
@@ -437,7 +437,7 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.appendChild(label);
         wrapper.appendChild(input);
         wrapper.appendChild(remove);
-        addGradeField(wrapper, `numericalquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', 0, 67000, 0.01, defaultGrade);
+        addGradeField(wrapper, `numericalquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', defaultGrade, 0);
         container.appendChild(wrapper);
         index++;
         if (!suspendSave) saveState();
