@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function(){
         const gradeElements = document.querySelectorAll("#inputs input[type='number']");
         gradeElements.forEach((input) => {
             const grade = parseFloat(input.value);
-            if (!isNaN(grade)) {
+            if (!isNaN(grade) && grade >= 0) {
                 totalGrade += grade;
             }
         });
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function(){
         totalGradeDisplay.textContent = "Note totale : " + Math.round(totalGrade * 100) / 100;
     }
 
-    function addGradeField(wrapper, id, name, text, min=0, max=67000, step=0.01, defaultv=0) {
+    function addGradeField(wrapper, id, name, text, defaultv=0, min=-67000, max=67000, step=0.01) {
         const spinner = createSpinner(id, name, min, max, step, defaultv);
         const label = createLabel(text, id);
 
@@ -311,11 +311,6 @@ document.addEventListener('DOMContentLoaded', function(){
         const choice = document.createElement('div');
         choice.className = 'mcq-choice';
 
-        const cb = document.createElement('input');
-        cb.type = 'checkbox';
-        cb.className = 'mcq-choice-checked';
-        cb.checked = !!checked;
-
         const text = document.createElement('input');
         text.type = 'text';
         text.className = 'mcq-choice-text';
@@ -334,9 +329,8 @@ document.addEventListener('DOMContentLoaded', function(){
             if (!suspendSave) saveState();
         });
 
-        choice.appendChild(cb);
         choice.appendChild(text);
-        addGradeField(choice, `mcq_choice_${index}_grade`, `mcq_choice_${index}_grade`, 'Barème du choix : ', 0, 67000, 0.01, gradeValue);
+        addGradeField(choice, `mcq_choice_${index}_grade`, `mcq_choice_${index}_grade`, 'Barème du choix : ', gradeValue);
         choice.appendChild(remove);
         return choice;
     }
@@ -395,7 +389,7 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.appendChild(label);
         wrapper.appendChild(input);
         wrapper.appendChild(remove);
-        addGradeField(wrapper, `truefalse_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', 0, 67000, 0.01, defaultGrade);
+        addGradeField(wrapper, `truefalse_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', defaultGrade, 0);
         container.appendChild(wrapper);
         index++;
         if (!suspendSave) saveState();
@@ -417,7 +411,7 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.appendChild(label);
         wrapper.appendChild(input);
         wrapper.appendChild(remove);
-        addGradeField(wrapper, `openquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', 0, 67000, 0.01, defaultGrade);
+        addGradeField(wrapper, `openquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', defaultGrade, 0);
         container.appendChild(wrapper);
         index++;
         if (!suspendSave) saveState();
@@ -437,7 +431,7 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.appendChild(label);
         wrapper.appendChild(input);
         wrapper.appendChild(remove);
-        addGradeField(wrapper, `numericalquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', 0, 67000, 0.01, defaultGrade);
+        addGradeField(wrapper, `numericalquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', defaultGrade, 0);
         container.appendChild(wrapper);
         index++;
         if (!suspendSave) saveState();
@@ -492,9 +486,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 const choices = wrapper.querySelectorAll('.mcq-choice');
                 choices.forEach((choice, j) => {
                     const txt = choice.querySelector('.mcq-choice-text');
-                    const cb = choice.querySelector('.mcq-choice-checked');
                     if (txt) txt.name = `modules[${i}][choices][${j}][text]`;
-                    if (cb) cb.name = `modules[${i}][choices][${j}][checked]`;
                 });
             } else {
                 // generic fallback: rename first input/textarea as value
@@ -524,9 +516,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 const choices = [];
                 wrapper.querySelectorAll('.mcq-choice').forEach(ch => {
                     const txt = ch.querySelector('.mcq-choice-text');
-                    const cb = ch.querySelector('.mcq-choice-checked');
                     const grade = ch.querySelector(`input[type="number"]`);
-                    choices.push({ text: txt ? txt.value : '', checked: !!(cb && cb.checked), grade: grade.value});
+                    choices.push({ text: txt ? txt.value : '', grade: grade.value});
                 });
                 data.push({ type: 'mcq', question: question, choices: choices });
             } else if (type.startsWith('title') || type === 'text') {
@@ -773,4 +764,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
     
     loadState();
+    calculateTotalGrade();
+    loadPreview();
 });
