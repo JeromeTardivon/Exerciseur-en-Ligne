@@ -395,4 +395,12 @@ class Database
         $result = $statement->fetch();
         return (int)$result['showans'];
     }
+
+    public function getUserByEmail($email)
+    {
+        $statement = $this->getDb()->prepare("SELECT * FROM users WHERE mail = :emailUser");
+        $statement->execute(['emailUser' => $email]);
+        return $statement->fetch();
+
+    }
 }
