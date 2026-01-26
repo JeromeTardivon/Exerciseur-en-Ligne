@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function(){
         const gradeElements = document.querySelectorAll("#inputs input[type='number']");
         gradeElements.forEach((input) => {
             const grade = parseFloat(input.value);
-            if (!isNaN(grade)) {
+            if (!isNaN(grade) && grade >= 0) {
                 totalGrade += grade;
             }
         });
@@ -764,4 +764,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
     
     loadState();
+    calculateTotalGrade();
+    loadPreview();
 });
