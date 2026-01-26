@@ -311,11 +311,6 @@ document.addEventListener('DOMContentLoaded', function(){
         const choice = document.createElement('div');
         choice.className = 'mcq-choice';
 
-        const cb = document.createElement('input');
-        cb.type = 'checkbox';
-        cb.className = 'mcq-choice-checked';
-        cb.checked = !!checked;
-
         const text = document.createElement('input');
         text.type = 'text';
         text.className = 'mcq-choice-text';
@@ -334,7 +329,6 @@ document.addEventListener('DOMContentLoaded', function(){
             if (!suspendSave) saveState();
         });
 
-        choice.appendChild(cb);
         choice.appendChild(text);
         addGradeField(choice, `mcq_choice_${index}_grade`, `mcq_choice_${index}_grade`, 'Barème du choix : ', gradeValue);
         choice.appendChild(remove);
@@ -492,9 +486,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 const choices = wrapper.querySelectorAll('.mcq-choice');
                 choices.forEach((choice, j) => {
                     const txt = choice.querySelector('.mcq-choice-text');
-                    const cb = choice.querySelector('.mcq-choice-checked');
                     if (txt) txt.name = `modules[${i}][choices][${j}][text]`;
-                    if (cb) cb.name = `modules[${i}][choices][${j}][checked]`;
                 });
             } else {
                 // generic fallback: rename first input/textarea as value
@@ -524,9 +516,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 const choices = [];
                 wrapper.querySelectorAll('.mcq-choice').forEach(ch => {
                     const txt = ch.querySelector('.mcq-choice-text');
-                    const cb = ch.querySelector('.mcq-choice-checked');
                     const grade = ch.querySelector(`input[type="number"]`);
-                    choices.push({ text: txt ? txt.value : '', checked: !!(cb && cb.checked), grade: grade.value});
+                    choices.push({ text: txt ? txt.value : '', grade: grade.value});
                 });
                 data.push({ type: 'mcq', question: question, choices: choices });
             } else if (type.startsWith('title') || type === 'text') {
