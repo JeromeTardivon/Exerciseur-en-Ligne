@@ -493,6 +493,14 @@ input[type="search"] {
     flex-direction: row;
 }
 
+:not(#tries[type="checkbox"]:checked) ~ span {
+    display: none;
+}
+
+#tries[type="checkbox"]:checked ~ span {
+    display: flex;
+}
+
 #chapter-creation-aside-1 > div, #chapter-creation-aside-2 form {
     position: sticky;
     top: 2em;
