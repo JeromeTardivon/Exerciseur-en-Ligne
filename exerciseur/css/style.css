@@ -501,6 +501,8 @@ input[type="search"] {
 #chapter-creation-aside-2 form, #add-symbols-btn {
     display: flex;
     flex-direction: column;
+    gap: 10px;
+    width: max-content;
 }
 
 #chapter-creation-aside-2 form > label {
@@ -836,4 +838,19 @@ footer * {
 
 footer > * {
     margin: 0.5%;
+}
+
+#sidebar{
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 30%;
+    height: fit-content;
+    overflow: hidden;
+    transition: 0.6s;
+}
+.columnSideBar{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
