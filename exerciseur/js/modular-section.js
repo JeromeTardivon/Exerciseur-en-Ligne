@@ -622,6 +622,7 @@ document.addEventListener('DOMContentLoaded', function(){
         const wrapper = document.createElement('div');
         const sectionTitle = document.createElement('h1');
         sectionTitle.textContent = document.getElementById('section-title').value || 'Titre de la section';
+        sectionTitle.className = 'section-title';
         reloadMathJax(sectionTitle);
         wrapper.appendChild(sectionTitle);
         
