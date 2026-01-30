@@ -1,11 +1,11 @@
 <?php
 include_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../db/db-connection.php';
-if (isset($_POST['visibility']) && isset($_POST['level-select']) && isset($_POST['class-select']) && isset($_POST['tags_input']) && isset($_POST['title']) && isset($_POST['desc']) && isset($_SESSION['user']) && $_SESSION['user']['type'] === 'teacher') {
+if (isset($_POST['visibility']) && isset($_POST['level-select']) && isset($_POST['class-select']) && isset($_POST['tags-input']) && isset($_POST['title']) && isset($_POST['desc']) && isset($_SESSION['user']) && $_SESSION['user']['type'] === 'teacher'&&isset($_GET['id-chapter'])) {
     $visibility = $_POST['visibility'];
     $level = $_POST['level-select'];
     $class = $_POST['class-select'];
-    $tags = $_POST['tags_input'];
+    //$tags = $_POST['tags_input'];
     $title = $_POST['title'];
     $description = $_POST['desc'];
     $show_correction_end = isset($_POST['correctionend']) && $_POST['correctionend'] == "on" ? 1 : 0;
@@ -42,8 +42,9 @@ if (isset($_POST['visibility']) && isset($_POST['level-select']) && isset($_POST
         $weight= null;
     }
     
+    
     $db->beginTransaction();
-    $db->prepare("INSERT INTO chapter (visible, weight, level, title, description, secondstimelimit, corrend, tries, class) VALUES (:visibility, :weight, :level, :title, :description, :time_limit, :show_correction_end, :max_tries, :class)")
+    $db->prepare("UPDATE chapter SET visible = :visibility, weight = :weight, level = :level, title = :title, description = :description, secondstimelimit = :time_limit, corrend = :show_correction_end, tries = :max_tries, class = :class, updated_at = NOW() WHERE id = :id")
         ->execute([
             'title' => $title,
             'description' => $description,
@@ -54,18 +55,10 @@ if (isset($_POST['visibility']) && isset($_POST['level-select']) && isset($_POST
             'show_correction_end' => $show_correction_end,
             'class' => $class ? $class['id'] : null,
             'weight' => $weight,
+            'id' => $_GET['id-chapter'],
         ]);
-    $statement = $db->prepare("SELECT id FROM chapter ORDER BY created_at DESC LIMIT 1");
-    $statement->execute();
-    if ($chapter = $statement->fetch()) {
-        $db->prepare("INSERT INTO owns (id_user, id_chapter) VALUES (:class_id, :chapter_id)")
-            ->execute([
-                'class_id' => $_SESSION['user']['id'],
-                'chapter_id' => $chapter['id'],
-            ]);
-    }
-    $_SESSION['current_chapter_id'] = $chapter['id'];
+   
     $db->commit();
 }
-header('Location: /section.php');
+header('Location: /modif-selection.php?id-chapter=' . $_GET['id-chapter']);
 exit();
