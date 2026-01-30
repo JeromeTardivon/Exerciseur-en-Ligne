@@ -1,6 +1,6 @@
 let buttonTools = document.getElementById('button-tools')
 let sideBar = document.getElementById('sidebar')
-let showSideBar = false
+let showSideBar = true
 buttonTools.addEventListener("click", function (){
     if (showSideBar){
         sideBar.style.display = "flex"

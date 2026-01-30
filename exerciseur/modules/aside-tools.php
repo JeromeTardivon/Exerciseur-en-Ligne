@@ -1,14 +1,14 @@
 <div class = columnSideBar>
-    <button class="btn" id="button-tools">outils</button>
+    <button  id="button-tools">outils</button>
     <div id="sidebar">
-        <aside id=chapter-creation-aside-1>
+        <aside class="chapter-creation-aside">
             <h2>Outils</h2>
             <div>
                 <div id="add-symbols-btn"></div>
                 <div id="symbols"></div>
             </div>
         </aside>
-        <aside id="chapter-creation-aside-2">
+        <aside class="chapter-creation-aside">
             <h2>Modules</h2>
             <form >
                 <button type="button" id="add-text">Ajouter un champ de texte</button>

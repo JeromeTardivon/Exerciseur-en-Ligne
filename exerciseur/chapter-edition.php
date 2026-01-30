@@ -52,6 +52,7 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
 
         <main id="chapter-creation">
             <?php include 'modules/aside-tools.php' ?>
+
             <form action="processing-forms/processing-exercise-edition.php?id-chapter=<?php echo $_GET['id-chapter']; ?>&exercise-num=<?php echo $_GET['exercise-num']; ?>" method="post" id ="dynamic-form">
 
                 <fieldset>
