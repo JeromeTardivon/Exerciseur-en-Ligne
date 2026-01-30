@@ -8,7 +8,11 @@ $db = Database::getInstance();
 
 $_TITLE = "Classe";
 $class = $db->getClass($_GET['id-class']);
-$listStudents = $db->getStudentsFromClass($class['id']);
+if (empty($_SESSION["user"])){
+    $listStudents = array();
+}else{
+    $listStudents = $db->getStudentsFromClass($class['id']);
+}
 $teachers = $db->getResponsableFromClass($class['id']);
 $activesClassCodes = $db->getClassCodes($class['id']);
 $listChapters = $db->getChaptersClass($class['id']);
@@ -36,7 +40,7 @@ foreach ($teachers as $teacher) {
             <h2>Responsable(s) </h2>
             <?php foreach ($teachers as $teacher) {echo "<h3>".$teacher['name'] . ' ' . $teacher['surname']."</h3>";} ?>
         </div>
-        <div id="class-students" <?= empty($listStudents) ? "hidden" : "" ?>>
+        <div id="class-students" <?= (empty($listStudents) || empty($_SESSION["user"])) ? "style = display:none" : "" ?>>
             <h2>Liste des étudiants inscrite</h2>
             <ul>
                 <?php

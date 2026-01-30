@@ -46,16 +46,20 @@ textarea {
     min-width: 100%;
 }
 
+.section-title {
+    font-size: calc(var(--font-largest)*1.1);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
 *[data-type="title1"]  {
     font-size: var(--font-largest);
     font-weight: bold;
-    text-decoration: underline;
 }
 
 *[data-type="title2"]  {
     font-size: var(--font-larger);
     font-weight: bold;
-    text-decoration: underline;
 }
 
 *[data-type="title3"]  {
@@ -489,6 +493,14 @@ input[type="search"] {
     flex-direction: row;
 }
 
+:not(#tries[type="checkbox"]:checked) ~ span {
+    display: none;
+}
+
+#tries[type="checkbox"]:checked ~ span {
+    display: flex;
+}
+
 #chapter-creation-aside-1 > div, #chapter-creation-aside-2 form {
     position: sticky;
     top: 2em;
@@ -639,6 +651,14 @@ input[type="search"] {
     align-items: center;
     border-radius: var(--radius);
 }
+
+#main-class > section {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
 #class-students {
     width: 30%;
     display: flex;

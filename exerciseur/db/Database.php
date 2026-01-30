@@ -192,9 +192,12 @@ class Database
     }
 
     public function studentSearch($search, $exemptClass) {
-        $statement = $this->getDb()->prepare("SELECT * FROM users u JOIN inclass i ON u.id = i.id_user
-                                             WHERE u.name LIKE concat('%', :search, '%') AND
-                                             i.id_class <> :exemptClass");
+        $statement = $this->getDb()->prepare("(SELECT u.id, u.name, u.surname, u.mail, u.type, u.schoolId FROM users u
+                                             WHERE (u.name LIKE concat('%', :search, '%') OR u.surname LIKE concat('%', :search, '%'))
+                                             EXCEPT
+                                             SELECT u.id, u.name, u.surname, u.mail, u.type, u.schoolId FROM users u JOIN inclass i ON u.id = i.id_user
+                                             WHERE i.id_class = :exemptClass)
+                                             ORDER BY surname ASC");
         $statement->execute([
             "search" => $search,
             "exemptClass" => $exemptClass
@@ -203,11 +206,13 @@ class Database
     }
 
     public function teacherSearch($search, $exemptClass) {
-        $statement = $this->getDb()->prepare("SELECT * FROM users u JOIN inclass i ON u.id = i.id_user
-                                             WHERE u.name LIKE concat('%', :search, '%') AND
-                                             i.id_class <> :exemptClass AND u.type <> 'student'");
+        $statement = $this->getDb()->prepare("(SELECT u.id, u.name, u.surname, u.mail, u.type, u.schoolId FROM users u
+                                             WHERE (u.name LIKE concat('%', :search, '%') OR u.surname LIKE concat('%', :search, '%')) AND u.type NOT LIKE 'student'
+                                             EXCEPT
+                                             SELECT u.id, u.name, u.surname, u.mail, u.type, u.schoolId FROM users u JOIN inclass i ON u.id = i.id_user
+                                             WHERE i.id_class = :exemptClass AND u.type NOT LIKE 'student')
+                                             ORDER BY surname ASC");
         $statement->execute([
-            "search" => $search,
             "exemptClass" => $exemptClass
         ]);
         return $statement->fetchAll();
@@ -322,7 +327,7 @@ class Database
     {
     $command = $this->getDb()->prepare("SELECT title, description, id FROM chapter WHERE 
 
-        (title LIKE concat('%', :title, '%') OR description LIKE concat('%', :title, '%')) AND visible = TRUE ");
+        (title LIKE concat('%', :title, '%') OR description LIKE concat('%', :title, '%')) AND visible = TRUE");
         $command->execute([
             "title" => $word
         ]);
@@ -390,6 +395,7 @@ class Database
         $result = $statement->fetch();
         return (int)$result['showans'];
     }
+  
     public function getChapterVisibility($chapterId): int
     {
         $statement = $this->getDb()->prepare("SELECT visible FROM chapter WHERE id = :chapterId");
@@ -466,5 +472,12 @@ class Database
         $statement->execute(['chapterId' => $chapterId]);
         $result = $statement->fetch();
         return $result['description'];
+    }
+  
+    public function getUserByEmail($email)
+    {
+        $statement = $this->getDb()->prepare("SELECT * FROM users WHERE mail = :emailUser");
+        $statement->execute(['emailUser' => $email]);
+        return $statement->fetch();
     }
 }
