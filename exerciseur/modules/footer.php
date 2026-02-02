@@ -1,5 +1,5 @@
     <footer>
-        <p>Copyright © - Tous droit réservés</p>
+        <p>Copyright © - Tous droits réservés</p>
         
         <div>
             <h3>
