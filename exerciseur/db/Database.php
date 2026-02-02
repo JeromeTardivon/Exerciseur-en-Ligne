@@ -395,12 +395,89 @@ class Database
         $result = $statement->fetch();
         return (int)$result['showans'];
     }
+  
+    public function getChapterVisibility($chapterId): int
+    {
+        $statement = $this->getDb()->prepare("SELECT visible FROM chapter WHERE id = :chapterId");
+        $statement->execute(['chapterId' => $chapterId]);
+        $result = $statement->fetch();
+        return (int)$result['visible'];
+    }
 
+    public function getChapterLevel($chapterId): int
+    {
+        $statement = $this->getDb()->prepare("SELECT level FROM chapter WHERE id = :chapterId");
+        $statement->execute(['chapterId' => $chapterId]);
+        $result = $statement->fetch();
+        return (int)$result['level'];
+    }
+
+    public function getChapterTimeLimit($chapterId): ?int
+    {
+        $statement = $this->getDb()->prepare("SELECT secondstimelimit FROM chapter WHERE id = :chapterId");
+        $statement->execute(['chapterId' => $chapterId]);
+        $result = $statement->fetch();
+        return $result['secondstimelimit'] !== null ? (int)$result['secondstimelimit'] : null;
+    }
+
+    public function getChapterClass($chapterId): string
+    {
+        $statement = $this->getDb()->prepare("SELECT class FROM chapter WHERE id = :chapterId");
+        $statement->execute(['chapterId' => $chapterId]);
+        $result = $statement->fetch();
+        return $result['class'];
+    }
+
+    public function getClassName($classId): string
+    {
+        $statement = $this->getDb()->prepare("SELECT name FROM class WHERE id = :classId");
+        $statement->execute(['classId' => $classId]);
+        $result = $statement->fetch();
+        return $result['name'];
+    }
+
+    public function getChapterWeight($chapterId): ?int
+    {
+        $statement = $this->getDb()->prepare("SELECT weight FROM chapter WHERE id = :chapterId");
+        $statement->execute(['chapterId' => $chapterId]);
+        $result = $statement->fetch();
+        return $result['weight'] == null||$result['weight']=='' ?  null : $result['weight'];
+    }
+
+    public function getChapterTries($chapterId): ?int
+    {
+        $statement = $this->getDb()->prepare("SELECT tries FROM chapter WHERE id = :chapterId");
+        $statement->execute(['chapterId' => $chapterId]);
+        $result = $statement->fetch();
+        return $result['tries'] == null||$result['tries']=='' ?  null : $result['tries'];
+    }
+
+    public function getChapterCorrend($chapterId): int
+    {
+        $statement = $this->getDb()->prepare("SELECT corrend FROM chapter WHERE id = :chapterId");
+        $statement->execute(['chapterId' => $chapterId]);
+        $result = $statement->fetch();
+        return (int)$result['corrend'];
+    }
+    public function getChapterTitle($chapterId): string
+    {
+        $statement = $this->getDb()->prepare("SELECT title FROM chapter WHERE id = :chapterId");
+        $statement->execute(['chapterId' => $chapterId]);
+        $result = $statement->fetch();
+        return $result['title'];
+    }
+    public function getChapterDescription($chapterId): string
+    {
+        $statement = $this->getDb()->prepare("SELECT description FROM chapter WHERE id = :chapterId");
+        $statement->execute(['chapterId' => $chapterId]);
+        $result = $statement->fetch();
+        return $result['description'];
+    }
+  
     public function getUserByEmail($email)
     {
         $statement = $this->getDb()->prepare("SELECT * FROM users WHERE mail = :emailUser");
         $statement->execute(['emailUser' => $email]);
         return $statement->fetch();
-
     }
 }

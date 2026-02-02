@@ -35,28 +35,29 @@ $classes = $db->getClasses($_SESSION["user"]["id"]);
                     <label for="level-select">Choisissez le niveau du chapitre</label>
                     <select name="level-select" id="level-select">
                         <option value="0">Non spécifié</option>
-                        <option value="10">Primaire</option>
-                        <option value="11">CE1</option>
-                        <option value="12">CE2</option>
-                        <option value="13">CM1</option>
-                        <option value="14">CM2</option>
-                        <option value="20">Collège</option>
-                        <option value="21">Sixième</option>
-                        <option value="22">Cinquième</option>
-                        <option value="23">Quatrième</option>
-                        <option value="24">Troisième</option>
-                        <option value="30">Lycée</option>
-                        <option value="31">Seconde</option>
-                        <option value="32">Première</option>
-                        <option value="33">Terminale</option>
-                        <option value="40">Etudes Supérieures</option>
+                        <option value="1">Primaire</option>
+                        <option value="2">CE1</option>
+                        <option value="3">CE2</option>
+                        <option value="4">CM1</option>
+                        <option value="5">CM2</option>
+                        <option value="6">Collège</option>
+                        <option value="7">Sixième</option>
+                        <option value="8">Cinquième</option>
+                        <option value="9">Quatrième</option>
+                        <option value="10">Troisième</option>
+                        <option value="11">Lycée</option>
+                        <option value="12">Seconde</option>
+                        <option value="13">Première</option>
+                        <option value="14">Terminale</option>
+                        <option value="15">Etudes Supérieures</option>
                     </select>
                 </li>
 
                 <li><h3>Limite de temps</h3></li>
 
                 <li><input id='timelimit' type="checkbox" name="timelimit"><label for='timelimit'>Ajouter une limite de
-                        temps</label></li>
+                        temps</label>
+                </li>
                 <li>
                     <div id="timelimit-box"> <!-- hide everything in this span if checkbox not checked -->
                         <label for="timelimit-hours" class="visually-hidden">Heures</label>
@@ -82,11 +83,10 @@ $classes = $db->getClasses($_SESSION["user"]["id"]);
                 </li>
                 <li>
                     <div id="grade-options"><!-- only show this span if a class is selected -->
-                        <input id="graded" type="checkbox" name="graded" value="3"><label for="graded">Noter ce
-                            chapitre?</label>
+                        <input id="graded" type="checkbox" name="graded" ><label for="graded">Noter ce chapitre?</label>
                         <div id="coefficient-box"> <!-- only show this span if 'graded' checkbox checked -->
                             <label for="grade-weight">Coefficient:</label>
-                            <input id="grade-weight" name="grade_weight" type="number" min="1" max="100" step="1"
+                            <input id="grade-weight" name="grade-weight" type="number" min="1" max="100" step="1"
                                    value="1">
                         </div>
                     </div>
