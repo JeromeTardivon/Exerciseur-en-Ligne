@@ -105,7 +105,7 @@ class ElementsBtn {
             this.btn.style.color = "red";
             this.displayDiv.appendChild(div);
             
-            reloadMathJax(div);
+            await reloadMathJax(div);
             
             this.addElementsBtnActivated = true;
         } else {
@@ -118,13 +118,13 @@ class ElementsBtn {
     }
 }
 
-function reloadMathJax(elem) {
+async function reloadMathJax(elem) {
     if (!window.MathJax) return;
 
     // ensure MathJax has finished loading before invoking typesetting
     if (MathJax.startup && MathJax.startup.promise) {
         try {
-            MathJax.startup.promise;
+            await MathJax.startup.promise;
         } catch (err) {
             // ignore startup promise errors and continue
             console.warn('MathJax startup.promise rejected:', err);
@@ -133,7 +133,7 @@ function reloadMathJax(elem) {
 
     if (MathJax.typesetPromise) {
         try {
-            MathJax.typesetPromise([elem]);
+            await MathJax.typesetPromise([elem]);
         } catch (err) {
             // gracefully handle MathJax errors
             console.error('MathJax typesetPromise error:', err);

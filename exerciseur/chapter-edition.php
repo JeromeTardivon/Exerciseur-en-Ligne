@@ -53,6 +53,7 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
         <main id="chapter-creation">
             <?php include 'modules/aside-tools.php' ?>
 
+
             <form action="processing-forms/processing-exercise-edition.php?id-chapter=<?php echo $_GET['id-chapter']; ?>&exercise-num=<?php echo $_GET['exercise-num']; ?>" method="post" id ="dynamic-form">
 
                 <fieldset>
@@ -106,8 +107,6 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
 
                 <fieldset>
                     <legend>Création de la section</legend>
-
-                    
                     <ul>
                         <li>
                             <label for="total-grade" id="total-grade-display">Note totale : ?</label>
@@ -128,17 +127,15 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
                     </ul>   
                     
                 </fieldset>
+                <button type="submit" id="accept-changes">Enregistrer les modifications</button>
+                <button type="submit" id="cancel-changes">Annuler les modifications</button>
+                </form>
+            <form>
                 <fieldset>
                     <legend>Aperçu de l'exercice (point de vue d'un élève)</legend>
                     <div id="previews"></div>
                 </fieldset>
-
-                <button type="submit" id="accept-changes">Enregistrer les modifications</button>
-                <button type="submit" id="cancel-changes">Annuler les modifications</button>
-
-                </form>
-
-
+            </form>
         </main>
 
         <!-- footer -->
@@ -155,7 +152,7 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
 
         <script type="text/javascript" src="js/math-symbol.js"></script>
         <script type=text/javascript src="js/modular-section.js"></script>
-        <script type=text/javascript src="js/chapter-edition-behavior.js"></script>
+        <script type=text/javascript src="js/sidebar-tools-behavior.js"></script>
         <script>
 
             //Sets up all the needed data and parameters
