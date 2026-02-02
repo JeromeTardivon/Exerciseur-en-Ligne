@@ -3,7 +3,8 @@
 document.addEventListener('DOMContentLoaded', function(){
     const container = document.getElementById('inputs');
     const previewContainer = document.getElementById('previews');
-
+    
+    
     document.getElementById('section-title').addEventListener('input', loadPreview);
     document.getElementById('section-title').addEventListener('click', loadPreview);
 
@@ -617,7 +618,8 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     function loadPreview(){
-        saveState(false);
+        try{ saveState(false); }catch(e){console.warn('Could not save state before preview load :', e);}
+        
         previewContainer.innerHTML = '';
         const wrapper = document.createElement('div');
         const sectionTitle = document.createElement('h1');

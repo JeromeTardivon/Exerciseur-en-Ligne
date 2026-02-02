@@ -59,7 +59,7 @@ foreach ($teachers as $teacher) {
             foreach ($listChapters as $chapter) { ?>
                 <li class="">
                     <div>
-                        <a href="chapter.php?id-chapter=<?= $chapter['id'] ?>"><?= $chapter['title'] ?></a>
+                        <a href="exercise.php?id-chapter=<?= $chapter['id'] ?>&exercise-num=1"><?= $chapter['title'] ?></a>
                         <p><?=$chapter['description']?></p>
                     </div>
                 </li>
