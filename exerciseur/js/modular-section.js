@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function(){
     
     function createUpDownArrows(container, wrap, upFunction, downFunction){
         const wrapper = document.createElement('div');
-        wrapper.class = 'up-down-arrows';
+        wrapper.className = 'up-down-arrows';
 
         const upBtn = document.createElement('button');
         upBtn.type = 'button';
@@ -259,6 +259,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     container.insertBefore(wrap, prev)
                     renumber();
                     saveState();
+                    loadPreview();
                 }
             });
 
@@ -271,6 +272,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     container.insertBefore(next, wrap)
                     renumber();
                     saveState();
+                    loadPreview();
                 }
             });
 
