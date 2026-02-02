@@ -24,21 +24,8 @@ $_POST['content']='';
         <!-- nav -->
         <?php include 'modules/header.php' ?>
 
-        <main id="chapter-creation">     
-            <aside id=chapter-creation-aside-1>
-                <h2>Outils</h2>
-                <div>
-                    <div id="add-symbols-btn">
-    
-                    </div>
-    
-                    <div id="symbols">
-    
-                    </div>
-                </div>
-            </aside>
-
-
+        <main id="chapter-creation">
+            <?php include 'modules/aside-tools.php' ?>
             <form action="processing-forms/processing-section.php" method="post" id ="dynamic-form">
 
                 <fieldset>
@@ -114,40 +101,15 @@ $_POST['content']='';
                     </ul>   
                     
                 </fieldset>
+                <button type="submit" id="save-section">Enregistrer la section et continuer</button>
+                <button type="submit" id="save-section-end">Enregistrer la section et terminer le chapitre</button>
+                </form>
+            <form>
                 <fieldset>
                     <legend>Aperçu de l'exercice (point de vue d'un élève)</legend>
                     <div id="previews"></div>
                 </fieldset>
-
-                <button type="submit" id="save-section">Enregistrer la section et continuer</button>
-                <button type="submit" id="save-section-end">Enregistrer la section et terminer le chapitre</button>
-
-                </form>
-
-            <aside id="chapter-creation-aside-2">
-               <h2>Modules</h2>
-               
-                <form >
-                    <button type="button" id="add-text">Ajouter un champ de texte</button>
-                    
-
-                    <!-- show buttons if the span is clicked (and change image)-->
-                    <input type="checkbox" id="dropdown" hidden/>
-                    <label for="dropdown">Titres <img src="Arrow-down.svg" alt="arrow" width="5px" height="5px"></label> 
-                    <div>
-                        <button type="button" id="add-title-1">Ajouter un titre 1</button>
-                        <button type="button" id="add-title-2">Ajouter un titre 2</button>
-                        <button type="button" id="add-title-3">Ajouter un titre 3</button>
-                        <button type="button" id="add-title-4">Ajouter un titre 4</button>
-                        <button type="button" id="add-title-5">Ajouter un titre 5</button>
-                    </div>
-                    <button type="button" id="add-multiple-choice">Ajouter une question QCM</button>
-                    <button type="button" id="add-true-false">Ajouter une question Vrai/Faux</button>
-                    <button type="button" id="add-open-question">Ajouter une question à réponse ouverte</button>
-                    <button type="button" id="add-numerical-question">Ajouter une question numérique</button>
-                    <button type="button" id="add-hint">Ajouter un indice</button>
-                </form>
-            </aside>
+            </form>
         </main>
 
         <!-- footer -->
@@ -164,5 +126,6 @@ $_POST['content']='';
 
         <script type="text/javascript" src="js/math-symbol.js"></script>
         <script type=text/javascript src="js/modular-section.js"></script>
+        <script type=text/javascript src="js/sidebar-tools-behavior.js"></script>
     </body>
 </html>
