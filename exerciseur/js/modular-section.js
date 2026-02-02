@@ -1,14 +1,10 @@
-
-
 document.addEventListener('DOMContentLoaded', function(){
     const container = document.getElementById('inputs');
     const previewContainer = document.getElementById('previews');
     
-    
     document.getElementById('section-title').addEventListener('input', loadPreview);
     document.getElementById('section-title').addEventListener('click', loadPreview);
 
-    
     const addTextBtn = document.getElementById('add-text');
     const addTitle1Btn = document.getElementById('add-title-1');
     const addTitle2Btn = document.getElementById('add-title-2');
@@ -21,14 +17,11 @@ document.addEventListener('DOMContentLoaded', function(){
     const addMultipleChoiceBtn = document.getElementById('add-multiple-choice');
     const addHintBtn = document.getElementById('add-hint');
 
-
     function updateHintBtnState(){
         if(document.getElementById('tries')&&document.getElementById('tries').checked==true&&(document.getElementById('tries-number')&&document.getElementById('tries-number').value<2)){
-
             addHintBtn.setAttribute('disabled','true');
         }else{
             addHintBtn.removeAttribute('disabled');
-            
         }
     }
 
@@ -36,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function(){
     document.getElementById('tries-number').addEventListener('click', updateHintBtnState);
     document.getElementById('tries').addEventListener('input', updateHintBtnState);
     document.getElementById('tries').addEventListener('click', updateHintBtnState);
-
 
     if(document.getElementById('save-section')&&document.getElementById('save-section-end')){
 
@@ -87,18 +79,10 @@ document.addEventListener('DOMContentLoaded', function(){
     const form = document.getElementById('dynamic-form');
     const output = document.getElementById('output');
 
-    
     let index = 0;
-    
     
     let suspendSave = false;
     
-    
-    
-
-    
-
-
     function createWrapper(type){
         const wrapper = document.createElement('div');
         
@@ -157,9 +141,6 @@ document.addEventListener('DOMContentLoaded', function(){
             saveState();
             loadPreview();
         });
-        
-        
-
         return remove;
     }
 
@@ -247,8 +228,6 @@ document.addEventListener('DOMContentLoaded', function(){
         return checkbox;
     }
     
-
-    
     function addTextField(defaultv = "") {
         const wrapper = createWrapper('text');
         const id = `modules_${index}_value`;
@@ -307,7 +286,6 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 
-    
     function createMCQChoice(defaultText = '', checked = false, gradeValue = 0) {
         const choice = document.createElement('div');
         choice.className = 'mcq-choice';
@@ -374,7 +352,6 @@ document.addEventListener('DOMContentLoaded', function(){
         index++;
         if (!suspendSave) saveState();
 
-        
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
@@ -397,10 +374,7 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
-        
     }
-
-    
 
     function addOpenQuestionField(defaultv = "", defaultGrade = 0) {
         const wrapper = createWrapper('openquestion');
@@ -419,7 +393,6 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
-        
     }
 
     function addNumericalQuestionField(defaultv = "", defaultGrade = 0) {
@@ -439,7 +412,6 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
-
     }
 
     //Redo the id of inputs to keep modules[0], modules[1], ...
@@ -500,6 +472,7 @@ document.addEventListener('DOMContentLoaded', function(){
         });
         index = modules.length;
     }
+
     //saves the state of modules to keep them after page refresh
     function saveState(fullSave=true) {
         
@@ -536,7 +509,6 @@ document.addEventListener('DOMContentLoaded', function(){
             }
         });
 
-        
         try {
             localStorage.setItem('dynamicModules', JSON.stringify(data));
             if(fullSave){   
@@ -556,7 +528,6 @@ document.addEventListener('DOMContentLoaded', function(){
                     }
                     hidden.value = payload;
                     
-                    
                 } else {
                     console.warn('saveState(true) called but form element not found; cannot attach content input');
                 }
@@ -564,7 +535,6 @@ document.addEventListener('DOMContentLoaded', function(){
         } catch (e) {
             console.warn('localStorage unavailable:', e);
         }
-        
     }
     //loads the saved state of modules including their content
     function loadState() {
@@ -603,8 +573,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 } else {
                     console.warn('Unsupported module type during load:', item.type);
                 }
-                
-                
+            
                 // set the stored semantic type on the wrapper so saveState captures it
                 const last = container.lastElementChild;
                 if (last) last.dataset.type = item.type || 'text';
@@ -628,7 +597,6 @@ document.addEventListener('DOMContentLoaded', function(){
         reloadMathJax(sectionTitle);
         wrapper.appendChild(sectionTitle);
         
-
         try {
             const raw = localStorage.getItem('dynamicModules');
             if (!raw) return;
@@ -665,7 +633,6 @@ document.addEventListener('DOMContentLoaded', function(){
                         label.textContent = choice.text || '';
                         label.setAttribute('for', cb.id);
                         
-
                         choiceDiv.appendChild(cb);
                         choiceDiv.appendChild(label);
                         mcqElem.appendChild(choiceDiv);
@@ -697,7 +664,6 @@ document.addEventListener('DOMContentLoaded', function(){
                     const falseLabel = document.createElement('label');
                     falseLabel.setAttribute('for', 'falseradio');
                     falseLabel.textContent = 'Faux';
-
 
                     trueFalseElem.appendChild(falseradio);
                     trueFalseElem.appendChild(falseLabel);
@@ -738,19 +704,13 @@ document.addEventListener('DOMContentLoaded', function(){
                 } else {
                     console.warn('Unsupported module type during load:', item.type);
                 }
-                
-                
-                
             }
-
         );
             previewContainer.appendChild(wrapper);
-            
-            
+
         }catch (e) {
             console.warn('Failed to load saved modules:', e);
         }
-        
     }
 
     addTextBtn.addEventListener('click', ()=> addTextField());
@@ -765,7 +725,6 @@ document.addEventListener('DOMContentLoaded', function(){
     addMultipleChoiceBtn.addEventListener('click', ()=> addMultipleChoiceField());
     addHintBtn.addEventListener('click', ()=> addHintField());
 
-    
     loadState();
     calculateTotalGrade();
     loadPreview();
