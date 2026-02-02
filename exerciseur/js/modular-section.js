@@ -246,6 +246,41 @@ document.addEventListener('DOMContentLoaded', function(){
         return checkbox;
     }
     
+    function createUpDownArrows(container, wrap, upFunction, downFunction){
+        const wrapper = document.createElement('div');
+        wrapper.className = 'up-down-arrows';
+
+        const upBtn = document.createElement('button');
+        upBtn.type = 'button';
+        upBtn.innerHTML = '⬆️';
+        upBtn.addEventListener('click', () => {
+                const prev = wrap.previousElementSibling;
+                if (prev) {
+                    container.insertBefore(wrap, prev)
+                    renumber();
+                    saveState();
+                    loadPreview();
+                }
+            });
+
+        const downBtn = document.createElement('button');
+        downBtn.type = 'button';
+        downBtn.innerHTML = '⬇️';
+        downBtn.addEventListener('click', () => {
+                const next = wrap.nextElementSibling;
+                if (next) {
+                    container.insertBefore(next, wrap)
+                    renumber();
+                    saveState();
+                    loadPreview();
+                }
+            });
+
+        wrapper.appendChild(upBtn);
+        wrapper.appendChild(downBtn);
+
+        return wrapper;
+    }
 
     
     function addTextField(defaultv = "") {
@@ -264,6 +299,8 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
+
+        wrapper.appendChild(createUpDownArrows(container, wrapper));
     }
 
     function addTitleField(defaultv = "", size = 5) {
@@ -283,6 +320,8 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
+
+        wrapper.appendChild(createUpDownArrows(container, wrapper));
     }
 
     function addHintField(defaultv = "", defaultnum = 0) {
@@ -304,6 +343,8 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
+
+        wrapper.appendChild(createUpDownArrows(container, wrapper));
     }
 
     
@@ -377,6 +418,8 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
+
+        wrapper.appendChild(createUpDownArrows(container, wrapper));
     }
 
     function addTrueFalseField(defaultv = "", defaultGrade = 0) {
@@ -397,6 +440,7 @@ document.addEventListener('DOMContentLoaded', function(){
             if (!suspendSave) saveState();
         });
         
+        wrapper.appendChild(createUpDownArrows(container, wrapper));
     }
 
     
@@ -419,6 +463,7 @@ document.addEventListener('DOMContentLoaded', function(){
             if (!suspendSave) saveState();
         });
         
+        wrapper.appendChild(createUpDownArrows(container, wrapper));
     }
 
     function addNumericalQuestionField(defaultv = "", defaultGrade = 0) {
@@ -439,6 +484,7 @@ document.addEventListener('DOMContentLoaded', function(){
             if (!suspendSave) saveState();
         });
 
+        wrapper.appendChild(createUpDownArrows(container, wrapper));
     }
 
     //Redo the id of inputs to keep modules[0], modules[1], ...
