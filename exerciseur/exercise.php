@@ -31,6 +31,23 @@ if (!empty($content)) {
     $decoded = json_decode($content, true);
     
 }
+
+if (is_array($decoded)) {
+    foreach ($decoded as &$module) {
+        if (isset($module['type']) && $module['type'] === 'mcq' && isset($module['choices']) && is_array($module['choices'])) {
+            // For MCQ modules, delete the 'grade' field from each option
+            foreach ($module['choices'] as &$choice) {
+                if (isset($choice['grade'])) {
+                    unset($choice['grade']);
+                }
+            }
+            
+        } else if (isset($module['grade'])) {
+            unset($module['grade']);
+        }
+    }
+    unset($module);
+}
 $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num']);
 ?>
 

@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', function(){
     exerciseContainer = document.getElementById('exercise-container');
 
+    
 
-    function loadPreview(){
+
+    function loadExercise(){
         //try{ saveState(false); }catch(e){console.warn('Could not save state before preview load :', e);}
         
         exerciseContainer.innerHTML = '';
@@ -129,6 +131,6 @@ document.addEventListener('DOMContentLoaded', function(){
             console.warn('Failed to load saved modules:', e);
         }
     }
-    loadPreview();
+    loadExercise();
 
 });
