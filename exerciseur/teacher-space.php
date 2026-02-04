@@ -102,6 +102,9 @@ include 'modules/include.php' ?>
 </main>
 
 <?php include 'modules/footer.php' ?>
+    <script> //reseting localstorage in case we come from the 'go back' button (<--)
+        localStorage.removeItem('dynamicModules');
+    </script>
 
 </body>
 
