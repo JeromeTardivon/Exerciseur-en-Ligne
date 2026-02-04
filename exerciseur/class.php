@@ -101,6 +101,9 @@ foreach ($teachers as $teacher) {
 
 
 <!-- footer -->
-<?php include 'modules/footer.php' ?>
+    <?php include 'modules/footer.php' ?>
+    <script> //reseting localstorage in case we come from the 'go back' button (<--)
+        localStorage.removeItem('dynamicModules');
+    </script>
 </body>
 </html>
