@@ -92,7 +92,7 @@ textarea {
 }
 
 .btn:active {
-    background-color: rgba(141, 63, 18, 0.801);
+    background-color: #011a24;
 }
 
 header {
@@ -600,7 +600,7 @@ input[type="search"] {
 }
 
 #main-contact a:visited, #main-about a:visited {
-    color:rgba(141, 63, 18, 0.801);
+    color:var(--dark-blue-color);
 }
 
 #main-contact ul {
