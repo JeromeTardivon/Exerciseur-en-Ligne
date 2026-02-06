@@ -33,6 +33,8 @@ if (!empty($content)) {
 }
 
 if (is_array($decoded)) {
+
+//setting up the json to be used in practice mode (removing grades and answers from localstorage as well as adding empty answers)
     foreach ($decoded as &$module) {
         if (isset($module['type']) && $module['type'] === 'mcq' && isset($module['choices']) && is_array($module['choices'])) {
             // For MCQ modules, delete the 'grade' field from each option
@@ -40,10 +42,36 @@ if (is_array($decoded)) {
                 if (isset($choice['grade'])) {
                     unset($choice['grade']);
                 }
+                if(!isset($choice['answer'])) {
+                    $choice['answer'] = null;
+                }
             }
             
-        } else if (isset($module['grade'])) {
-            unset($module['grade']);
+        } else if (isset($module['type']) && $module['type'] === 'truefalse') {
+            if(isset($module['grade'])) {
+                unset($module['grade']);
+            }
+            if(isset($module['answer'])) {
+                unset($module['answer']);
+            }
+        }else if (isset($module['type']) && $module['type'] === 'numericalquestion') {
+            if (isset($module['grade'])) {
+                unset($module['grade']);
+            }
+            if (!isset($module['answerjustification'])) {
+                $module['answer'] = '';
+            }
+            if (!isset($module['answernumber'])) {
+                $module['answernumber'] = 0;
+            }
+
+        }else{
+            if (isset($module['grade'])) {
+                unset($module['grade']);
+            }
+            if (!isset($module['answer'])) {
+                $module['answer'] = '';
+            }
         }
     }
     unset($module);
