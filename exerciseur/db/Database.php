@@ -58,7 +58,7 @@ class Database
     }
     public function getClass($idClass)
     {
-        $statement = $this->getDb()->prepare("SELECT * FROM class WHERE id = :id");
+        $statement = $this->getDb()->prepare("SELECT * FROM classe WHERE id = :id");
         $statement->execute(['id' => $idClass]);
         return $statement->fetch();
     }
@@ -220,7 +220,7 @@ class Database
 
     public function classSearchFromTeacher($teacherId, $search) {
         $listClasses = array();
-        $statement = $this->getDb()->prepare("SELECT * FROM inclass i JOIN class c ON i.id_class = c.id
+        $statement = $this->getDb()->prepare("SELECT * FROM inclass i JOIN classe c ON i.id_class = c.id
                                              WHERE id_user LIKE '$teacherId' AND c.name LIKE concat('%', :search, '%')");
 
         $statement->execute([
@@ -317,7 +317,7 @@ class Database
     public function searchClassByTitleDesc($word): array
 
     {
-        $command = $this->getDb()->prepare("SELECT name, id FROM class WHERE name LIKE concat('%', :title, '%')");
+        $command = $this->getDb()->prepare("SELECT name, id FROM classe WHERE name LIKE concat('%', :title, '%')");
         $command->execute([
             "title" => $word
         ]);
@@ -430,7 +430,7 @@ class Database
 
     public function getClassName($classId): string
     {
-        $statement = $this->getDb()->prepare("SELECT name FROM class WHERE id = :classId");
+        $statement = $this->getDb()->prepare("SELECT name FROM classe WHERE id = :classId");
         $statement->execute(['classId' => $classId]);
         $result = $statement->fetch();
         return $result['name'];
