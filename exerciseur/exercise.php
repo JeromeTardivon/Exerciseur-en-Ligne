@@ -42,6 +42,7 @@ if (is_array($decoded)) {
                 if (isset($choice['grade'])) {
                     unset($choice['grade']);
                 }
+                
                 if(!isset($choice['answer'])) {
                     $choice['answer'] = null;
                 }
@@ -51,12 +52,18 @@ if (is_array($decoded)) {
             if(isset($module['grade'])) {
                 unset($module['grade']);
             }
+            if (isset($module['answerProf'])) {
+                unset($module['answerProf']);
+            }
             if(isset($module['answer'])) {
                 unset($module['answer']);
             }
         }else if (isset($module['type']) && $module['type'] === 'numericalquestion') {
             if (isset($module['grade'])) {
                 unset($module['grade']);
+            }
+            if (isset($module['answerProf'])) {
+                unset($module['answerProf']);
             }
             if (!isset($module['answerjustification'])) {
                 $module['answer'] = '';
@@ -73,6 +80,9 @@ if (is_array($decoded)) {
         }else{
             if (isset($module['grade'])) {
                 unset($module['grade']);
+            }
+            if (isset($module['answerProf'])) {
+                unset($module['answerProf']);
             }
             if (!isset($module['answer'])) {
                 $module['answer'] = '';
