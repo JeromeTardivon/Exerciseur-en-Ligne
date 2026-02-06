@@ -218,6 +218,24 @@ document.addEventListener('DOMContentLoaded', function(){
         return spinner;
     }
 
+    function addAnswerField(wrapper, type, id, name, text, defaultv = false) {
+        const answerLabel = createLabel(text, name);
+        answer = null;
+        if (type == "spinner") {
+            answer = createSpinner(id, name, -2147483647, 2147483646, 0.000001, defaultv);
+        } else if (type == "text") {
+            answer = createInput('text', id, 'Réponse', defaultv, name);
+        }
+        
+        if (!suspendSave) saveState();
+        answer.addEventListener('change', () => {
+            if (!answer) saveState();
+        });
+
+        wrapper.appendChild(answerLabel);
+        wrapper.appendChild(answer);
+    }
+
     function createCheckbox(id, name, defaultv = false){
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -376,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 
-    function addOpenQuestionField(defaultv = "", defaultGrade = 0) {
+    function addOpenQuestionField(defaultv = "", defaultGrade = 0, defaultAnswer = "") {
         const wrapper = createWrapper('openquestion');
         const id = `modules_${index}_value`;
         //name usable server side (modules[0][value], modules[1][value], ...)
@@ -385,6 +403,7 @@ document.addEventListener('DOMContentLoaded', function(){
         const remove = createRemove(wrapper);
         wrapper.appendChild(label);
         wrapper.appendChild(input);
+        addAnswerField(wrapper, "text", `modules_${index}_answer`, `modules[${index}][answer]`, 'Réponse : ', defaultAnswer);
         wrapper.appendChild(remove);
         addGradeField(wrapper, `openquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', defaultGrade, 0);
         container.appendChild(wrapper);
@@ -395,15 +414,17 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 
-    function addNumericalQuestionField(defaultv = "", defaultGrade = 0) {
+    function addNumericalQuestionField(defaultv = "", defaultGrade = 0, defaultAnswer = 0) {
         const wrapper = createWrapper('numericalquestion');
         const id = `modules_${index}_value`;
         //name usable server side (modules[0][value], modules[1][value], ...)
         const input = createTextarea(id, "Entrez la question numérique ici", defaultv,`modules[${index}][value]`);
         const label = createLabel("Question numérique : ", id);
         const remove = createRemove(wrapper);
+
         wrapper.appendChild(label);
         wrapper.appendChild(input);
+        addAnswerField(wrapper, "spinner", `modules_${index}_numerical_answer`, `modules[${index}][numerical_answer]`, 'Réponse : ', defaultAnswer);
         wrapper.appendChild(remove);
         addGradeField(wrapper, `numericalquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', defaultGrade, 0);
         container.appendChild(wrapper);
@@ -494,11 +515,21 @@ document.addEventListener('DOMContentLoaded', function(){
                     choices.push({ text: txt ? txt.value : '', grade: grade.value});
                 });
                 data.push({ type: 'mcq', question: question, choices: choices });
+            } else if (type === 'numericalquestion') {
+                const valueInput = wrapper.querySelector('input, textarea');
+                const grade = wrapper.querySelector(`input[type="number"][name$="[grade]"]`);
+                const answer = wrapper.querySelector(`input[type="number"][name$="[numerical_answer]"]`);
+                data.push({ type: type, value: valueInput ? valueInput.value : '', grade: grade.value, answerProf: answer ? answer.value : 0 });
+            } else if (type === 'openquestion') {
+                const valueInput = wrapper.querySelector('input, textarea');
+                const grade = wrapper.querySelector(`input[type="number"][name$="[grade]"]`);
+                const answer = wrapper.querySelector(`input[type="text"][name$="[answer]"]`);
+                data.push({ type: type, value: valueInput ? valueInput.value : '', grade: grade.value, answerProf: answer ? answer.value : "" });
             } else if (type.startsWith('title') || type === 'text') {
                 const valueInput = wrapper.querySelector('input, textarea');
                 const grade = wrapper.querySelector(`input[type="number"]`);
                 data.push({ type: type, value: valueInput ? valueInput.value : '' });
-            } else if (type === 'truefalse' || type === 'openquestion' || type === 'numericalquestion') {
+            } else if (type === 'truefalse' ) {
                 const valueInput = wrapper.querySelector('input, textarea');
                 const grade = wrapper.querySelector(`input[type="number"]`);
                 data.push({ type: type, value: valueInput ? valueInput.value : '', grade: grade.value });
@@ -565,10 +596,10 @@ document.addEventListener('DOMContentLoaded', function(){
                     addTrueFalseField(item.value || '', item.grade || 0);
 
                 } else if (item.type === 'openquestion') {
-                    addOpenQuestionField(item.value || '', item.grade || 0);
+                    addOpenQuestionField(item.value || '', item.grade || 0, item.answerProf || '');
 
                 } else if (item.type === 'numericalquestion') {
-                    addNumericalQuestionField(item.value || '', item.grade || 0);
+                    addNumericalQuestionField(item.value || '', item.grade || 0, item.answerProf || 0);
 
                 } else {
                     console.warn('Unsupported module type during load:', item.type);

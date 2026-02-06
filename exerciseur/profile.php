@@ -64,7 +64,7 @@ include 'modules/include.php'; ?>
                         <p>
                             <strong>Adresse mail : </strong>
 
-                            <?= $_SESSION['user']['mail'] ?>
+                            <?= $_SESSION['user']['email'] ?>
                         </p>
                     </li>
                 </ul>
