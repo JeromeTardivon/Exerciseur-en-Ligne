@@ -1,13 +1,10 @@
-
-
 document.addEventListener('DOMContentLoaded', function(){
     const container = document.getElementById('inputs');
     const previewContainer = document.getElementById('previews');
-
+    
     document.getElementById('section-title').addEventListener('input', loadPreview);
     document.getElementById('section-title').addEventListener('click', loadPreview);
 
-    
     const addTextBtn = document.getElementById('add-text');
     const addTitle1Btn = document.getElementById('add-title-1');
     const addTitle2Btn = document.getElementById('add-title-2');
@@ -20,14 +17,11 @@ document.addEventListener('DOMContentLoaded', function(){
     const addMultipleChoiceBtn = document.getElementById('add-multiple-choice');
     const addHintBtn = document.getElementById('add-hint');
 
-
     function updateHintBtnState(){
         if(document.getElementById('tries')&&document.getElementById('tries').checked==true&&(document.getElementById('tries-number')&&document.getElementById('tries-number').value<2)){
-
             addHintBtn.setAttribute('disabled','true');
         }else{
             addHintBtn.removeAttribute('disabled');
-            
         }
     }
 
@@ -35,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function(){
     document.getElementById('tries-number').addEventListener('click', updateHintBtnState);
     document.getElementById('tries').addEventListener('input', updateHintBtnState);
     document.getElementById('tries').addEventListener('click', updateHintBtnState);
-
 
     if(document.getElementById('save-section')&&document.getElementById('save-section-end')){
 
@@ -86,18 +79,10 @@ document.addEventListener('DOMContentLoaded', function(){
     const form = document.getElementById('dynamic-form');
     const output = document.getElementById('output');
 
-    
     let index = 0;
-    
     
     let suspendSave = false;
     
-    
-    
-
-    
-
-
     function createWrapper(type){
         const wrapper = document.createElement('div');
         
@@ -156,9 +141,6 @@ document.addEventListener('DOMContentLoaded', function(){
             saveState();
             loadPreview();
         });
-        
-        
-
         return remove;
     }
 
@@ -234,6 +216,24 @@ document.addEventListener('DOMContentLoaded', function(){
         spinner.value = defaultv;
         
         return spinner;
+    }
+
+    function addAnswerField(wrapper, type, id, name, text, defaultv = false) {
+        const answerLabel = createLabel(text, name);
+        answer = null;
+        if (type == "spinner") {
+            answer = createSpinner(id, name, -2147483647, 2147483646, 0.000001, defaultv);
+        } else if (type == "text") {
+            answer = createInput('text', id, 'Réponse', defaultv, name);
+        }
+        
+        if (!suspendSave) saveState();
+        answer.addEventListener('change', () => {
+            if (!answer) saveState();
+        });
+
+        wrapper.appendChild(answerLabel);
+        wrapper.appendChild(answer);
     }
 
     function createCheckbox(id, name, defaultv = false){
@@ -347,7 +347,6 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.appendChild(createUpDownArrows(container, wrapper));
     }
 
-    
     function createMCQChoice(defaultText = '', checked = false, gradeValue = 0) {
         const choice = document.createElement('div');
         choice.className = 'mcq-choice';
@@ -414,7 +413,6 @@ document.addEventListener('DOMContentLoaded', function(){
         index++;
         if (!suspendSave) saveState();
 
-        
         wrapper.addEventListener('input', () => {
             if (!suspendSave) saveState();
         });
@@ -443,9 +441,7 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.appendChild(createUpDownArrows(container, wrapper));
     }
 
-    
-
-    function addOpenQuestionField(defaultv = "", defaultGrade = 0) {
+    function addOpenQuestionField(defaultv = "", defaultGrade = 0, defaultAnswer = "") {
         const wrapper = createWrapper('openquestion');
         const id = `modules_${index}_value`;
         //name usable server side (modules[0][value], modules[1][value], ...)
@@ -454,6 +450,7 @@ document.addEventListener('DOMContentLoaded', function(){
         const remove = createRemove(wrapper);
         wrapper.appendChild(label);
         wrapper.appendChild(input);
+        addAnswerField(wrapper, "text", `modules_${index}_answer`, `modules[${index}][answer]`, 'Réponse : ', defaultAnswer);
         wrapper.appendChild(remove);
         addGradeField(wrapper, `openquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', defaultGrade, 0);
         container.appendChild(wrapper);
@@ -466,15 +463,17 @@ document.addEventListener('DOMContentLoaded', function(){
         wrapper.appendChild(createUpDownArrows(container, wrapper));
     }
 
-    function addNumericalQuestionField(defaultv = "", defaultGrade = 0) {
+    function addNumericalQuestionField(defaultv = "", defaultGrade = 0, defaultAnswer = 0) {
         const wrapper = createWrapper('numericalquestion');
         const id = `modules_${index}_value`;
         //name usable server side (modules[0][value], modules[1][value], ...)
         const input = createTextarea(id, "Entrez la question numérique ici", defaultv,`modules[${index}][value]`);
         const label = createLabel("Question numérique : ", id);
         const remove = createRemove(wrapper);
+
         wrapper.appendChild(label);
         wrapper.appendChild(input);
+        addAnswerField(wrapper, "spinner", `modules_${index}_numerical_answer`, `modules[${index}][numerical_answer]`, 'Réponse : ', defaultAnswer);
         wrapper.appendChild(remove);
         addGradeField(wrapper, `numericalquestion_${index}_grade`, `modules[${index}][grade]`, 'Barème de la question : ', defaultGrade, 0);
         container.appendChild(wrapper);
@@ -545,6 +544,7 @@ document.addEventListener('DOMContentLoaded', function(){
         });
         index = modules.length;
     }
+
     //saves the state of modules to keep them after page refresh
     function saveState(fullSave=true) {
         
@@ -566,11 +566,21 @@ document.addEventListener('DOMContentLoaded', function(){
                     choices.push({ text: txt ? txt.value : '', grade: grade.value});
                 });
                 data.push({ type: 'mcq', question: question, choices: choices });
+            } else if (type === 'numericalquestion') {
+                const valueInput = wrapper.querySelector('input, textarea');
+                const grade = wrapper.querySelector(`input[type="number"][name$="[grade]"]`);
+                const answer = wrapper.querySelector(`input[type="number"][name$="[numerical_answer]"]`);
+                data.push({ type: type, value: valueInput ? valueInput.value : '', grade: grade.value, answerProf: answer ? answer.value : 0 });
+            } else if (type === 'openquestion') {
+                const valueInput = wrapper.querySelector('input, textarea');
+                const grade = wrapper.querySelector(`input[type="number"][name$="[grade]"]`);
+                const answer = wrapper.querySelector(`input[type="text"][name$="[answer]"]`);
+                data.push({ type: type, value: valueInput ? valueInput.value : '', grade: grade.value, answerProf: answer ? answer.value : "" });
             } else if (type.startsWith('title') || type === 'text') {
                 const valueInput = wrapper.querySelector('input, textarea');
                 const grade = wrapper.querySelector(`input[type="number"]`);
                 data.push({ type: type, value: valueInput ? valueInput.value : '' });
-            } else if (type === 'truefalse' || type === 'openquestion' || type === 'numericalquestion') {
+            } else if (type === 'truefalse' ) {
                 const valueInput = wrapper.querySelector('input, textarea');
                 const grade = wrapper.querySelector(`input[type="number"]`);
                 data.push({ type: type, value: valueInput ? valueInput.value : '', grade: grade.value });
@@ -581,7 +591,6 @@ document.addEventListener('DOMContentLoaded', function(){
             }
         });
 
-        
         try {
             localStorage.setItem('dynamicModules', JSON.stringify(data));
             if(fullSave){   
@@ -601,7 +610,6 @@ document.addEventListener('DOMContentLoaded', function(){
                     }
                     hidden.value = payload;
                     
-                    
                 } else {
                     console.warn('saveState(true) called but form element not found; cannot attach content input');
                 }
@@ -609,7 +617,6 @@ document.addEventListener('DOMContentLoaded', function(){
         } catch (e) {
             console.warn('localStorage unavailable:', e);
         }
-        
     }
     //loads the saved state of modules including their content
     function loadState() {
@@ -640,16 +647,15 @@ document.addEventListener('DOMContentLoaded', function(){
                     addTrueFalseField(item.value || '', item.grade || 0);
 
                 } else if (item.type === 'openquestion') {
-                    addOpenQuestionField(item.value || '', item.grade || 0);
+                    addOpenQuestionField(item.value || '', item.grade || 0, item.answerProf || '');
 
                 } else if (item.type === 'numericalquestion') {
-                    addNumericalQuestionField(item.value || '', item.grade || 0);
+                    addNumericalQuestionField(item.value || '', item.grade || 0, item.answerProf || 0);
 
                 } else {
                     console.warn('Unsupported module type during load:', item.type);
                 }
-                
-                
+            
                 // set the stored semantic type on the wrapper so saveState captures it
                 const last = container.lastElementChild;
                 if (last) last.dataset.type = item.type || 'text';
@@ -663,7 +669,8 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     function loadPreview(){
-        saveState(false);
+        try{ saveState(false); }catch(e){console.warn('Could not save state before preview load :', e);}
+        
         previewContainer.innerHTML = '';
         const wrapper = document.createElement('div');
         const sectionTitle = document.createElement('h1');
@@ -672,7 +679,6 @@ document.addEventListener('DOMContentLoaded', function(){
         reloadMathJax(sectionTitle);
         wrapper.appendChild(sectionTitle);
         
-
         try {
             const raw = localStorage.getItem('dynamicModules');
             if (!raw) return;
@@ -709,7 +715,6 @@ document.addEventListener('DOMContentLoaded', function(){
                         label.textContent = choice.text || '';
                         label.setAttribute('for', cb.id);
                         
-
                         choiceDiv.appendChild(cb);
                         choiceDiv.appendChild(label);
                         mcqElem.appendChild(choiceDiv);
@@ -741,7 +746,6 @@ document.addEventListener('DOMContentLoaded', function(){
                     const falseLabel = document.createElement('label');
                     falseLabel.setAttribute('for', 'falseradio');
                     falseLabel.textContent = 'Faux';
-
 
                     trueFalseElem.appendChild(falseradio);
                     trueFalseElem.appendChild(falseLabel);
@@ -782,19 +786,13 @@ document.addEventListener('DOMContentLoaded', function(){
                 } else {
                     console.warn('Unsupported module type during load:', item.type);
                 }
-                
-                
-                
             }
-
         );
             previewContainer.appendChild(wrapper);
-            
-            
+
         }catch (e) {
             console.warn('Failed to load saved modules:', e);
         }
-        
     }
 
     addTextBtn.addEventListener('click', ()=> addTextField());
@@ -809,7 +807,6 @@ document.addEventListener('DOMContentLoaded', function(){
     addMultipleChoiceBtn.addEventListener('click', ()=> addMultipleChoiceField());
     addHintBtn.addEventListener('click', ()=> addHintField());
 
-    
     loadState();
     calculateTotalGrade();
     loadPreview();

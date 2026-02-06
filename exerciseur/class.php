@@ -59,7 +59,7 @@ foreach ($teachers as $teacher) {
             foreach ($listChapters as $chapter) { ?>
                 <li class="">
                     <div>
-                        <a href="chapter.php?id-chapter=<?= $chapter['id'] ?>"><?= $chapter['title'] ?></a>
+                        <a href="exercise.php?id-chapter=<?= $chapter['id'] ?>&exercise-num=1"><?= $chapter['title'] ?></a>
                         <p><?=$chapter['description']?></p>
                     </div>
                 </li>
@@ -101,6 +101,9 @@ foreach ($teachers as $teacher) {
 
 
 <!-- footer -->
-<?php include 'modules/footer.php' ?>
+    <?php include 'modules/footer.php' ?>
+    <script> //reseting localstorage in case we come from the 'go back' button (<--)
+        localStorage.removeItem('dynamicModules');
+    </script>
 </body>
 </html>

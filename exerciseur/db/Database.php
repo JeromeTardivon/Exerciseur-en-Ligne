@@ -192,10 +192,10 @@ class Database
     }
 
     public function studentSearch($search, $exemptClass) {
-        $statement = $this->getDb()->prepare("(SELECT u.id, u.name, u.surname, u.mail, u.type, u.schoolId FROM users u
+        $statement = $this->getDb()->prepare("(SELECT u.id, u.name, u.surname, u.email, u.type, u.schoolId FROM users u
                                              WHERE (u.name LIKE concat('%', :search, '%') OR u.surname LIKE concat('%', :search, '%'))
                                              EXCEPT
-                                             SELECT u.id, u.name, u.surname, u.mail, u.type, u.schoolId FROM users u JOIN inclass i ON u.id = i.id_user
+                                             SELECT u.id, u.name, u.surname, u.email, u.type, u.schoolId FROM users u JOIN inclass i ON u.id = i.id_user
                                              WHERE i.id_class = :exemptClass)
                                              ORDER BY surname ASC");
         $statement->execute([
@@ -206,10 +206,10 @@ class Database
     }
 
     public function teacherSearch($search, $exemptClass) {
-        $statement = $this->getDb()->prepare("(SELECT u.id, u.name, u.surname, u.mail, u.type, u.schoolId FROM users u
+        $statement = $this->getDb()->prepare("(SELECT u.id, u.name, u.surname, u.email, u.type, u.schoolId FROM users u
                                              WHERE (u.name LIKE concat('%', :search, '%') OR u.surname LIKE concat('%', :search, '%')) AND u.type NOT LIKE 'student'
                                              EXCEPT
-                                             SELECT u.id, u.name, u.surname, u.mail, u.type, u.schoolId FROM users u JOIN inclass i ON u.id = i.id_user
+                                             SELECT u.id, u.name, u.surname, u.email, u.type, u.schoolId FROM users u JOIN inclass i ON u.id = i.id_user
                                              WHERE i.id_class = :exemptClass AND u.type NOT LIKE 'student')
                                              ORDER BY surname ASC");
         $statement->execute([
@@ -245,7 +245,7 @@ class Database
 
     public function createUser($lastname, $name, $email, $password, $type, $userSchoolId, $teacherCode): void
     {
-        $statement = $this->getDb()->prepare("SELECT mail FROM users s WHERE s.mail LIKE :email");
+        $statement = $this->getDb()->prepare("SELECT email FROM users s WHERE s.email LIKE :email");
         $statement->execute(['email' => $email]);
         $user = $statement->fetch();
         if (!$user) {
@@ -258,12 +258,12 @@ class Database
                     $this->getDb()->beginTransaction();
                     $statement =  $this->getDb()->prepare("DELETE FROM codes_class WHERE code = :code");
                     $statement->execute(['code' => $code['code']]);
-                    $statement =  $this->getDb()->prepare("INSERT INTO users (name, surname, mail, password, type, schoolId) VALUES (:lastname, :surName, :email, :password, :type, :schoolId)");
+                    $statement =  $this->getDb()->prepare("INSERT INTO users (name, surname, email, password, type, schoolId) VALUES (:lastname, :surName, :email, :password, :type, :schoolId)");
                     $statement->execute(['email' => $email, 'lastname' => $lastname, 'surName' => $name, 'password' => password_hash($password, PASSWORD_DEFAULT), 'type' => $type, 'schoolId' => $userSchoolId]);
                     $this->getDb()->commit();
                 }
             } else {
-                $statement =  $this->getDb()->prepare("INSERT INTO users (name, surname, mail, password, type, schoolId) VALUES (:lastname, :surName, :email, :password, :type, :schoolId)");
+                $statement =  $this->getDb()->prepare("INSERT INTO users (name, surname, email, password, type, schoolId) VALUES (:lastname, :surName, :email, :password, :type, :schoolId)");
                 $statement->execute(['email' => $email, 'lastname' => $lastname, 'surName' => $name, 'password' => password_hash($password, PASSWORD_DEFAULT), 'type' => $type, 'schoolId' => $userSchoolId]);
             }
         }
@@ -476,7 +476,7 @@ class Database
   
     public function getUserByEmail($email)
     {
-        $statement = $this->getDb()->prepare("SELECT * FROM users WHERE mail = :emailUser");
+        $statement = $this->getDb()->prepare("SELECT * FROM users WHERE email = :emailUser");
         $statement->execute(['emailUser' => $email]);
         return $statement->fetch();
     }
