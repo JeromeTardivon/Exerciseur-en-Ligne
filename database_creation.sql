@@ -7,7 +7,7 @@ CREATE TABLE users (
   id uuid PRIMARY KEY DEFAULT SYS_GUID(),
   name varchar(50),
   surname varchar (50),
-  mail varchar(100) NOT NULL UNIQUE,
+  email varchar(100) NOT NULL UNIQUE,
   password text NOT NULL,
   type varchar(20) NOT NULL DEFAULT 'student',
   schoolId varchar(15),
@@ -16,7 +16,7 @@ CREATE TABLE users (
 );
 
 
-CREATE TABLE class(
+CREATE TABLE classe(
   id uuid PRIMARY KEY DEFAULT SYS_GUID(),
   name varchar(100) NOT NULL,
   created_at timestamp NOT NULL DEFAULT now(),
