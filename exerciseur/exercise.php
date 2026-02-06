@@ -65,6 +65,11 @@ if (is_array($decoded)) {
                 $module['answernumber'] = 0;
             }
 
+        }else if (isset($module['type']) && $module['type'] === 'hint') {
+            //shouldnt be necessary but just in case (the case needs to be there but should work empty as hints shouldnt have grades)
+            /*//*/if (isset($module['grade'])) {
+            /*//*/    unset($module['grade']);
+            /*//*/}
         }else{
             if (isset($module['grade'])) {
                 unset($module['grade']);
