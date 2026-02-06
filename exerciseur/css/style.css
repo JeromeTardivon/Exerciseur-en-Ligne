@@ -6,9 +6,9 @@
 }
 
 body {
-    --main-color: #bc8034;
-    --secondary-color: #e2c391;
-    --dark-blue-color: #272D2D;
+    --main-color:#F1ECCE ;
+    --secondary-color: #A5D8FF;
+    --dark-blue-color: #022F40;
     --font-white-color: #ffffff;
     --font-largest: 60px;
     --font-larger: 50px;
@@ -92,7 +92,7 @@ textarea {
 }
 
 .btn:active {
-    background-color: rgba(141, 63, 18, 0.801);
+    background-color: #011a24;
 }
 
 header {
@@ -434,23 +434,16 @@ input[type="search"] {
     background-color: var(--secondary-color);
     border-radius: var(--radius);
     padding: 1%;
-    margin: 2%;
+    margin: 2% 2% 2% 0.5%;
 }
 
-#chapter-creation > aside {
-    width: 20%;
-}
-
-#chapter-creation > aside > ul > * {
-    margin-bottom: 2%;
-}
 
 #chapter-creation > form, #chapter > form {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 2%;
-    width: 70%;
+    width: 90%;
 }
 
 #chapter-creation > form * {
@@ -492,7 +485,6 @@ input[type="search"] {
     display: flex;
     flex-direction: row;
 }
-
 :not(#tries[type="checkbox"]:checked) ~ span {
     display: none;
 }
@@ -501,43 +493,37 @@ input[type="search"] {
     display: flex;
 }
 
-#chapter-creation-aside-1 > div, #chapter-creation-aside-2 form {
-    position: sticky;
+.chapter-creation-aside > form {
+    display: flex;
+    flex-direction: column;
     top: 2em;
 }
 
-#chapter-creation-aside-2 form, #add-symbols-btn {
+.chapter-creation-aside{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
-
-#chapter-creation-aside-2 form > label {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-#chapter-creation-aside-2 img {
+.chapter-creation-aside img {
     height: 15px;
     width: 15px;
 }
 
-#chapter-creation-aside-2 form :not(input[type="checkbox"]:checked) ~ div {
+.chapter-creation-aside form :not(input[type="checkbox"]:checked) ~ div {
     display: none;
 }
 
-#chapter-creation-aside-2 form input[type="checkbox"]:checked ~ div {
+.chapter-creation-aside form input[type="checkbox"]:checked ~ div {
     display: flex;
     flex-direction: column;
 }
 
-#chapter-creation-aside-2 form :not(input[type="checkbox"]:checked) ~ label img {
+.chapter-creation-aside form :not(input[type="checkbox"]:checked) ~ label img {
     transform: rotateX(180deg);
     transition: transform 0.75s ease;
 
 }
-#chapter-creation-aside-2 form input[type="checkbox"]:checked ~ label img {
+.chapter-creation-aside form input[type="checkbox"]:checked ~ label img {
     transform: rotateX(0deg);
     transition: transform 0.75s ease;
 }
@@ -614,7 +600,7 @@ input[type="search"] {
 }
 
 #main-contact a:visited, #main-about a:visited {
-    color:rgba(141, 63, 18, 0.801);
+    color:var(--dark-blue-color);
 }
 
 #main-contact ul {
@@ -852,4 +838,33 @@ footer * {
 
 footer > * {
     margin: 0.5%;
+}
+
+#sidebar{
+    float: left;
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    max-height: 100vh;
+    transition: 0.6s;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.columnSideBar{
+    display: flex;
+    height: 5%;
+    max-height: 100vh;
+    max-width: 15%;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 0;
+}
+#add-symbols-btn{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5%;
+}
+#add-symbols-btn > *{
+    margin-block: 0.5%;
 }
