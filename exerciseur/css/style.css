@@ -485,6 +485,13 @@ input[type="search"] {
     display: flex;
     flex-direction: row;
 }
+
+#chapter-creation .module {
+    border-top: 2px solid var(--dark-blue-color);
+    border-bottom: 2px solid var(--dark-blue-color);
+    padding: 1em 0em;
+}
+
 :not(#tries[type="checkbox"]:checked) ~ span {
     display: none;
 }
