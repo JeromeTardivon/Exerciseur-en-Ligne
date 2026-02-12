@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 } else if (item.type === 'mcq') {
                     const mcqElem = document.createElement('div');
+                    mcqElem.className = 'module';
                     mcqElem.innerHTML = item.question || '';
                     reloadMathJax(mcqElem);
                     let iterator = '0';
@@ -60,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 } else if (item.type === 'truefalse') {
                     const trueFalseElem = document.createElement('div');
+                    trueFalseElem.className = 'module';
                     const q = document.createElement('p');
                     q.innerHTML = item.value || '';
                     reloadMathJax(q);
@@ -91,17 +93,19 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 } else if (item.type === 'openquestion') {
                     const openElem = document.createElement('div');
+                    openElem.className = 'module';
                     openElem.innerHTML = item.value || '';
                     reloadMathJax(openElem);
                     const answerInput = document.createElement('textarea');
                     answerInput.setAttribute('name', 'openanswerpreview');
                     answerInput.setAttribute('placeholder', 'Votre réponse ici');
                     answerInput.setAttribute('id', 'openanswerpreview');
+                    openElem.appendChild(answerInput);
                     wrapper.appendChild(openElem);
-                    wrapper.appendChild(answerInput);
 
                 } else if (item.type === 'numericalquestion') {
                     numericalElem = document.createElement('div');
+                    numericalElem.className = 'module';
                     numericalElem.innerHTML = item.value || '';
                     reloadMathJax(numericalElem);
                     const justifinput = document.createElement('textarea');
@@ -114,9 +118,9 @@ document.addEventListener('DOMContentLoaded', function(){
                     answerInput.setAttribute('placeholder', 'Votre réponse ici');
                     answerInput.setAttribute('id', 'numericalanswerpreview');
                     answerInput.setAttribute('step', '0.001');
+                    numericalElem.appendChild(justifinput);
+                    numericalElem.appendChild(answerInput);
                     wrapper.appendChild(numericalElem);
-                    wrapper.appendChild(justifinput);
-                    wrapper.appendChild(answerInput);
 
                 } else if(item.type === 'hint'){
                     // hints are not shown in preview
@@ -131,6 +135,53 @@ document.addEventListener('DOMContentLoaded', function(){
             console.warn('Failed to load saved modules:', e);
         }
     }
+
+
     loadExercise();
 
+    function saveAnswer(){
+        let modulNum=0;
+        let answeredExercise=localStorage.getItem('dynamicModules');
+        answeredExercise = JSON.parse(answeredExercise);
+
+        exerciseContainer.querySelectorAll('.module').forEach(module => {
+            if(module.dataset.type === 'mcq') {
+
+                module.querySelectorAll('input[type="checkbox"]').forEach((cb, index) => {
+                    const isChecked = cb.checked;
+                    
+                    answeredExercise[modulNum].choices[index].answer = isChecked;
+                });
+
+
+            } else if(module.dataset.type === 'truefalse'){
+
+                if (module.querySelector('input[type="radio"][name="truefalseanswer"]:checked')?.nextSibling.textContent.trim() === 'Vrai') {
+                    answeredExercise[modulNum].answer = true;
+                } else if(module.querySelector('input[type="radio"][name="truefalseanswer"]:checked')?.nextSibling.textContent.trim() === 'Faux') {
+                    answeredExercise[modulNum].answer = false;
+                }else {
+                    answeredExercise[modulNum].answer = null; 
+                }
+                
+                
+            } else if(module.dataset.type === 'openquestion'){
+                answeredExercise[modulNum].answer = module.querySelector('textarea[name="openanswerpreview"]').value.trim();
+
+
+            } else if(module.dataset.type === 'numericalquestion'){
+                answeredExercise[modulNum].answernumber = parseFloat(module.querySelector('input[name="numericalanswerpreview"]').value);
+                answeredExercise[modulNum].answer = module.querySelector('textarea[name="justifpreview"]').value.trim();
+
+            }
+            modulNum++;
+        });
+        localStorage.setItem('UserAnswer', JSON.stringify(answeredExercise));
+
+    }
+
+    
+
+    
+    document.getElementById("validate-answers").addEventListener("click", saveAnswer);
 });
