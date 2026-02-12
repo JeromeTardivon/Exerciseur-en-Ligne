@@ -40,11 +40,13 @@ document.addEventListener('DOMContentLoaded', function(){
                     const mcqElem = document.createElement('div');
                     mcqElem.className = 'module';
                     mcqElem.innerHTML = item.question || '';
+                    mcqElem.dataset.type = 'mcq';
                     reloadMathJax(mcqElem);
                     let iterator = '0';
                     for (const choice of item.choices || []) {
                         const choiceDiv = document.createElement('div');
                         const cb = document.createElement('input');
+                        cb.addEventListener('change',saveAnswer);
                         cb.type = 'checkbox';
                         cb.setAttribute('id', 'mcqpreview_'.concat(iterator));
                         iterator++;
@@ -62,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 } else if (item.type === 'truefalse') {
                     const trueFalseElem = document.createElement('div');
                     trueFalseElem.className = 'module';
+                    trueFalseElem.dataset.type = 'truefalse';
                     const q = document.createElement('p');
                     q.innerHTML = item.value || '';
                     reloadMathJax(q);
@@ -70,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     const trueradio = document.createElement('input');
                     trueradio.type = 'radio';
                     trueradio.name = 'truefalseanswer';
+                    trueradio.addEventListener('change',saveAnswer);
 
                     const trueLabel = document.createElement('label');
                     trueLabel.setAttribute('for', 'trueradio');
@@ -81,6 +85,8 @@ document.addEventListener('DOMContentLoaded', function(){
                     const falseradio = document.createElement('input');
                     falseradio.type = 'radio';
                     falseradio.name = 'truefalseanswer';
+                    falseradio.addEventListener('change',saveAnswer);
+                    
                     
                     const falseLabel = document.createElement('label');
                     falseLabel.setAttribute('for', 'falseradio');
@@ -95,11 +101,13 @@ document.addEventListener('DOMContentLoaded', function(){
                     const openElem = document.createElement('div');
                     openElem.className = 'module';
                     openElem.innerHTML = item.value || '';
+                    openElem.dataset.type = 'openquestion';
                     reloadMathJax(openElem);
                     const answerInput = document.createElement('textarea');
                     answerInput.setAttribute('name', 'openanswerpreview');
                     answerInput.setAttribute('placeholder', 'Votre réponse ici');
                     answerInput.setAttribute('id', 'openanswerpreview');
+                    answerInput.addEventListener('input', saveAnswer);
                     openElem.appendChild(answerInput);
                     wrapper.appendChild(openElem);
 
@@ -107,17 +115,20 @@ document.addEventListener('DOMContentLoaded', function(){
                     numericalElem = document.createElement('div');
                     numericalElem.className = 'module';
                     numericalElem.innerHTML = item.value || '';
+                    numericalElem.dataset.type = 'numericalquestion';
                     reloadMathJax(numericalElem);
                     const justifinput = document.createElement('textarea');
                     justifinput.setAttribute('name', 'justifpreview');
                     justifinput.setAttribute('placeholder', 'Justification (si demandée)');
                     justifinput.setAttribute('id', 'justifpreview');
+                    justifinput.addEventListener('input', saveAnswer);
                     const answerInput = document.createElement('input');
                     answerInput.type = 'number';
                     answerInput.setAttribute('name', 'numericalanswerpreview');
                     answerInput.setAttribute('placeholder', 'Votre réponse ici');
                     answerInput.setAttribute('id', 'numericalanswerpreview');
                     answerInput.setAttribute('step', '0.001');
+                    answerInput.addEventListener('input', saveAnswer);
                     numericalElem.appendChild(justifinput);
                     numericalElem.appendChild(answerInput);
                     wrapper.appendChild(numericalElem);
@@ -140,6 +151,7 @@ document.addEventListener('DOMContentLoaded', function(){
     loadExercise();
 
     function saveAnswer(){
+        
         let modulNum=0;
         let answeredExercise=localStorage.getItem('dynamicModules');
         answeredExercise = JSON.parse(answeredExercise);
@@ -155,6 +167,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
             } else if(module.dataset.type === 'truefalse'){
+                
 
                 if (module.querySelector('input[type="radio"][name="truefalseanswer"]:checked')?.nextSibling.textContent.trim() === 'Vrai') {
                     answeredExercise[modulNum].answer = true;
@@ -176,12 +189,13 @@ document.addEventListener('DOMContentLoaded', function(){
             }
             modulNum++;
         });
-        localStorage.setItem('UserAnswer', JSON.stringify(answeredExercise));
+        
 
     }
 
     
 
+    
     
     document.getElementById("validate-answers").addEventListener("click", saveAnswer);
 });
