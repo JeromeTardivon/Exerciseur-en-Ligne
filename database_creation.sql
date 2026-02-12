@@ -16,14 +16,14 @@ CREATE TABLE users (
 );
 
 
-CREATE TABLE classe(
+CREATE TABLE classses(
   id uuid PRIMARY KEY DEFAULT SYS_GUID(),
   name varchar(100) NOT NULL,
   created_at timestamp NOT NULL DEFAULT now(),
   updated_at timestamp NOT NULL DEFAULT now()
 );
 
-CREATE TABLE `chapter` (
+CREATE TABLE `chapters` (
   `id` uuid NOT NULL DEFAULT sys_guid(),
   `visible` tinyint(1) NOT NULL DEFAULT 1,
   `level` int(11) NOT NULL DEFAULT 0,
@@ -39,7 +39,7 @@ CREATE TABLE `chapter` (
   PRIMARY KEY (`id`)
 )
 
-CREATE TABLE `exercise` (
+CREATE TABLE `exercises` (
   `id` uuid NOT NULL DEFAULT sys_guid(),
   `title` varchar(100) DEFAULT NULL,
   `random` tinyint(1) NOT NULL DEFAULT 0,
@@ -59,7 +59,7 @@ CREATE TABLE `exercise` (
   CONSTRAINT `FK_exercise__chapter` FOREIGN KEY (`id_chapter`) REFERENCES `chapter` (`id`)
 )
 
-CREATE TABLE inclass(
+CREATE TABLE users_classses(
   id_user uuid NOT NULL,
   id_class uuid NOT NULL,
   responsible BOOLEAN NOT NULL DEFAULT false,
@@ -70,7 +70,7 @@ CREATE TABLE inclass(
 );
 
 
-CREATE TABLE result(
+CREATE TABLE results(
   id uuid PRIMARY KEY DEFAULT SYS_GUID(),
   id_subject uuid,
   id_user uuid,
@@ -84,14 +84,7 @@ CREATE TABLE result(
   CONSTRAINT FK_result__class FOREIGN KEY (id_class) REFERENCES class(id) ON DELETE SET NULL
 );
 
-CREATE TABLE course(
-  id uuid PRIMARY KEY DEFAULT SYS_GUID(),
-  id_chapter uuid NOT NULL,
-  content TEXT,
-  created_at timestamp NOT NULL DEFAULT now(),
-  updated_at timestamp NOT NULL DEFAULT now(),
-  CONSTRAINT FK_course__chapter FOREIGN KEY (id_chapter) REFERENCES chapter(id)
-);
+
 
 CREATE TABLE `owns` (
   `id_user` uuid NOT NULL,
@@ -99,19 +92,19 @@ CREATE TABLE `owns` (
   PRIMARY KEY (`id_user`,`id_chapter`)
 )
 
-CREATE TABLE tag(
+CREATE TABLE tags(
 id uuid PRIMARY KEY DEFAULT SYS_GUID(),
 tag VARCHAR(20),
 weight INT DEFAULT 1
 );
 
-CREATE TABLE tagged(
+CREATE TABLE chapters_tags(
 tag_id uuid,
 chapter_id uuid,
 CONSTRAINT PRIMARY KEY (tag_id,chapter_id)
 );
 
-INSERT INTO tag (tag,weight) VALUES ("maths",2),("mathématiques",2),("stats",4),("statistiques",4),
+INSERT INTO tags (tag,weight) VALUES ("maths",2),("mathématiques",2),("stats",4),("statistiques",4),
 ("probablilitées",4),("proba",4),("programation",2),("java",3),("javascript",3),("processing",3),
 ("c++",3),("html",3),("css",3),("php",3),("qt",4),("arduino",3),("ensembles",5),("dénombrement",5),
 ("proba élémentaires",5),("probailitées élémentaires",5),("proba conditionelles",5),("probailitées conditionelles",5),
@@ -120,11 +113,13 @@ INSERT INTO tag (tag,weight) VALUES ("maths",2),("mathématiques",2),("stats",4)
 ,("loi géométrique",6),("loi de pascal",6),("loi hypergéométrique",6),("loi de poisson",6),("loi uniforme",6)
 ,("loi exponentielle",6),("loi normales",6),("loi normale",6);
 
-CREATE TABLE users_exercises (
-	id_user UUID NOT NULL,
-	id_exercise UUID NOT NULL,
-	answer TEXT NOT NULL,
-	CONSTRAINT users_exercises_pk PRIMARY KEY (id_user,id_exercise),
-	CONSTRAINT users_exercises_users_FK FOREIGN KEY (id_user) REFERENCES xercizor.users(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT users_exercises_exercise_FK FOREIGN KEY (id_exercise) REFERENCES xercizor.exercise(id) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `users_exercises` (
+  `id_user` uuid NOT NULL,
+  `id_exercise` uuid NOT NULL,
+  `answer` text NOT NULL,
+  `grade` double DEFAULT NULL,
+  PRIMARY KEY (`id_user`,`id_exercise`),
+  KEY `users_exercises_exercise_FK` (`id_exercise`),
+  CONSTRAINT `users_exercises_exercise_FK` FOREIGN KEY (`id_exercise`) REFERENCES `exercises` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `users_exercises_users_FK` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 )
