@@ -48,7 +48,7 @@ class Database
     public function getClasses($teacherId): array
     {
         $listClasses = array();
-        $statement = $this->getDb()->prepare("SELECT * FROM inclass WHERE id_user LIKE '$teacherId'");
+        $statement = $this->getDb()->prepare("SELECT * FROM users_classses WHERE id_user LIKE '$teacherId'");
         $statement->execute();
         $classes = $statement->fetchAll();
         foreach ($classes as $class) {
@@ -58,7 +58,7 @@ class Database
     }
     public function getClass($idClass)
     {
-        $statement = $this->getDb()->prepare("SELECT * FROM classe WHERE id = :id");
+        $statement = $this->getDb()->prepare("SELECT * FROM classses WHERE id = :id");
         $statement->execute(['id' => $idClass]);
         return $statement->fetch();
     }
@@ -80,7 +80,7 @@ class Database
     public function getResponsableFromClass($classId): array
     {
         $teachers = [];
-        $statement = $this->getDb()->prepare("SELECT * FROM inclass WHERE id_class = '$classId' AND responsible LIKE 1");
+        $statement = $this->getDb()->prepare("SELECT * FROM users_classses WHERE id_class = '$classId' AND responsible LIKE 1");
         $statement->execute();
         foreach ($statement->fetchAll() as $teacher) {
             $teachers[]= $this->getUser($teacher['id_user']);
@@ -91,11 +91,11 @@ class Database
     public function addStudentsToClassDB($listIdStudents, $classId): void
     {
         foreach ($listIdStudents as $student) {
-            $statement = $this->getDb()->prepare("SELECT COUNT(id_user) as nb FROM inclass WHERE id_user = '$student' AND id_class = '$classId'");
+            $statement = $this->getDb()->prepare("SELECT COUNT(id_user) as nb FROM users_classses WHERE id_user = '$student' AND id_class = '$classId'");
             $statement->execute();
             $existStudent = $statement->fetch();
             if ($existStudent['nb'] == 0) {
-                $statement = $this->getDb()->prepare("INSERT INTO inclass (id_user, id_class, responsible) VALUES ('$student', '$classId', 0)");
+                $statement = $this->getDb()->prepare("INSERT INTO users_classses (id_user, id_class, responsible) VALUES ('$student', '$classId', 0)");
                 $statement->execute();
             }
         }
@@ -117,13 +117,13 @@ class Database
 
     public function getStudentsFromClass($classId): array
     {
-        $statement = $this->getDb()->prepare("SELECT * FROM inclass WHERE id_class = '$classId' AND responsible LIKE 0");
+        $statement = $this->getDb()->prepare("SELECT * FROM users_classses WHERE id_class = '$classId' AND responsible LIKE 0");
         $statement->execute();
         return $statement->fetchAll();
     }
     public function deleteFromClass($classId, $id): void
     {
-        $statement = $this->getDb()->prepare("DELETE FROM inclass WHERE id_class = '$classId' AND id_user = '$id'");
+        $statement = $this->getDb()->prepare("DELETE FROM users_classses WHERE id_class = '$classId' AND id_user = '$id'");
         $statement->execute();
     }
 
@@ -195,7 +195,7 @@ class Database
         $statement = $this->getDb()->prepare("(SELECT u.id, u.name, u.surname, u.email, u.type, u.schoolId FROM users u
                                              WHERE (u.name LIKE concat('%', :search, '%') OR u.surname LIKE concat('%', :search, '%'))
                                              EXCEPT
-                                             SELECT u.id, u.name, u.surname, u.email, u.type, u.schoolId FROM users u JOIN inclass i ON u.id = i.id_user
+                                             SELECT u.id, u.name, u.surname, u.email, u.type, u.schoolId FROM users u JOIN users_classses i ON u.id = i.id_user
                                              WHERE i.id_class = :exemptClass)
                                              ORDER BY surname ASC");
         $statement->execute([
@@ -209,7 +209,7 @@ class Database
         $statement = $this->getDb()->prepare("(SELECT u.id, u.name, u.surname, u.email, u.type, u.schoolId FROM users u
                                              WHERE (u.name LIKE concat('%', :search, '%') OR u.surname LIKE concat('%', :search, '%')) AND u.type NOT LIKE 'student'
                                              EXCEPT
-                                             SELECT u.id, u.name, u.surname, u.email, u.type, u.schoolId FROM users u JOIN inclass i ON u.id = i.id_user
+                                             SELECT u.id, u.name, u.surname, u.email, u.type, u.schoolId FROM users u JOIN users_classses i ON u.id = i.id_user
                                              WHERE i.id_class = :exemptClass AND u.type NOT LIKE 'student')
                                              ORDER BY surname ASC");
         $statement->execute([
@@ -220,7 +220,7 @@ class Database
 
     public function classSearchFromTeacher($teacherId, $search) {
         $listClasses = array();
-        $statement = $this->getDb()->prepare("SELECT * FROM inclass i JOIN classe c ON i.id_class = c.id
+        $statement = $this->getDb()->prepare("SELECT * FROM users_classses i JOIN classses c ON i.id_class = c.id
                                              WHERE id_user LIKE '$teacherId' AND c.name LIKE concat('%', :search, '%')");
 
         $statement->execute([
@@ -317,7 +317,7 @@ class Database
     public function searchClassByTitleDesc($word): array
 
     {
-        $command = $this->getDb()->prepare("SELECT name, id FROM classe WHERE name LIKE concat('%', :title, '%')");
+        $command = $this->getDb()->prepare("SELECT name, id FROM classses WHERE name LIKE concat('%', :title, '%')");
         $command->execute([
             "title" => $word
         ]);
@@ -345,16 +345,16 @@ class Database
 
     public function addResponsible($idTeacher, $idClass): void
     {
-        $statement = $this->getDb()->prepare("SELECT id_user FROM inclass WHERE id_user LIKE :user AND id_class LIKE :class");
+        $statement = $this->getDb()->prepare("SELECT id_user FROM users_classses WHERE id_user LIKE :user AND id_class LIKE :class");
         $statement->execute(['user' => $idTeacher, 'class' => $idClass]);
         $user = $statement->fetch();
         if ($user) {
             $this->getDb()->beginTransaction();
-            $statement = $this->getDb()->prepare("UPDATE inclass SET responsible = 1 WHERE id_user LIKE :user AND id_class LIKE :class");
+            $statement = $this->getDb()->prepare("UPDATE users_classses SET responsible = 1 WHERE id_user LIKE :user AND id_class LIKE :class");
             $statement->execute(['user' => $idTeacher, 'class' => $idClass]);
             $this->getDb()->commit();
         }else{
-            $statement =  $this->getDb()->prepare("INSERT INTO inclass (id_user, id_class, responsible) VALUES (:user, :class, 1)");
+            $statement =  $this->getDb()->prepare("INSERT INTO users_classses (id_user, id_class, responsible) VALUES (:user, :class, 1)");
             $statement->execute(['user' => $idTeacher, 'class' => $idClass]);
         }
     }
@@ -430,7 +430,7 @@ class Database
 
     public function getClassName($classId): string
     {
-        $statement = $this->getDb()->prepare("SELECT name FROM classe WHERE id = :classId");
+        $statement = $this->getDb()->prepare("SELECT name FROM classses WHERE id = :classId");
         $statement->execute(['classId' => $classId]);
         $result = $statement->fetch();
         return $result['name'];

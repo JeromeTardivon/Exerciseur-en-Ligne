@@ -44,7 +44,7 @@ if (is_array($decoded)) {
                 }
                 
                 if(!isset($choice['answer'])) {
-                    $choice['answer'] = null;
+                    $choice['answer'] = false;
                 }
             }
             
@@ -55,8 +55,8 @@ if (is_array($decoded)) {
             if (isset($module['answerProf'])) {
                 unset($module['answerProf']);
             }
-            if(isset($module['answer'])) {
-                unset($module['answer']);
+            if(!isset($module['answer'])) {
+                $module['answer'] = null;
             }
         }else if (isset($module['type']) && $module['type'] === 'numericalquestion') {
             if (isset($module['grade'])) {
@@ -134,7 +134,7 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
                     <div id="exercise-container"></div>
                 </fieldset>
 
-                <button type="submit" id="accept-changes">Valider les réponses</button>
+                <button type="submit" id="validate-answers">Valider les réponses</button>
                 
 
                 </form>
