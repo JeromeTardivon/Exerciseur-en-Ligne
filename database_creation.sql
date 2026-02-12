@@ -119,3 +119,12 @@ INSERT INTO tag (tag,weight) VALUES ("maths",2),("mathématiques",2),("stats",4)
 ("lois de probabilitéées",4),("lois discrètes",5),("lois continues",5),("loi de bernoulli",6),("loi binomiale",6)
 ,("loi géométrique",6),("loi de pascal",6),("loi hypergéométrique",6),("loi de poisson",6),("loi uniforme",6)
 ,("loi exponentielle",6),("loi normales",6),("loi normale",6);
+
+CREATE TABLE users_exercises (
+	id_user UUID NOT NULL,
+	id_exercise UUID NOT NULL,
+	answer TEXT NOT NULL,
+	CONSTRAINT users_exercises_pk PRIMARY KEY (id_user,id_exercise),
+	CONSTRAINT users_exercises_users_FK FOREIGN KEY (id_user) REFERENCES xercizor.users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT users_exercises_exercise_FK FOREIGN KEY (id_exercise) REFERENCES xercizor.exercise(id) ON DELETE CASCADE ON UPDATE CASCADE
+)
