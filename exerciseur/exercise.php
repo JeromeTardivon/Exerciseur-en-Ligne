@@ -7,9 +7,6 @@ $db = Database::getInstance();
 if (!isset($_SESSION["user"])) {
     header('Location: /index.php');
     exit();
-} else if ($_SESSION["user"]["type"] != "teacher" && $_SESSION["user"]["type"] != "admin") {
-    header('Location: /index.php');
-    exit();
 }else if (!isset($_GET['id-chapter'])||!isset($_GET['exercise-num'])) {
     header('Location: /index.php');
     exit();
@@ -124,7 +121,7 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
             </aside>
 
 
-            <form action="" method="post" id ="dynamic-form">
+            <form action= <?="processing-exercise-practice.php?id-chapter=".$_GET['id_chapter']."&exercisse-num=".$_GET['exercise-num']?> method="post" id ="dynamic-form">
 
                 
 

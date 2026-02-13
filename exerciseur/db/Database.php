@@ -480,4 +480,15 @@ class Database
         $statement->execute(['emailUser' => $email]);
         return $statement->fetch();
     }
+
+    public function haveUserDoneExercise($idUser, $idChapter, $exerciseNum): bool{
+        $idExercise=$this->getExerciseIdFromNum($idChapter,$exerciseNum);
+        $statement=$this->getDb()->prepare("SELECT * FROM users_exercises WHERE id_user= :iduser AND id_exercise= :idexercise");
+
+        $statement->execute(['iduser'=>$idUser, 'idexercise'=>$idExercise]);
+        if($statement->fetch()){
+            return true;
+        }
+        return false;
+    }
 }
