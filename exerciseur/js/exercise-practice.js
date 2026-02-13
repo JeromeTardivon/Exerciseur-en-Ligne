@@ -189,6 +189,8 @@ document.addEventListener('DOMContentLoaded', function(){
             }
             modulNum++;
         });
+
+        document.getElementById('studentAnswer').value = JSON.stringify(answeredExercise);
         
 
     }

@@ -134,6 +134,8 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
                     <div id="exercise-container"></div>
                 </fieldset>
 
+                <input type="hidden" name="studentAnswer" >
+
                 <button type="submit" id="validate-answers">Valider les réponses</button>
                 
 
