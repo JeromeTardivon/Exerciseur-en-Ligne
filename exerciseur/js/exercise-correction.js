@@ -22,29 +22,12 @@ document.addEventListener('DOMContentLoaded', function(){
         return label;
     }
 
-    function saveModulesInForm(formId) {
-        const input = document.getElementById(formId);
-
-        try {
-            const raw = localStorage.getItem('dynamicModules');
-            if (!raw) return;
-            const data = JSON.parse(raw);
-            if (!Array.isArray(data)) return;
-
-            input.value = raw;
-        } catch {
-            console.warn('JSON could not be loaded in the form');
-        }
-    }
 
     function loadExercise(){
-        //try{ saveState(false); }catch(e){console.warn('Could not save state before preview load :', e);}
-        
         exerciseContainer.innerHTML = '';
         const wrapper = document.createElement('div');
         const sectionTitle = document.createElement('h1');
         sectionTitle.textContent = 'Placeholder Title';
-        //sectionTitle.textContent = document.getElementById('section-title').value || 'Titre de la section';
         sectionTitle.className = 'section-title';
         reloadMathJax(sectionTitle);
         wrapper.appendChild(sectionTitle);
@@ -60,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     const container = document.createElement('div');
                     container.className = "module";
                     container.dataset.type = item.type;
+                    const grade = parseFloat(item.grade);
 
                     const openElem = document.createElement('p');
                     openElem.innerHTML = "Question : ".concat(item.value || '');
@@ -67,15 +51,18 @@ document.addEventListener('DOMContentLoaded', function(){
                     const answer = document.createElement('p');
                     answer.innerHTML = "Réponse : ".concat(item.answer || "empty answer");
 
-                    const label = createLabel('Note : ', `grade-field-${item.index}}`);
-                    const gradeField = createSpinner(`grade-field-${item.index}`, `grade-field-${item.index}}`, -67000, 67000, 0.01);
+                    const noteLabel = createLabel('Note : ', `grade-field-${item.index}}`);
+                    const gradeField = createSpinner(`grade-field-${item.index}`, `grade-field-${item.index}}`, -67000, grade, 0.01);
+
+                    const maxGradeLabel = createLabel(`(max : ${grade})`, `max-grade-field-${item.index}}`);
 
                     gradeField.addEventListener('change', saveExercise);
 
                     container.appendChild(openElem);
                     container.appendChild(answer);
-                    container.appendChild(label);
+                    container.appendChild(noteLabel);
                     container.appendChild(gradeField);
+                    container.appendChild(maxGradeLabel);
 
                     wrapper.appendChild(container);
                 } else {
@@ -143,8 +130,6 @@ document.addEventListener('DOMContentLoaded', function(){
             console.warn('Failed to reload modules during save:', e);
         }
 
-        // console.log('Final JSON to save:', finalJson);
-
         try {
             localStorage.setItem('graded-answers', JSON.stringify(data));
 
@@ -154,7 +139,8 @@ document.addEventListener('DOMContentLoaded', function(){
             if (!payload) payload = JSON.stringify(data);
 
             if (form) {
-                let hidden = form.querySelector('input[name="content"]');
+                let hidden = form.querySelector('#graded-answers');
+
                 if (!hidden) {
                     hidden = document.createElement('input');
                     hidden.type = 'hidden';
@@ -162,8 +148,8 @@ document.addEventListener('DOMContentLoaded', function(){
                     hidden.id = 'content';
                     form.appendChild(hidden);
                 }
+
                 hidden.value = payload;
-                
             } else {
                 console.warn('saveState(true) called but form element not found; cannot attach content input');
             }
@@ -174,5 +160,4 @@ document.addEventListener('DOMContentLoaded', function(){
 
     loadExercise();
     saveExercise();
-
 });

@@ -21,83 +21,64 @@ if (!isset($_SESSION["user"])) {
     exit();
 }
 
+$originalContent = $db->getExerciseContent($db->getExerciseIdFromNum($_POST['id-chapter'],$_POST['exercise-num']));
+$_POST['original-content'] = $originalContent;
+$originalDecoded = null;
 
+$gradedContent = $_POST['graded-answers'];
+// unset($_POST['graded-content']);
+$gradedDecoded = NULL;
 
-$content = $db->getExerciseContent($db->getExerciseIdFromNum($_POST['id-chapter'],$_POST['exercise-num']));
-
-$_POST['content'] = $content;
-
-$decoded = null;
-
-if (!empty($content)) {
-    
-    $decoded = json_decode($content, true);
-    
+if (!empty($originalContent)) {
+    $originalDecoded = json_decode($originalContent, true);
 }
 
-if (is_array($decoded)) {
-
-//setting up the json to be used in practice mode (removing grades and answers from localstorage as well as adding empty answers)
-    foreach ($decoded as &$module) {
-        if (isset($module['type']) && $module['type'] === 'mcq' && isset($module['choices']) && is_array($module['choices'])) {
-            // For MCQ modules, delete the 'grade' field from each option
-            foreach ($module['choices'] as &$choice) {
-                if (isset($choice['grade'])) {
-                    unset($choice['grade']);
-                }
-                
-                if(!isset($choice['answer'])) {
-                    $choice['answer'] = null;
-                }
-            }
-            
-        } else if (isset($module['type']) && $module['type'] === 'truefalse') {
-            if(isset($module['grade'])) {
-                unset($module['grade']);
-            }
-            if (isset($module['answerProf'])) {
-                unset($module['answerProf']);
-            }
-            if(isset($module['answer'])) {
-                unset($module['answer']);
-            }
-        }else if (isset($module['type']) && $module['type'] === 'numericalquestion') {
-            if (isset($module['grade'])) {
-                unset($module['grade']);
-            }
-            if (isset($module['answerProf'])) {
-                unset($module['answerProf']);
-            }
-            if (!isset($module['answerjustification'])) {
-                $module['answer'] = '';
-            }
-            if (!isset($module['answernumber'])) {
-                $module['answernumber'] = 0;
-            }
-
-        }else if (isset($module['type']) && $module['type'] === 'hint') {
-            //shouldnt be necessary but just in case (the case needs to be there but should work empty as hints shouldnt have grades)
-            /*//*/if (isset($module['grade'])) {
-            /*//*/    unset($module['grade']);
-            /*//*/}
-        }else{
-            if (isset($module['grade'])) {
-                unset($module['grade']);
-            }
-            if (isset($module['answerProf'])) {
-                unset($module['answerProf']);
-            }
-            if (!isset($module['answer'])) {
-                $module['answer'] = '';
-            }
-        }
-    }
-    unset($module);
+if (!empty($gradedContent)) {
+    $gradedDecoded = json_decode($gradedContent, true);
 }
+
+$finalMaxGrades = array();
+$finalGrades = array();
+
+// filling up $finalMaxGrades
+for ($i = 0; $i < count($originalDecoded); $i++) {
+    $grade = floatval($originalDecoded[$i]['grade'] ?? 0);
+    array_push($finalMaxGrades, $grade);
+}
+
+// filling up $finalGrades
+for ($i = 0; $i < count($gradedDecoded); $i++) {
+    $grade = floatval($gradedDecoded[$i]['grade'] ?? 0);
+    $grade = $grade > $finalMaxGrades[$i] ? $finalMaxGrades[$i] : $grade;
+    array_push($finalGrades, $grade);
+}
+
+$totalGrade = array_sum($finalGrades);
+$totalMaxGrade = array_sum($finalMaxGrades);
+
+
+// basic printing of the results
+echo "Note : " . $totalGrade . "/" . $totalMaxGrade . "<br><br>";
+
+for ($i = 0; $i < count($finalMaxGrades); $i++) {
+    echo "Exercice " . $i . " : " . $finalGrades[$i] . "/" . $finalMaxGrades[$i] . "<br>";
+}
+
 $idExercise = $db->getExerciseIdFromNum($_POST['id-chapter'],$_POST['exercise-num']);
 
+?>
 
-// debug stuff
-var_dump($decoded);
+<script>
+    try {
+        localStorage.removeItem('dynamicModules');
+    } catch {}
+    try {
+        localStorage.removeItem('graded-answers');
+    } catch {}
+</script>
+
+<?php
 
 die();
+
+?>
