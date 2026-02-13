@@ -98,5 +98,6 @@ $idExercise = $db->getExerciseIdFromNum($_POST['id-chapter'],$_POST['exercise-nu
 
 
 // debug stuff
-var_dump($_POST['dynamic-modules']);
+var_dump($decoded);
+
 die();
