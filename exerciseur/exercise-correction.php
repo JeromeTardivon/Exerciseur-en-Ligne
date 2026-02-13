@@ -18,8 +18,6 @@ if (!isset($_SESSION["user"])) {
     exit();
 }
 
-
-
 $content = $db->getExerciseContent($db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num']));
 
 $_POST['content'] = $content;
@@ -32,65 +30,6 @@ if (!empty($content)) {
     
 }
 
-if (is_array($decoded)) {
-
-//setting up the json to be used in practice mode (removing grades and answers from localstorage as well as adding empty answers)
-    foreach ($decoded as &$module) {
-        if (isset($module['type']) && $module['type'] === 'mcq' && isset($module['choices']) && is_array($module['choices'])) {
-            // For MCQ modules, delete the 'grade' field from each option
-            foreach ($module['choices'] as &$choice) {
-                if (isset($choice['grade'])) {
-                    unset($choice['grade']);
-                }
-                
-                if(!isset($choice['answer'])) {
-                    $choice['answer'] = null;
-                }
-            }
-            
-        } else if (isset($module['type']) && $module['type'] === 'truefalse') {
-            if(isset($module['grade'])) {
-                unset($module['grade']);
-            }
-            if (isset($module['answerProf'])) {
-                unset($module['answerProf']);
-            }
-            if(isset($module['answer'])) {
-                unset($module['answer']);
-            }
-        }else if (isset($module['type']) && $module['type'] === 'numericalquestion') {
-            if (isset($module['grade'])) {
-                unset($module['grade']);
-            }
-            if (isset($module['answerProf'])) {
-                unset($module['answerProf']);
-            }
-            if (!isset($module['answerjustification'])) {
-                $module['answer'] = '';
-            }
-            if (!isset($module['answernumber'])) {
-                $module['answernumber'] = 0;
-            }
-
-        }else if (isset($module['type']) && $module['type'] === 'hint') {
-            //shouldnt be necessary but just in case (the case needs to be there but should work empty as hints shouldnt have grades)
-            /*//*/if (isset($module['grade'])) {
-            /*//*/    unset($module['grade']);
-            /*//*/}
-        }else{
-            if (isset($module['grade'])) {
-                unset($module['grade']);
-            }
-            if (isset($module['answerProf'])) {
-                unset($module['answerProf']);
-            }
-            if (!isset($module['answer'])) {
-                $module['answer'] = '';
-            }
-        }
-    }
-    unset($module);
-}
 $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num']);
 ?>
 
@@ -123,7 +62,7 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
                     <legend>Exercice <?= $_GET['exercise-num']?></legend>
                     <input type="text" id="id-chapter" name="id-chapter" value="<?= $_GET['id-chapter'] ?? "" ?>" hidden> 
                     <input type="number" id="exercise-num" name="exercise-num" value="<?= $_GET['exercise-num'] ?? 0 ?>" hidden>
-                    <input type="text" id="dynamic-modules" name="dynamic-modules" value="" hidden>
+                    <input type="text" id="graded-answers" name="graded-answers" value="" hidden>
                     <div id="exercise-container"></div>
                 </fieldset>
 

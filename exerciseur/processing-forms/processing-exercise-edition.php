@@ -46,7 +46,7 @@ if (isset($_POST['content'])&&isset($_POST['section-title'])&&isset($_POST['weig
     }
     $idExercise = $dbi->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num']);
 
-    $stmt = $db->prepare("UPDATE exercise SET content = :content, title = :title, coef=:coef, timesec=:timesec, tries=:tries, ansdef=:ansdef, showans=:showans WHERE id = :id_exercise");  
+    $stmt = $db->prepare("UPDATE exercises SET content = :content, title = :title, coef=:coef, timesec=:timesec, tries=:tries, ansdef=:ansdef, showans=:showans WHERE id = :id_exercise");  
 
     $stmt->execute([
         ':coef' => $weight,
@@ -60,7 +60,7 @@ if (isset($_POST['content'])&&isset($_POST['section-title'])&&isset($_POST['weig
         ':id_exercise' => $idExercise
 
     ]);
-    $stmt = $db->prepare("UPDATE exercise SET updated_at = CURRENT_TIMESTAMP WHERE id = :id_exercise");  
+    $stmt = $db->prepare("UPDATE exercises SET updated_at = CURRENT_TIMESTAMP WHERE id = :id_exercise");  
     $stmt->execute([
         ':id_exercise' => $idExercise
     ]);

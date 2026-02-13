@@ -181,7 +181,7 @@ class Database
     function getChaptersTeacher($idTeacher): array
     {
         $listChapters = [];
-        $statement = $this->getDb()->prepare("SELECT id_chapter FROM owns WHERE id_user='$idTeacher'");
+        $statement = $this->getDb()->prepare("SELECT id_chapter FROM users_chapters WHERE id_user='$idTeacher'");
         $statement->execute();
 
         $listidChapters=$statement->fetchAll();
@@ -235,7 +235,7 @@ class Database
     }
 
     public function chapterSearchFromTeacher($teacherId, $search) {
-        $statement = $this->getDb()->prepare("SELECT * FROM owns o JOIN chapters c ON o.id_chapter = c.id
+        $statement = $this->getDb()->prepare("SELECT * FROM users_chapters o JOIN chapters c ON o.id_chapter = c.id
                                              WHERE o.id_user LIKE '$teacherId' AND c.title LIKE concat('%', :search, '%')");
         $statement->execute([
             "search" => $search
@@ -279,7 +279,7 @@ class Database
 
     public function chapterBelongsToTeacher($chapterId, $teacherId): bool
     {
-        $statement = $this->getDb()->prepare("SELECT * FROM owns WHERE id_chapter = :chapterId AND id_user = :teacherId");
+        $statement = $this->getDb()->prepare("SELECT * FROM users_chapters WHERE id_chapter = :chapterId AND id_user = :teacherId");
         $statement->execute(['chapterId' => $chapterId, 'teacherId' => $teacherId]);
         $result = $statement->fetch();
         return $result !== false;
