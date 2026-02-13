@@ -48,14 +48,29 @@ for ($i = 0; $i < count($originalDecoded); $i++) {
 
 // filling up $finalGrades
 for ($i = 0; $i < count($gradedDecoded); $i++) {
-    $grade = floatval($gradedDecoded[$i]['grade'] ?? 0);
-    $grade = $grade > $finalMaxGrades[$i] ? $finalMaxGrades[$i] : $grade;
+    switch ($gradedDecoded[$i]['type']) {
+        case 'openquestion':
+            $grade = floatval($gradedDecoded[$i]['grade'] ?? 0);
+            $grade = $grade > $finalMaxGrades[$i] ? $finalMaxGrades[$i] : $grade;
+            break;
+
+        case 'numericalquestion' || 'truefalse':
+            // mettre le code pour trouver si c'est la bonne réponse ou pas
+            break;
+        
+        default:
+            $grade = 0;
+            break;
+    }
+
     array_push($finalGrades, $grade);
 }
 
 $totalGrade = array_sum($finalGrades);
 $totalMaxGrade = array_sum($finalMaxGrades);
 
+
+// automatic grades
 
 // basic printing of the results
 echo "Note : " . $totalGrade . "/" . $totalMaxGrade . "<br><br>";
