@@ -159,21 +159,21 @@ class Database
 
     public function getGrades($id): array
     {
-        $command = $this->getDb()->prepare("SELECT e.id, c.title, r.grade, r.created_at FROM result r JOIN exercise e ON r.id_exercise = e.id JOIN chapter c ON r.id_subject = c.id WHERE r.id_user = :user");
+        $command = $this->getDb()->prepare("SELECT e.id, c.title, r.grade, r.created_at FROM result r JOIN exercises e ON r.id_exercise = e.id JOIN chapters c ON r.id_subject = c.id WHERE r.id_user = :user");
         $command->execute(["user" => $id]);
         return $command->fetchAll();
     }
 
     public function getChaptersClass($idClass): array
     {
-        $statement = $this->getDb()->prepare("SELECT * FROM chapter WHERE class = '$idClass'");
+        $statement = $this->getDb()->prepare("SELECT * FROM chapters WHERE class = '$idClass'");
         $statement->execute();
         return $statement->fetchAll();
     }
 
     function getChapter($idChapter)
     {
-        $statement = $this->getDb()->prepare("SELECT * FROM chapter WHERE id = :id");
+        $statement = $this->getDb()->prepare("SELECT * FROM chapters WHERE id = :id");
         $statement->execute(['id' => $idChapter]);
         return $statement->fetch();
     }
@@ -235,7 +235,7 @@ class Database
     }
 
     public function chapterSearchFromTeacher($teacherId, $search) {
-        $statement = $this->getDb()->prepare("SELECT * FROM owns o JOIN chapter c ON o.id_chapter = c.id
+        $statement = $this->getDb()->prepare("SELECT * FROM owns o JOIN chapters c ON o.id_chapter = c.id
                                              WHERE o.id_user LIKE '$teacherId' AND c.title LIKE concat('%', :search, '%')");
         $statement->execute([
             "search" => $search
@@ -271,7 +271,7 @@ class Database
 
     public function getExercisesNumberFromChapter($chapterId): int
     {
-        $statement = $this->getDb()->prepare("SELECT COUNT(id) as nb FROM exercise WHERE id_chapter = :chapterId");
+        $statement = $this->getDb()->prepare("SELECT COUNT(id) as nb FROM exercises WHERE id_chapter = :chapterId");
         $statement->execute(['chapterId' => $chapterId]);
         $result = $statement->fetch();
         return (int)$result['nb'];
@@ -288,7 +288,7 @@ class Database
 
     public function getExerciseIdFromNum($chapterId, $exerciseNum): string
     {
-        $statement = $this->getDb()->prepare("SELECT id FROM exercise WHERE id_chapter = :chapterId ORDER BY created_at ASC");
+        $statement = $this->getDb()->prepare("SELECT id FROM exercises WHERE id_chapter = :chapterId ORDER BY created_at ASC");
         $offset = $exerciseNum - 1;
     
         $statement->execute(
@@ -308,7 +308,7 @@ class Database
 
     public function getExerciseContent($exerciseId): string
     {
-        $statement = $this->getDb()->prepare("SELECT content FROM exercise WHERE id = :exerciseId");
+        $statement = $this->getDb()->prepare("SELECT content FROM exercises WHERE id = :exerciseId");
         $statement->execute(['exerciseId' => $exerciseId]);
         $result = $statement->fetch();
         return $result['content'];
@@ -325,7 +325,7 @@ class Database
     }
     public  function searchChapitreByTitleDesc($word): array
     {
-    $command = $this->getDb()->prepare("SELECT title, description, id FROM chapter WHERE 
+    $command = $this->getDb()->prepare("SELECT title, description, id FROM chapters WHERE 
 
         (title LIKE concat('%', :title, '%') OR description LIKE concat('%', :title, '%')) AND visible = TRUE");
         $command->execute([
@@ -337,7 +337,7 @@ class Database
 
     public function getTitleExercise($exerciseId): string
     {
-        $statement = $this->getDb()->prepare("SELECT title FROM exercise WHERE id = :exerciseId");
+        $statement = $this->getDb()->prepare("SELECT title FROM exercises WHERE id = :exerciseId");
         $statement->execute(['exerciseId' => $exerciseId]);
         $result = $statement->fetch();
         return $result['title'];
@@ -360,7 +360,7 @@ class Database
     }
     public function getExerciseCoefficient($exerciseId): float
     {
-        $statement = $this->getDb()->prepare("SELECT coef FROM exercise WHERE id = :exerciseId");
+        $statement = $this->getDb()->prepare("SELECT coef FROM exercises WHERE id = :exerciseId");
         $statement->execute(['exerciseId' => $exerciseId]);
         $result = $statement->fetch();
         return (float)$result['coef'];
@@ -368,7 +368,7 @@ class Database
 
     public function getExerciseTimeLimit($exerciseId): int
     {
-        $statement = $this->getDb()->prepare("SELECT timesec FROM exercise WHERE id = :exerciseId");
+        $statement = $this->getDb()->prepare("SELECT timesec FROM exercises WHERE id = :exerciseId");
         $statement->execute(['exerciseId' => $exerciseId]);
         $result = $statement->fetch();
         return (int)$result['timesec'];
@@ -376,21 +376,21 @@ class Database
 
     public function getExerciseTriesLimit($exerciseId): ?int
     {
-        $statement = $this->getDb()->prepare("SELECT tries FROM exercise WHERE id = :exerciseId");
+        $statement = $this->getDb()->prepare("SELECT tries FROM exercises WHERE id = :exerciseId");
         $statement->execute(['exerciseId' => $exerciseId]);
         $result = $statement->fetch();
         return $result['tries'] !== null ? (int)$result['tries'] : null;
     }
     public function getExerciseAnsDef($exerciseId): int
     {
-        $statement = $this->getDb()->prepare("SELECT ansdef FROM exercise WHERE id = :exerciseId");
+        $statement = $this->getDb()->prepare("SELECT ansdef FROM exercises WHERE id = :exerciseId");
         $statement->execute(['exerciseId' => $exerciseId]);
         $result = $statement->fetch();
         return (int)$result['ansdef'];
     }
     public function getExerciseShowAns($exerciseId): int
     {
-        $statement = $this->getDb()->prepare("SELECT showans FROM exercise WHERE id = :exerciseId");
+        $statement = $this->getDb()->prepare("SELECT showans FROM exercises WHERE id = :exerciseId");
         $statement->execute(['exerciseId' => $exerciseId]);
         $result = $statement->fetch();
         return (int)$result['showans'];
@@ -398,7 +398,7 @@ class Database
   
     public function getChapterVisibility($chapterId): int
     {
-        $statement = $this->getDb()->prepare("SELECT visible FROM chapter WHERE id = :chapterId");
+        $statement = $this->getDb()->prepare("SELECT visible FROM chapters WHERE id = :chapterId");
         $statement->execute(['chapterId' => $chapterId]);
         $result = $statement->fetch();
         return (int)$result['visible'];
@@ -406,7 +406,7 @@ class Database
 
     public function getChapterLevel($chapterId): int
     {
-        $statement = $this->getDb()->prepare("SELECT level FROM chapter WHERE id = :chapterId");
+        $statement = $this->getDb()->prepare("SELECT level FROM chapters WHERE id = :chapterId");
         $statement->execute(['chapterId' => $chapterId]);
         $result = $statement->fetch();
         return (int)$result['level'];
@@ -414,7 +414,7 @@ class Database
 
     public function getChapterTimeLimit($chapterId): ?int
     {
-        $statement = $this->getDb()->prepare("SELECT secondstimelimit FROM chapter WHERE id = :chapterId");
+        $statement = $this->getDb()->prepare("SELECT secondstimelimit FROM chapters WHERE id = :chapterId");
         $statement->execute(['chapterId' => $chapterId]);
         $result = $statement->fetch();
         return $result['secondstimelimit'] !== null ? (int)$result['secondstimelimit'] : null;
@@ -422,7 +422,7 @@ class Database
 
     public function getChapterClass($chapterId): string
     {
-        $statement = $this->getDb()->prepare("SELECT class FROM chapter WHERE id = :chapterId");
+        $statement = $this->getDb()->prepare("SELECT class FROM chapters WHERE id = :chapterId");
         $statement->execute(['chapterId' => $chapterId]);
         $result = $statement->fetch();
         return $result['class'];
@@ -438,7 +438,7 @@ class Database
 
     public function getChapterWeight($chapterId): ?int
     {
-        $statement = $this->getDb()->prepare("SELECT weight FROM chapter WHERE id = :chapterId");
+        $statement = $this->getDb()->prepare("SELECT weight FROM chapters WHERE id = :chapterId");
         $statement->execute(['chapterId' => $chapterId]);
         $result = $statement->fetch();
         return $result['weight'] == null||$result['weight']=='' ?  null : $result['weight'];
@@ -446,7 +446,7 @@ class Database
 
     public function getChapterTries($chapterId): ?int
     {
-        $statement = $this->getDb()->prepare("SELECT tries FROM chapter WHERE id = :chapterId");
+        $statement = $this->getDb()->prepare("SELECT tries FROM chapters WHERE id = :chapterId");
         $statement->execute(['chapterId' => $chapterId]);
         $result = $statement->fetch();
         return $result['tries'] == null||$result['tries']=='' ?  null : $result['tries'];
@@ -454,21 +454,21 @@ class Database
 
     public function getChapterCorrend($chapterId): int
     {
-        $statement = $this->getDb()->prepare("SELECT corrend FROM chapter WHERE id = :chapterId");
+        $statement = $this->getDb()->prepare("SELECT corrend FROM chapters WHERE id = :chapterId");
         $statement->execute(['chapterId' => $chapterId]);
         $result = $statement->fetch();
         return (int)$result['corrend'];
     }
     public function getChapterTitle($chapterId): string
     {
-        $statement = $this->getDb()->prepare("SELECT title FROM chapter WHERE id = :chapterId");
+        $statement = $this->getDb()->prepare("SELECT title FROM chapters WHERE id = :chapterId");
         $statement->execute(['chapterId' => $chapterId]);
         $result = $statement->fetch();
         return $result['title'];
     }
     public function getChapterDescription($chapterId): string
     {
-        $statement = $this->getDb()->prepare("SELECT description FROM chapter WHERE id = :chapterId");
+        $statement = $this->getDb()->prepare("SELECT description FROM chapters WHERE id = :chapterId");
         $statement->execute(['chapterId' => $chapterId]);
         $result = $statement->fetch();
         return $result['description'];
