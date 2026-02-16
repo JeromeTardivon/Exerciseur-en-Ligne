@@ -123,3 +123,8 @@ CREATE TABLE `users_exercises` (
   CONSTRAINT `users_exercises_exercise_FK` FOREIGN KEY (`id_exercise`) REFERENCES `exercises` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `users_exercises_users_FK` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 )
+CREATE TABLE creationcodes(
+    id int not null AUTO_INCREMENT primary key ,
+    code varchar(10),
+    num_usages int
+);
