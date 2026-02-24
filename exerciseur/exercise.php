@@ -121,7 +121,7 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
             </aside>
 
 
-            <form action= <?="processing-exercise-practice.php?id-chapter=".$_GET['id_chapter']."&exercisse-num=".$_GET['exercise-num']?> method="post" id ="dynamic-form">
+            <form action= "<?="processing-forms/processing-exercise-practice.php?id-chapter=".$_GET['id-chapter']."&exercisse-num=".$_GET['exercise-num']?>" method="post" id ="dynamic-form">
 
                 
 
@@ -131,7 +131,7 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
                     <div id="exercise-container"></div>
                 </fieldset>
 
-                <input type="hidden" name="studentAnswer" >
+                <input type="hidden" name="studentAnswer" id="studentAnswer" value="default" >
 
                 <button type="submit" id="validate-answers">Valider les réponses</button>
                 

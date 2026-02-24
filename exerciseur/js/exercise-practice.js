@@ -1,9 +1,6 @@
 document.addEventListener('DOMContentLoaded', function(){
     exerciseContainer = document.getElementById('exercise-container');
 
-    
-
-
     function loadExercise(){
         //try{ saveState(false); }catch(e){console.warn('Could not save state before preview load :', e);}
         
@@ -87,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function(){
                     falseradio.name = 'truefalseanswer';
                     falseradio.addEventListener('change',saveAnswer);
                     
-                    
                     const falseLabel = document.createElement('label');
                     falseLabel.setAttribute('for', 'falseradio');
                     falseLabel.textContent = 'Faux';
@@ -134,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     wrapper.appendChild(numericalElem);
 
                 } else if(item.type === 'hint'){
-                    // hints are not shown in preview
+                    // hints are not shown
                 } else {
                     console.warn('Unsupported module type during load:', item.type);
                 }
@@ -146,7 +142,6 @@ document.addEventListener('DOMContentLoaded', function(){
             console.warn('Failed to load saved modules:', e);
         }
     }
-
 
     loadExercise();
 
@@ -165,10 +160,8 @@ document.addEventListener('DOMContentLoaded', function(){
                     answeredExercise[modulNum].choices[index].answer = isChecked;
                 });
 
-
             } else if(module.dataset.type === 'truefalse'){
                 
-
                 if (module.querySelector('input[type="radio"][name="truefalseanswer"]:checked')?.nextSibling.textContent.trim() === 'Vrai') {
                     answeredExercise[modulNum].answer = true;
                 } else if(module.querySelector('input[type="radio"][name="truefalseanswer"]:checked')?.nextSibling.textContent.trim() === 'Faux') {
@@ -177,10 +170,8 @@ document.addEventListener('DOMContentLoaded', function(){
                     answeredExercise[modulNum].answer = null; 
                 }
                 
-                
             } else if(module.dataset.type === 'openquestion'){
                 answeredExercise[modulNum].answer = module.querySelector('textarea[name="openanswerpreview"]').value.trim();
-
 
             } else if(module.dataset.type === 'numericalquestion'){
                 answeredExercise[modulNum].answernumber = parseFloat(module.querySelector('input[name="numericalanswerpreview"]').value);
@@ -192,12 +183,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
         document.getElementById('studentAnswer').value = JSON.stringify(answeredExercise);
         
-
     }
 
-    
-
-    
-    
     document.getElementById("validate-answers").addEventListener("click", saveAnswer);
+    
 });
