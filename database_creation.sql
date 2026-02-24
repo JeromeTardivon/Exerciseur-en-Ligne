@@ -124,7 +124,15 @@ CREATE TABLE `users_exercises` (
   CONSTRAINT `users_exercises_users_FK` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 )
 CREATE TABLE creationcodes(
-    id int not null AUTO_INCREMENT primary key ,
-    code varchar(10),
-    num_usages int
+                              id int not null AUTO_INCREMENT primary key ,
+                              code varchar(10),
+                              num_usages int,
+                              id_admin uuid NOT NULL,
+                              CONSTRAINT `users_creation_code_FK` FOREIGN KEY (`id_admin`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE codes_class(
+                            code varchar(10),
+                            num_usages int,
+                            id_teacher uuid NOT NULL,
+                                CONSTRAINT `users_codes_class_FK` FOREIGN KEY (`id_teacher`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
