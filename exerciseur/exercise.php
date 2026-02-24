@@ -121,7 +121,7 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
             </aside>
 
 
-            <form action= "<?="processing-forms/processing-exercise-practice.php?id-chapter=".$_GET['id-chapter']."&exercisse-num=".$_GET['exercise-num']?>" method="post" id ="dynamic-form">
+            <form action= "<?="processing-forms/processing-exercise-practice.php?id-chapter=".$_GET['id-chapter']."&exercise-num=".$_GET['exercise-num']?>" method="post" id ="dynamic-form">
 
                 
 
