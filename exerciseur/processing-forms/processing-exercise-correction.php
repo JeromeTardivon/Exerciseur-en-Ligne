@@ -40,11 +40,13 @@ if (!empty($gradedContent)) {
 $finalMaxGrades = array();
 $finalGrades = array();
 
+
 // filling up $finalMaxGrades
 for ($i = 0; $i < count($originalDecoded); $i++) {
     $grade = floatval($originalDecoded[$i]['grade'] ?? 0);
     array_push($finalMaxGrades, $grade);
 }
+
 
 // filling up $finalGrades
 for ($i = 0; $i < count($gradedDecoded); $i++) {
@@ -54,12 +56,29 @@ for ($i = 0; $i < count($gradedDecoded); $i++) {
             $grade = $grade > $finalMaxGrades[$i] ? $finalMaxGrades[$i] : $grade;
             break;
 
-        case 'numericalquestion' || 'truefalse':
-            // mettre le code pour trouver si c'est la bonne réponse ou pas
-            break;
-        
-        default:
+        case 'mcq':
             $grade = 0;
+            foreach ($gradedDecoded[$i]['choices'] as $choice) {
+                // unsure of what the formating will be so this shit has to change at some point
+                if (isset($choice['checked']) && $choice['checked'] == "true") {
+                    }
+                    $grade += floatval($choice['grade'] ?? 0.0);
+                    echo $choice['text'] . "<br>";
+            }
+            break;
+
+        default:
+            if ($gradedDecoded[$i]['type'] == 'numericalquestion' || $gradedDecoded[$i]['type'] == 'truefalse') {
+                if (isset($gradedDecoded[$i]['answer']) && $gradedDecoded[$i]['answer'] == $originalContent[$i]['answerProf']) {
+                    $grade = $finalMaxGrades[$i];
+                } else {
+                    $grade = 0;
+                    echo "ERROR " . $i . " : Answer field not found <br>";
+                }
+                // mettre le code de machin automatique
+            } else {
+                $grade = 0;
+            }
             break;
     }
 
@@ -76,11 +95,11 @@ $totalMaxGrade = array_sum($finalMaxGrades);
 echo "Note : " . $totalGrade . "/" . $totalMaxGrade . "<br><br>";
 
 for ($i = 0; $i < count($finalMaxGrades); $i++) {
-    echo "Exercice " . $i . " : " . $finalGrades[$i] . "/" . $finalMaxGrades[$i] . "<br>";
+    echo "Exercice " . $gradedDecoded[$i]['type'] . " : " . $finalGrades[$i] . "/" . $finalMaxGrades[$i] . "<br>";
 }
 
 $idExercise = $db->getExerciseIdFromNum($_POST['id-chapter'],$_POST['exercise-num']);
-
+die();
 ?>
 
 <script>
