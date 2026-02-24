@@ -134,8 +134,17 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
                 <input type="hidden" name="studentAnswer" id="studentAnswer" value="default" >
 
                 <button type="submit" id="validate-answers">Valider les réponses</button>
-                
 
+                <?php 
+                if($_GET['exercise-num'] < $db->getExercisesNumberFromChapter($_GET['id-chapter'])) {
+                    echo '<button type="submit" formaction="processing-forms/processing-exercise-next.php?id-chapter='.$_GET['id-chapter'].'&exercise-num='.$_GET['exercise-num'].'" id="validate-next">Valider et passer à l\'exercice suivant</button>';
+                }else{
+                    echo '<button type="submit" formaction="processing-forms/processing-exercise-next.php?id-chapter='.$_GET['id-chapter'].'&exercise-num='.$_GET['exercise-num'].'" id="validate-next">Valider et terminer</button>';
+                }
+
+
+                ?>
+                
                 </form>
 
             
