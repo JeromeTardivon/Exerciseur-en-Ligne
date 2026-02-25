@@ -130,9 +130,11 @@ CREATE TABLE creationcodes(
                               id_admin uuid NOT NULL,
                               CONSTRAINT `users_creation_code_FK` FOREIGN KEY (`id_admin`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
-CREATE TABLE codes_class(
-                            code varchar(10),
-                            num_usages int,
-                            id_teacher uuid NOT NULL,
-                                CONSTRAINT `users_codes_class_FK` FOREIGN KEY (`id_teacher`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+create table codes_class
+(
+    code       varchar(10) null,
+    num_usages int         null,
+    id_class   uuid        not null,
+    id         int         not null primary key,
+    constraint users_codes_class_FK foreign key (id_class) references classses (id) on update cascade on delete cascade
 );
