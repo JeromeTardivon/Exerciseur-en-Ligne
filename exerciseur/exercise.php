@@ -142,6 +142,10 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
                     echo '<button type="submit" formaction="processing-forms/processing-exercise-next.php?id-chapter='.$_GET['id-chapter'].'&exercise-num='.$_GET['exercise-num'].'" id="validate-next">Valider et terminer</button>';
                 }
 
+                if($_GET['exercise-num'] > 1&&$db->getExerciseAnsDef($db->getExerciseIdFromNum($_GET['id-chapter'], $_GET['exercise-num']-1)) == 0) {
+                    echo '<a href="exercise.php?id-chapter='.$_GET['id-chapter'].'&exercise-num='.($_GET['exercise-num']-1).'" id="previous-exercise">Exercice précédent (cela supprimera les réponses entrées sur cette page</a>';
+                }
+
 
                 ?>
                 
