@@ -1,12 +1,14 @@
 let timeLimitSection = document.getElementById("timelimit-box");
-timeLimitSection.style.display = "none";
-document.getElementById("timelimit").addEventListener('click', function() {
-    if (this.checked){
-        timeLimitSection.style.display = "block";
-    }else{
-        timeLimitSection.style.display = "none";
-    }
-})
+if(timeLimitSection!=null){
+    timeLimitSection.style.display = "none";
+    document.getElementById("timelimit").addEventListener('click', function() {
+        if (this.checked){
+            timeLimitSection.style.display = "block";
+        }else{
+            timeLimitSection.style.display = "none";
+        }
+    })
+}
 
 let gradeOptions = document.getElementById("grade-options");
 gradeOptions.style.display = "none";

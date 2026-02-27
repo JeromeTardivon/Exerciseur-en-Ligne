@@ -86,6 +86,7 @@ $listAllTeachers = isset($_GET["teacher-search"]) ? $db->teacherSearch($teacherS
                     <input type="submit" class="btn" value="Rechercher responsable">
                 </form>
                 <ul>
+                    <!-- should be showing teachers but is not -->
                     <?php foreach ($listAllTeachers as $teacher) { ?>
                         <li>
                             <div>
