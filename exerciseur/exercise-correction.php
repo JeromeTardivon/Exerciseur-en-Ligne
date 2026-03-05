@@ -13,13 +13,10 @@ if (!isset($_SESSION["user"])) {
 }else if (!isset($_GET['id-chapter'])||!isset($_GET['exercise-num'])) {
     header('Location: /index.php');
     exit();
-} 
-// ADD THIS BACK WHEN EVERYTHING IS DONE (its for debugging)
-// else if (!isset($_GET["id-corrected-user"])) {
-//     header("Location: /exercise-edition.php?id-chapter=" . $_GET['id-chapter'] . "&exercise-num=" . $_GET['exercise-num']);
-//     exit();
-// } 
-else if ($_GET['exercise-num']>$db->getExercisesNumberFromChapter($_GET['id-chapter'])||$_GET['exercise-num']<1) {
+} else if (!isset($_GET["id-corrected-user"])) {
+    header("Location: /exercise-edition.php?id-chapter=" . $_GET['id-chapter'] . "&exercise-num=" . $_GET['exercise-num']);
+    exit();
+} else if ($_GET['exercise-num']>$db->getExercisesNumberFromChapter($_GET['id-chapter'])||$_GET['exercise-num']<1) {
     header('Location: /index.php');
     exit();
 }

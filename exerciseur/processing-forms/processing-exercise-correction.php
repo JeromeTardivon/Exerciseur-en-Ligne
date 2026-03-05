@@ -23,9 +23,6 @@ if (!isset($_SESSION["user"])) {
 
 $idExercise = $db->getExerciseIdFromNum($_POST['id-chapter'],$_POST['exercise-num']);
 
-// DONT FORGET TO REMOVE THIS SHIT
-// IT MAKES IT EASIER TO DEBUG BUT MAKES NO SENSE
-$_POST["id-corrected-user"] = $_SESSION["user"]["id"];
 
 
 $originalContent = $db->getExerciseContent($idExercise);
@@ -96,7 +93,6 @@ for ($i = 0; $i < count($gradedDecoded); $i++) {
                 }
             } else {
                 $grade = 0;
-                echo "ERROR " . $i . " : Answer field not found<br>";
             }
             
             $answersCpt++;
@@ -113,7 +109,6 @@ for ($i = 0; $i < count($gradedDecoded); $i++) {
                 }
             } else {
                 $grade = 0;
-                echo "ERROR " . $i . " : Answer field not found<br>";
             }
             $answersCpt++;
             break;
@@ -130,17 +125,17 @@ $totalGrade = array_sum($finalGrades);
 $totalMaxGrade = array_sum($finalMaxGrades);
 
 
-// automatic grades
-
 // basic printing of the results
-echo "Note : " . $totalGrade . "/" . $totalMaxGrade . "<br><br>";
+// echo "Note : " . $totalGrade . "/" . $totalMaxGrade . "<br><br>";
 
-for ($i = 0; $i < count($finalMaxGrades); $i++) {
-    echo "Exercice " . $gradedDecoded[$i]['type'] . " : " . $finalGrades[$i] . "/" . $finalMaxGrades[$i] . "<br>";
-}
+// for ($i = 0; $i < count($finalMaxGrades); $i++) {
+//     echo "Exercice " . $gradedDecoded[$i]['type'] . " : " . $finalGrades[$i] . "/" . $finalMaxGrades[$i] . "<br>";
+// }
 
-$idExercise = $db->getExerciseIdFromNum($_POST['id-chapter'],$_POST['exercise-num']);
-die();
+$db->setGrade($_POST['id-corrected-user'], $idExercise, $totalGrade);
+
+// echo "Grade updated in DB";
+header('Location: /index.php');
 ?>
 
 <script>
@@ -154,6 +149,6 @@ die();
 
 <?php
 
-die();
+exit();
 
 ?>

@@ -490,4 +490,14 @@ class Database
         ]);
         return $statement->fetch()['answer'];
     }
+
+    public function setGrade($userId, $exerciseId, $grade) {
+        $statement = $this->getDb()->prepare("UPDATE users_exercises SET grade = :grade WHERE id_user = :user AND id_exercise = :exercise");
+
+        $statement->execute([
+            "grade" => $grade,
+            "user" => $userId,
+            "exercise" => $exerciseId
+        ]);
+    }
 }
