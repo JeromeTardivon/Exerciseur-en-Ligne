@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function(){
     function calculateTotalGrade() {
         let totalGrade = 0;
 
-        const gradeElements = document.querySelectorAll("#inputs input[type='number']");
+        const gradeElements = document.querySelectorAll("#inputs input[type='number'][id$='_grade']");
         gradeElements.forEach((input) => {
             const grade = parseFloat(input.value);
             if (!isNaN(grade) && grade >= 0) {
@@ -591,6 +591,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 wrapper.querySelectorAll('.mcq-choice').forEach(ch => {
                     const txt = ch.querySelector('.mcq-choice-text');
                     const grade = ch.querySelector(`input[type="number"]`);
+                    totalGrade += grade ? Number(grade.value) : 0;
                     choices.push({ text: txt ? txt.value : '', grade: grade.value});
                 });
                 data.push({ type: 'mcq', question: question, choices: choices });
@@ -611,8 +612,8 @@ document.addEventListener('DOMContentLoaded', function(){
             } else if (type === 'truefalse' ) {
                 const valueInput = wrapper.querySelector('input, textarea');
                 const grade = wrapper.querySelector(`input[type="number"]`);
-                const answer = wrapper.querySelector(`#truefalse_${index - 1}_true`);
-                data.push({ type: type, value: valueInput ? valueInput.value : '', grade: grade.value, answerProf: answer.checked ?? true});
+                const answer = wrapper.querySelector(`#truefalse_${index - 2}_true`);
+                data.push({ type: type, value: valueInput ? valueInput.value : '', grade: grade.value, answerProf: answer.checked ?? false});
             } else {
                 // fallback: try to grab a value
                 const valueInput = wrapper.querySelector('input, textarea');

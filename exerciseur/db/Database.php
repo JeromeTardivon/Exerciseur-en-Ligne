@@ -480,4 +480,14 @@ class Database
         $statement->execute(['emailUser' => $email]);
         return $statement->fetch();
     }
+
+    public function getAnswers($userId, $exerciseId)
+    {
+        $statement = $this->getDb()->prepare("SELECT answer FROM users_exercises WHERE id_user = :user AND id_exercise = :exercise");
+        $statement->execute([
+            "user" => $userId,
+            "exercise" => $exerciseId
+        ]);
+        return $statement->fetch()['answer'];
+    }
 }

@@ -13,29 +13,33 @@ if (!isset($_SESSION["user"])) {
 } else if ($_SESSION["user"]["type"] != "teacher" && $_SESSION["user"]["type"] != "admin") {
     header('Location: /index.php');
     exit();
-}else if (!isset($_POST['id-chapter'])||!isset($_POST['exercise-num'])) {
+}else if (!isset($_POST['id-chapter']) || !isset($_POST['exercise-num']) ) {
     header('Location: /index.php');
     exit();
-}else if ($_POST['exercise-num']>$db->getExercisesNumberFromChapter($_POST['id-chapter'])||$_POST['exercise-num']<1) {
+} else if ($_POST['exercise-num']>$db->getExercisesNumberFromChapter($_POST['id-chapter'])||$_POST['exercise-num']<1) {
     header('Location: /index.php');
     exit();
 }
 
-$originalContent = $db->getExerciseContent($db->getExerciseIdFromNum($_POST['id-chapter'],$_POST['exercise-num']));
+$idExercise = $db->getExerciseIdFromNum($_POST['id-chapter'],$_POST['exercise-num']);
+
+// DONT FORGET TO REMOVE THIS SHIT
+// IT MAKES IT EASIER TO DEBUG BUT MAKES NO SENSE
+$_POST["id-corrected-user"] = $_SESSION["user"]["id"];
+
+
+$originalContent = $db->getExerciseContent($idExercise);
 $_POST['original-content'] = $originalContent;
-$originalDecoded = null;
+$originalDecoded = !empty($originalContent) ? json_decode($originalContent, true) : NULL;
 
 $gradedContent = $_POST['graded-answers'];
 // unset($_POST['graded-content']);
-$gradedDecoded = NULL;
+$gradedDecoded = !empty($gradedContent) ? json_decode($gradedContent, true) : NULL;
 
-if (!empty($originalContent)) {
-    $originalDecoded = json_decode($originalContent, true);
-}
+$answersContent = $db->getAnswers($_POST['id-corrected-user'], $idExercise);
+$answersDecoded = !empty($originalContent) ? json_decode($answersContent, true) : NULL;
 
-if (!empty($gradedContent)) {
-    $gradedDecoded = json_decode($gradedContent, true);
-}
+// echo $answersContent;
 
 $finalMaxGrades = array();
 $finalGrades = array();
@@ -43,10 +47,22 @@ $finalGrades = array();
 
 // filling up $finalMaxGrades
 for ($i = 0; $i < count($originalDecoded); $i++) {
-    $grade = floatval($originalDecoded[$i]['grade'] ?? 0);
+    if ($originalDecoded[$i]["type"] == "mcq") {
+        $totalGrade = 0;
+
+        foreach ($originalDecoded[$i]['choices'] as $choice) {
+            $totalGrade += floatval(isset($choice['grade']) && $choice['grade'] > 0 ? $choice['grade'] : 0.0);
+        }
+
+        $grade = $totalGrade;
+    } else {
+        $grade = floatval($originalDecoded[$i]['grade'] ?? 0);
+    }
+
     array_push($finalMaxGrades, $grade);
 }
 
+$answersCpt = 0;
 
 // filling up $finalGrades
 for ($i = 0; $i < count($gradedDecoded); $i++) {
@@ -58,27 +74,52 @@ for ($i = 0; $i < count($gradedDecoded); $i++) {
 
         case 'mcq':
             $grade = 0;
-            foreach ($gradedDecoded[$i]['choices'] as $choice) {
-                // unsure of what the formating will be so this shit has to change at some point
-                if (isset($choice['checked']) && $choice['checked'] == "true") {
-                    }
-                    $grade += floatval($choice['grade'] ?? 0.0);
-                    echo $choice['text'] . "<br>";
+            for ($j = 0; $j < count($answersDecoded[$i]['choices']); $j++) {
+                $choice = $answersDecoded[$i]['choices'][$j];
+                $ogChoice = $originalDecoded[$i]['choices'][$j];
+
+                if ($choice['text'] == $ogChoice['text'] && $choice['answer']) {
+                    $grade += floatval($ogChoice['grade'] ?? 0.0);
+                }
             }
+
+            $answersCpt++;
             break;
 
-        default:
-            if ($gradedDecoded[$i]['type'] == 'numericalquestion' || $gradedDecoded[$i]['type'] == 'truefalse') {
-                if (isset($gradedDecoded[$i]['answer']) && $gradedDecoded[$i]['answer'] == $originalContent[$i]['answerProf']) {
+        case 'numericalquestion':
+            // echo $answersDecoded[$answersCpt]['answernumber'];
+            if (isset($answersDecoded[$answersCpt]['answernumber'])) {
+                if (floatval($answersDecoded[$answersCpt]['answernumber']) === floatval($originalDecoded[$i]['answerProf'])) {
                     $grade = $finalMaxGrades[$i];
                 } else {
                     $grade = 0;
-                    echo "ERROR " . $i . " : Answer field not found <br>";
                 }
-                // mettre le code de machin automatique
             } else {
                 $grade = 0;
+                echo "ERROR " . $i . " : Answer field not found<br>";
             }
+            
+            $answersCpt++;
+            break;
+
+        case 'truefalse':
+            // echo $answersDecoded[$answersCpt]['answer'] . " ; " . $originalDecoded[$i]['answerProf'] . "<br>";
+
+            if (isset($answersDecoded[$answersCpt]['answer'])) {
+                if ($answersDecoded[$answersCpt]['answer'] === $originalDecoded[$i]['answerProf']) {
+                    $grade = $finalMaxGrades[$i];
+                } else {
+                    $grade = 0;
+                }
+            } else {
+                $grade = 0;
+                echo "ERROR " . $i . " : Answer field not found<br>";
+            }
+            $answersCpt++;
+            break;
+
+        default:
+            $grade = 0;
             break;
     }
 

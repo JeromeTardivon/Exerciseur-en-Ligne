@@ -13,7 +13,13 @@ if (!isset($_SESSION["user"])) {
 }else if (!isset($_GET['id-chapter'])||!isset($_GET['exercise-num'])) {
     header('Location: /index.php');
     exit();
-}else if ($_GET['exercise-num']>$db->getExercisesNumberFromChapter($_GET['id-chapter'])||$_GET['exercise-num']<1) {
+} 
+// ADD THIS BACK WHEN EVERYTHING IS DONE (its for debugging)
+// else if (!isset($_GET["id-corrected-user"])) {
+//     header("Location: /exercise-edition.php?id-chapter=" . $_GET['id-chapter'] . "&exercise-num=" . $_GET['exercise-num']);
+//     exit();
+// } 
+else if ($_GET['exercise-num']>$db->getExercisesNumberFromChapter($_GET['id-chapter'])||$_GET['exercise-num']<1) {
     header('Location: /index.php');
     exit();
 }
@@ -60,8 +66,9 @@ $idExercise = $db->getExerciseIdFromNum($_GET['id-chapter'],$_GET['exercise-num'
             <form action="/processing-forms/processing-exercise-correction.php" method="post" id ="dynamic-form">
                 <fieldset>
                     <legend>Exercice <?= $_GET['exercise-num']?></legend>
-                    <input type="text" id="id-chapter" name="id-chapter" value="<?= $_GET['id-chapter'] ?? "" ?>" hidden> 
+                    <input type="text" id="id-chapter" name="id-chapter" value="<?= $_GET['id-chapter'] ?? "" ?>" hidden>
                     <input type="number" id="exercise-num" name="exercise-num" value="<?= $_GET['exercise-num'] ?? 0 ?>" hidden>
+                    <input type="text" id="id-corrected-user" name="id-corrected-user" value="<?= $_GET['id-corrected-user'] ?? "" ?>" hidden> 
                     <input type="text" id="graded-answers" name="graded-answers" value="" hidden>
                     <div id="exercise-container"></div>
                 </fieldset>
